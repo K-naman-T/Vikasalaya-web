@@ -1,4 +1,4 @@
-import { BlockPage } from "@/components/page"
+import { BlockPage } from "@/components/Mainpage"
 import AboutPage from "@/components/about"
 import { FloatingNav } from "@/components/FloatingNav"
 
@@ -17,6 +17,16 @@ export default function Page() {
       />
       <BlockPage />
       <AboutPage />
+      <FloatingNav 
+        navItems={[
+          { name: 'Home', link: '/' },
+          { name: 'About', link: '/about' },
+          { name: 'Get Involved', link: '/get-involved' },
+          { name: 'Donate', link: '/donate' },
+          { name: 'FAQs', link: '/faq' }
+        ]}
+      />
+    
 
     </div>
   )

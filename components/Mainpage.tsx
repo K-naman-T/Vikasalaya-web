@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ReactNode } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import RetroGrid from "@/components/ui/retro-grid"; // Ensure this import is correct
+import { FloatingNav } from "@/components/FloatingNav"
 
 
-const MagicCard = ({ children, className = '' }) => (
+const MagicCard = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
   <motion.div
     className={`bg-white rounded-lg shadow-lg p-6 ${className}`}
     whileHover={{ scale: 1.05, boxShadow: '0 8px 30px rgba(0,0,0,0.12)' }}
@@ -16,7 +17,15 @@ const MagicCard = ({ children, className = '' }) => (
   </motion.div>
 )
 
-const MagicButton = ({ children, className = '', ...props }) => (
+const MagicButton = ({ 
+  children, 
+  className = '', 
+  ...props 
+}: { 
+  children: ReactNode; 
+  className?: string; 
+  [key: string]: any; 
+}) => (
   <motion.button
     className={`px-6 py-2 rounded-full font-semibold ${className}`}
     whileHover={{ scale: 1.05 }}
@@ -28,11 +37,11 @@ const MagicButton = ({ children, className = '', ...props }) => (
 )
 
 export function BlockPage() {
-  const [activeArea, setActiveArea] = useState(null)
+  const [activeArea, setActiveArea] = useState<number | null>(null)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveArea((prev) => (prev === 2 ? 0 : prev + 1))
+      setActiveArea((prev) => (prev ?? 0) === 2 ? 0 : (prev ?? 0) + 1)
     }, 5000)
     return () => clearInterval(interval)
   }, [])
@@ -190,11 +199,3 @@ export function BlockPage() {
   )
 }
 
-export default function Page() {
-  return (
-    <>
-      <FloatingNavbar />
-      <BlockPage />
-    </>
-  );
-}
