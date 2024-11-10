@@ -1,49 +1,96 @@
+"use client"
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 export function Footer() {
+  const quickLinks = [
+    { name: 'About', path: '/about' },
+    { name: 'Programs', path: '/programs' },
+    { name: 'Get Involved', path: '/get-involved' },
+    { name: 'Resources', path: '/resources' },
+    { name: 'Events', path: '/events' },
+    { name: 'Contact', path: '/contact' },
+    { name: 'Donate', path: '/donate' }
+  ]
+
   return (
-    <footer className="bg-yellow-500 text-white py-12">
+    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
-            <p className="mb-2">Email: vikasalaya@gmail.com</p>
-            <p>Phone: 7204453790; 8088212774</p>
-          </div>
-          
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Our Locations</h3>
-            <p className="mb-2">Pradhan Khanta, Baliapur, Dhanbad</p>
-            <p>Ohana 857, KR Puram, Bangalore, 560049</p>
-          </div>
-          
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><Link href="/about">About Us</Link></li>
-              <li><Link href="/programs">Our Programs</Link></li>
-              <li><Link href="/get-involved">Get Involved</Link></li>
-              <li><Link href="/donate">Donate</Link></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-xl font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
-              <Link href="https://www.instagram.com/vikasalaya/" className="hover:text-yellow-300">
-                Instagram
-              </Link>
-              <Link href="https://www.linkedin.com/in/vikasalaya-foundation-253323258" className="hover:text-yellow-300">
-                LinkedIn
-              </Link>
-              <Link href="https://www.facebook.com/people/Vikasalaya-Vikasalaya/100087451647205/" className="hover:text-yellow-300">
-                Facebook
-              </Link>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-xl font-semibold mb-6 text-yellow-500">Contact Us</h3>
+            <div className="space-y-3 text-gray-300">
+              <p>Email: vikasalaya@gmail.com</p>
+              <p>Phone: 7204453790; 8088212774</p>
             </div>
-          </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            <h3 className="text-xl font-semibold mb-6 text-yellow-500">Our Locations</h3>
+            <div className="space-y-3 text-gray-300">
+              <p>Pradhan Khanta, Baliapur, Dhanbad</p>
+              <p>Ohana 857, KR Puram, Bangalore, 560049</p>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <h3 className="text-xl font-semibold mb-6 text-yellow-500">Quick Links</h3>
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.path}
+                    className="text-gray-300 hover:text-yellow-500 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            <h3 className="text-xl font-semibold mb-6 text-yellow-500">Follow Us</h3>
+            <div className="flex space-x-6">
+              {[
+                { name: 'Instagram', url: 'https://www.instagram.com/vikasalaya/' },
+                { name: 'LinkedIn', url: 'https://www.linkedin.com/in/vikasalaya-foundation-253323258' },
+                { name: 'Facebook', url: 'https://www.facebook.com/people/Vikasalaya-Vikasalaya/100087451647205/' }
+              ].map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-yellow-500 transition-colors"
+                >
+                  {social.name}
+                </a>
+              ))}
+            </div>
+          </motion.div>
         </div>
         
-        <div className="mt-8 pt-8 border-t border-yellow-500 text-center text-sm">
+        <div className="mt-16 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
           <p>&copy; {new Date().getFullYear()} Vikasalaya Foundation. All rights reserved.</p>
         </div>
       </div>

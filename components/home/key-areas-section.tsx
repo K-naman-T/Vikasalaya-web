@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card } from '@/components/ui/card'
-import { Brain, GraduationCap, Users } from 'lucide-react'
+import Image from 'next/image'
 
 export function KeyAreasSection() {
   const [activeArea, setActiveArea] = useState<number | null>(null)
@@ -18,29 +18,22 @@ export function KeyAreasSection() {
     {
       title: "Mental Health",
       description: "Empowering Minds, Breaking Barriers. We're committed to reshaping how society perceives mental health by encouraging open, judgment-free conversations.",
-      icon: Brain,
-      gradient: "from-yellow-100 via-yellow-50 to-white",
-      borderColor: "border-yellow-200"
+      image: "/images/mental-health.jpg"
     },
     {
       title: "Child Development",
       description: "Supporting the Next Generation's Journey. Our holistic child development initiatives nurture children from their primary years all the way to their career paths.",
-      icon: GraduationCap,
-      gradient: "from-orange-100 via-orange-50 to-white",
-      borderColor: "border-orange-200"
+      image: "/images/child-development.jpeg"
     },
     {
       title: "Women's Empowerment",
       description: "Enabling Women to Lead and Thrive. We provide essential training and resources that empower women economically and socially.",
-      icon: Users,
-      gradient: "from-rose-100 via-rose-50 to-white",
-      borderColor: "border-rose-200"
+      image: "/images/women-empowerment.jpg"
     },
   ]
 
   return (
     <section className="py-24 flex-grow relative overflow-hidden">
-      {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white -z-10" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,rgba(255,226,132,0.1),transparent)] -z-10" />
 
@@ -67,32 +60,42 @@ export function KeyAreasSection() {
               transition={{ delay: index * 0.2 }}
             >
               <Card 
-                className={`h-full border-2 transition-all duration-300 cursor-pointer bg-gradient-to-b ${area.gradient} ${area.borderColor} 
-                  ${activeArea === index ? 'ring-2 ring-yellow-400 shadow-lg scale-105' : 'hover:shadow-md hover:scale-102'}`}
+                className="relative h-[400px] overflow-hidden border-0 shadow-lg cursor-pointer group"
                 onClick={() => setActiveArea(index)}
               >
-                <div className="p-6">
-                  <div className="mb-6 flex items-center justify-center">
-                    <div className="p-3 rounded-full bg-yellow-100">
-                      {/* Using the Lucide icon directly */}
-                      <area.icon className="w-8 h-8 text-yellow-600" />
-                    </div>
-                  </div>
+                <Image
+                  src={area.image}
+                  alt={area.title}
+                  fill
+                  className={`object-cover transition-all duration-500
+                    ${activeArea === index ? 'scale-110 blur-sm' : 'group-hover:scale-105'}`}
+                />
+                
+                {/* Base gradient overlay - always visible */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80" />
+                
+                {/* Additional overlay for active state */}
+                <div className={`absolute inset-0 bg-black/50 transition-opacity duration-500
+                  ${activeArea === index ? 'opacity-60' : 'opacity-0'}`} 
+                />
+                
+                {/* Content */}
+                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                  <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-sm">
+                    {area.title}
+                  </h3>
                   
-                  <h3 className="text-xl font-semibold mb-4 text-center">{area.title}</h3>
-                  
-                  <AnimatePresence mode="wait">
+                  <AnimatePresence>
                     {activeArea === index && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
+                      <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-white/90 leading-relaxed drop-shadow-sm"
                       >
-                        <p className="text-gray-600 text-center leading-relaxed">
-                          {area.description}
-                        </p>
-                      </motion.div>
+                        {area.description}
+                      </motion.p>
                     )}
                   </AnimatePresence>
                 </div>
