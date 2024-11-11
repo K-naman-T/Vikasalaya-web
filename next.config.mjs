@@ -1,7 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-      domains: ['cal.com'],
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: '**', // Replace with your actual image hostname
+          port: '',
+          pathname: '/**',
+        },
+      ],
+      formats: ['image/avif', 'image/webp'],
     },
   }
   

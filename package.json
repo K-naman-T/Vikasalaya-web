@@ -5,10 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "convert-images": "node convert-images.js",
+    "convert-all": "node convert-all-images.js",
+    "convert-single": "node convert-single.js"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.1",
+    "@nwrks/webp-converter": "^2.4.2",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.1",
@@ -19,8 +23,10 @@
     "next": "14.2.16",
     "react": "^18",
     "react-dom": "^18",
+    "sharp": "^0.33.5",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "webp-converter": "^2.3.3"
   },
   "devDependencies": {
     "@types/node": "^20",
