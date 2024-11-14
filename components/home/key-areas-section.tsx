@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import Image from 'next/image'
+import DotPattern from '@/components/ui/dot-pattern'
 
 export function KeyAreasSection() {
   const [activeArea, setActiveArea] = useState<number | null>(null)
@@ -34,6 +35,8 @@ export function KeyAreasSection() {
 
   return (
     <section className="py-24 flex-grow relative overflow-hidden">
+      <DotPattern className="absolute inset-0 h-full w-full" width={16} height={16} cr={2} />
+
       <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white -z-10" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,rgba(255,226,132,0.1),transparent)] -z-10" />
 

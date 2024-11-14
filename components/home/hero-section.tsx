@@ -14,7 +14,7 @@ const backgroundImages = [
 
 const translations = [
   'Vikasalaya', // English
-  'विकाशालय', // Hindi
+  'विकासालया', // Hindi
   'বিকাশালয়', // Bengali
   'விகாசாலயா', // Tamil
   'వికాసాలయ', // Telugu
