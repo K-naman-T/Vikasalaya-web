@@ -29,10 +29,10 @@ export function Header() {
           <Link href="/" className="relative flex items-center">
             <div className="relative w-16 h-16 transform hover:scale-105 transition-transform">
               <Image
-                src="/images/vikas-logo.jpg"
+                src="/images/Vikasalaya Logo.jpg"
                 alt="Vikasalaya Foundation Logo"
                 fill
-                className="object-contain"
+                className="object-contain rounded transition-transform duration-300 transform scale-110"
                 priority
               />
             </div>
