@@ -33,86 +33,57 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="relative h-screen overflow-hidden">
-      {/* Background Images */}
-      {backgroundImages.map((image, index) => (
-        <motion.div
-          key={image}
-          className="absolute inset-0 w-full h-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: currentImage === index ? 1 : 0 }}
-          transition={{ duration: 1 }}
-        >
-          <Image
-            src={image}
-            alt={`Slide ${index + 1}`}
-            fill
-            className="object-cover"
-            priority={index === 0}
-          />
-          {/* Darker overlay */}
-          <div className="absolute inset-0 bg-black/75" />
-        </motion.div>
-      ))}
+    <section className="relative min-h-screen">
+      {/* Background with overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95">
+        <Image
+          src="/images/hero1.jpg"
+          alt="Hero background"
+          fill
+          className="object-cover mix-blend-overlay"
+          priority
+        />
+      </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 h-full relative z-20 flex flex-col justify-center">
-        <div className="flex flex-col items-start max-w-4xl">
+      <div className="container mx-auto px-4 h-full relative z-10">
+        <div className="flex flex-col justify-center h-screen max-w-4xl">
           <WordRotate
             words={translations}
             duration={3000}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-2 text-white"
-            framerProps={{
-              initial: { opacity: 0, y: -20 },
-              animate: { opacity: 1, y: 0 },
-              exit: { opacity: 0, y: 20 },
-              transition: { duration: 0.5, ease: "easeOut" },
-            }}
+            className="font-playfair text-7xl md:text-8xl lg:text-9xl font-bold mb-2 text-white"
           />
+          
           <motion.span 
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 text-white"
+            className="text-7xl md:text-8xl lg:text-9xl font-bold mb-8 text-yellow-400"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             Foundation
           </motion.span>
-        
+
           <motion.p 
-            className="text-xl md:text-2xl mb-12 text-white"
+            className="text-xl md:text-2xl mb-12 text-gray-200"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             Vikasalaya Foundation is dedicated to holistic development with a strong focus on mental health, child welfare, and women's empowerment. Our initiatives aim to break down societal barriers, empower individuals, and inspire positive change, building a brighter future for communities across India.
           </motion.p>
-          
+
           <motion.div 
-            className="flex flex-wrap gap-6"
+            className="flex gap-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Button className="text-lg px-8 py-4 bg-yellow-500 text-gray-900 hover:bg-yellow-400">
-              <Link href="/donate">Donate</Link>
+            <Button className="text-lg px-8 py-4 bg-yellow-400 text-gray-900 hover:bg-yellow-500 transition-all duration-300">
+              <Link href="/donate">Donate Now</Link>
             </Button>
-            <Button className="text-lg px-8 py-4 bg-transparent border-2 border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-gray-900">
-              <Link href="/get-involved">Get Involved</Link>
+            <Button className="text-lg px-8 py-4 bg-transparent border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-gray-900 transition-all duration-300">
+              <Link href="#get-involved">Get Involved</Link>
             </Button>
           </motion.div>
-        </div>
-
-        {/* Image Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
-          {backgroundImages.map((_, index) => (
-            <button
-              key={index}
-              className={`w-2.5 h-2.5 rounded-full transition-all ${
-                currentImage === index ? 'bg-yellow-500' : 'bg-white/50'
-              }`}
-              onClick={() => setCurrentImage(index)}
-            />
-          ))}
         </div>
       </div>
     </section>

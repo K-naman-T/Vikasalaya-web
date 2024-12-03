@@ -13,6 +13,29 @@ export default function ResourcesPage() {
       title: "Annual Report 2022-2023",
       description: "Detailed report of our programs and their impact on communities.",
       downloadUrl: "#"
+    },
+    {
+      title: "Projects",
+      description: "Overview of various projects undertaken by the foundation.",
+      downloadUrl: "#"
+    },
+    {
+      title: "Activity Report",
+      description: "Summary of activities conducted throughout the year.",
+      downloadUrl: "#"
+    }
+  ]
+
+  const publications = [
+    {
+      title: "Impact Study 2023",
+      description: "An in-depth analysis of our impact on community development.",
+      downloadUrl: "#"
+    },
+    {
+      title: "Community Engagement Guide",
+      description: "A guide to engaging with communities effectively.",
+      downloadUrl: "#"
     }
   ]
 
@@ -51,6 +74,41 @@ export default function ResourcesPage() {
                   <p className="text-gray-600 mb-4">{report.description}</p>
                   <a
                     href={report.downloadUrl}
+                    className="inline-flex items-center text-yellow-600 hover:text-yellow-700
+                      font-medium transition-colors"
+                  >
+                    Download PDF →
+                  </a>
+                </motion.div>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* Publications Section */}
+          <h1 className="text-4xl font-bold text-center mb-6 mt-12">Publications</h1>
+          <p className="text-gray-600 text-center mb-12">
+            Explore our publications to gain insights into our work and methodologies.
+          </p>
+
+          <Card className="bg-white/50 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-2xl text-yellow-600">Available Publications</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {publications.map((publication, index) => (
+                <motion.div
+                  key={publication.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="p-6 bg-gradient-to-br from-yellow-50 to-white 
+                    rounded-xl shadow-sm hover:shadow-md transition-all duration-300
+                    border border-yellow-100/50"
+                >
+                  <h3 className="font-semibold text-xl mb-3 text-gray-800">{publication.title}</h3>
+                  <p className="text-gray-600 mb-4">{publication.description}</p>
+                  <a
+                    href={publication.downloadUrl}
                     className="inline-flex items-center text-yellow-600 hover:text-yellow-700
                       font-medium transition-colors"
                   >

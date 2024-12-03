@@ -51,7 +51,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-12">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
       
@@ -96,18 +96,18 @@ export default function AboutPage() {
             {coreValues.map((value, index) => (
               <motion.div 
                 key={value.title}
-                className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="group bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index }}
               >
-                <div className="mb-6 flex justify-center">
+                <div className="mb-4 flex justify-center">
                   <div className="p-4 rounded-full bg-yellow-50 group-hover:bg-yellow-100 transition-colors">
                     <value.icon className="w-8 h-8 text-yellow-600" />
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-center mb-4 text-yellow-600">{value.title}</h3>
-                <p className="text-gray-600 text-center">{value.description}</p>
+                <h3 className="text-xl font-semibold text-center mb-2 text-yellow-600">{value.title}</h3>
+                <p className="text-gray-600 text-center text-sm">{value.description}</p>
               </motion.div>
             ))}
           </div>
@@ -128,14 +128,14 @@ export default function AboutPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index }}
               >
-                <div className="w-32 h-32 bg-yellow-50 rounded-full mx-auto mb-6 group-hover:bg-yellow-100 transition-colors" />
-                <h3 className="font-semibold text-lg mb-3 text-yellow-600">{member.name}</h3>
+                <div className="w-32 h-32 bg-yellow-50 rounded-full mx-auto mb-4 group-hover:bg-yellow-100 transition-colors" />
+                <h3 className="font-semibold text-lg mb-2 text-yellow-600">{member.name}</h3>
                 {member.linkedin && (
                   <a 
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-yellow-600 transition-colors"
+                    className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
                   >
                     LinkedIn Profile
                   </a>
