@@ -1,33 +1,15 @@
-import { BlockPage } from "@/components/Mainpage"
-import AboutPage from "@/components/about"
-import { FloatingNav } from "@/components/FloatingNav"
+'use client'
 
+import { HeroSection, KeyAreasSection, GetInvolvedSection, FAQSection } from '@/components/home'
 
-export default function Page() {
+export default function HomePage() {
   return (
-    <div>
-      <FloatingNav 
-        navItems={[
-          { name: 'Home', link: '/' },
-          { name: 'About', link: '/about' },
-          { name: 'Get Involved', link: '/get-involved' },
-          { name: 'Donate', link: '/donate' },
-          { name: 'FAQs', link: '/faq' }
-        ]}
-      />
-      <BlockPage />
-      <AboutPage />
-      <FloatingNav 
-        navItems={[
-          { name: 'Home', link: '/' },
-          { name: 'About', link: '/about' },
-          { name: 'Get Involved', link: '/get-involved' },
-          { name: 'Donate', link: '/donate' },
-          { name: 'FAQs', link: '/faq' }
-        ]}
-      />
-    
-
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      <HeroSection />
+      <KeyAreasSection />
+      <GetInvolvedSection />
+      <FAQSection />
     </div>
   )
 }
+
