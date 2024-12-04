@@ -51,7 +51,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-12">
+    <div className="min-h-screen bg-gradient-to-b from-primary-light to-white pt-12">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
       
@@ -63,7 +63,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h2 className="text-3xl font-bold mb-6 text-yellow-600">Our Mission</h2>
+            <h2 className="text-3xl font-bold mb-6 text-primary-dark">Our Mission</h2>
             <p className="text-gray-600 leading-relaxed">
               To empower individuals and communities through holistic development initiatives that prioritize mental health, 
               child welfare, and women's empowerment. Vikasalaya Foundation is committed to breaking barriers, fostering 
@@ -76,7 +76,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h2 className="text-3xl font-bold mb-6 text-yellow-600">Our Vision</h2>
+            <h2 className="text-3xl font-bold mb-6 text-primary-dark">Our Vision</h2>
             <p className="text-gray-600 leading-relaxed">
               A world where every individual has access to the resources, support, and opportunities needed to thrive—regardless 
               of social or economic barriers. We envision a future where mental health is openly supported, children grow up in 
@@ -103,10 +103,10 @@ export default function AboutPage() {
               >
                 <div className="mb-4 flex justify-center">
                   <div className="p-4 rounded-full bg-yellow-50 group-hover:bg-yellow-100 transition-colors">
-                    <value.icon className="w-8 h-8 text-yellow-600" />
+                    <value.icon className="w-8 h-8 text-primary-dark" />
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-center mb-2 text-yellow-600">{value.title}</h3>
+                <h3 className="text-xl font-semibold text-center mb-2 text-primary-dark">{value.title}</h3>
                 <p className="text-gray-600 text-center text-sm">{value.description}</p>
               </motion.div>
             ))}
@@ -129,13 +129,13 @@ export default function AboutPage() {
                 transition={{ delay: 0.1 * index }}
               >
                 <div className="w-32 h-32 bg-yellow-50 rounded-full mx-auto mb-4 group-hover:bg-yellow-100 transition-colors" />
-                <h3 className="font-semibold text-lg mb-2 text-yellow-600">{member.name}</h3>
+                <h3 className="font-semibold text-lg mb-2 text-primary-dark">{member.name}</h3>
                 {member.linkedin && (
                   <a 
                     href={member.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-yellow-600 transition-colors text-sm"
+                    className="text-gray-600 hover:text-primary-dark transition-colors text-sm"
                   >
                     LinkedIn Profile
                   </a>

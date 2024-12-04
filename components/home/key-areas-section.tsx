@@ -26,12 +26,12 @@ export function KeyAreasSection() {
   ]
 
   return (
-    <section className="py-24 bg-gray-50 relative overflow-hidden">
+    <section className="py-24 bg-primary-light relative overflow-hidden">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#4A154B05_1px,transparent_1px),linear-gradient(to_bottom,#4A154B05_1px,transparent_1px)] bg-[size:32px_32px]" />
       
       <div className="container mx-auto px-4 relative">
         <motion.h2 
-          className="text-4xl md:text-5xl font-playfair font-bold text-center mb-16 text-gray-900"
+          className="text-4xl md:text-5xl font-playfair font-bold text-center mb-16 text-secondary-dark"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -60,7 +60,7 @@ export function KeyAreasSection() {
               <div className="absolute inset-0 p-4 flex flex-col justify-end text-white">
                 <h3 className="text-xl font-playfair font-bold mb-2">{area.title}</h3>
                 <p className="text-white/90 mb-2 line-clamp-2">{area.description}</p>
-                <div className="font-montserrat font-semibold text-yellow-400 text-sm">
+                <div className="font-montserrat font-semibold text-primary text-sm">
                   {area.stats}
                 </div>
               </div>

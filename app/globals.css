@@ -3,11 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --primary: #2D3748;  /* Deep gray for text */
-  --secondary: #4A5568; /* Secondary gray */
-  --accent: #ECC94B;   /* Yellow accent */
-  --accent-dark: #D69E2E; /* Darker yellow for hover states */
-  --background: #F7FAFC; /* Light gray background */
+  --primary: #FF7A00;    /* Orange from logo */
+  --primary-light: #FFF7F0;
+  --primary-dark: #CC6200;
+  
+  --secondary: #008F4C;  /* Green from logo */
+  --secondary-light: #F0FFF7;
+  --secondary-dark: #006E3A;
+  
+  --background: #FFFFFF;
+  --foreground: #1F2937;
+  
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+  
+  --accent: var(--primary);
+  --accent-foreground: #FFFFFF;
+  
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: var(--primary);
 }
 
 body {
