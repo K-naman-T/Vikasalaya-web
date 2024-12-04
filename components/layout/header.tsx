@@ -34,7 +34,7 @@ export function Header() {
       animate={{ y: 0 }}
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
-        isScrolled || isOpen ? "bg-gray-800 backdrop-blur-md shadow-lg" : "bg-gray-700/70"
+        isScrolled || isOpen ? "bg-secondary-dark backdrop-blur-md shadow-lg" : "bg-gray-700/70"
       )}
     >
       <div className="container mx-auto px-4">
@@ -62,7 +62,7 @@ export function Header() {
                   href={item.link}
                   className={cn(
                     "text-sm font-medium transition-colors relative group",
-                    isScrolled ? "text-gray-200 hover:text-yellow-400" : "text-white hover:text-yellow-400",
+                    isScrolled ? "text-gray-200 hover:text-primary" : "text-white hover:text-primary",
                     "after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0",
                     "after:bg-current after:transition-all after:duration-300",
                     "hover:after:w-full"
@@ -77,32 +77,32 @@ export function Header() {
                     onMouseLeave={() => setIsResourcesOpen(false)}
                   >
                     <div className="py-2">
-                      <div className="px-4 py-2 text-gray-800 hover:bg-yellow-100 cursor-pointer">
+                      <div className="px-4 py-2 text-secondary-dark hover:bg-yellow-100 cursor-pointer">
                         Reports
                       </div>
                       <div className="ml-4 space-y-1">
                         <Link 
                           href="/resources#annual-report" 
-                          className="block px-4 py-2 text-gray-800 hover:bg-yellow-100"
+                          className="block px-4 py-2 text-secondary-dark hover:bg-yellow-100"
                         >
                           Annual Report
                         </Link>
                         <Link 
                           href="/resources#activity-report" 
-                          className="block px-4 py-2 text-gray-800 hover:bg-yellow-100"
+                          className="block px-4 py-2 text-secondary-dark hover:bg-yellow-100"
                         >
                           Activity Report
                         </Link>
                         <Link 
                           href="/resources#projects" 
-                          className="block px-4 py-2 text-gray-800 hover:bg-yellow-100"
+                          className="block px-4 py-2 text-secondary-dark hover:bg-yellow-100"
                         >
                           Projects
                         </Link>
                       </div>
                       <Link 
                         href="/resources#publications" 
-                        className="block px-4 py-2 text-gray-800 hover:bg-yellow-100"
+                        className="block px-4 py-2 text-secondary-dark hover:bg-yellow-100"
                       >
                         Publications
                       </Link>
@@ -116,8 +116,8 @@ export function Header() {
               className={cn(
                 "px-6 py-2.5 rounded-full font-medium transition-all duration-300",
                 isScrolled
-                  ? "bg-yellow-500 text-gray-900 hover:bg-yellow-600"
-                  : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
+                  ? "bg-primary-dark text-secondary-dark hover:bg-primary-dark"
+                  : "bg-primary text-secondary-dark hover:bg-yellow-300"
               )}
             >
               Donate
@@ -131,15 +131,15 @@ export function Header() {
               className={cn(
                 "px-6 py-2.5 rounded-full font-medium transition-all duration-300",
                 isScrolled
-                  ? "bg-yellow-500 text-gray-900 hover:bg-yellow-600"
-                  : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
+                  ? "bg-primary-dark text-secondary-dark hover:bg-primary-dark"
+                  : "bg-primary text-secondary-dark hover:bg-yellow-300"
               )}
             >
               Donate
             </Link>
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="ml-4 text-gray-300 hover:text-yellow-400 transition-colors"
+              className="ml-4 text-gray-300 hover:text-primary transition-colors"
             >
               {isOpen ? (
                 <X className="h-6 w-6" />
@@ -167,19 +167,19 @@ export function Header() {
                 <Link
                   href={item.link}
                   onClick={() => setIsOpen(false)}
-                  className="flex-block text-gray-300 hover:text-yellow-400 transition-colors px-4 py-2 flex items-center"
+                  className="flex-block text-gray-300 hover:text-primary transition-colors px-4 py-2 flex items-center"
                 >
                   {item.name}
                 </Link>
                 {item.name === 'Resources' && isOpen && (
                   <div className="mt-2 ml-10">
-                    <div className="block text-gray-300 hover:text-yellow-400">Reports</div>
+                    <div className="block text-gray-300 hover:text-primary">Reports</div>
                     <div className="mt-2 ml-4">
-                      <Link href="/resources#annual-report" className="block text-gray-300 hover:text-yellow-400">Annual Report</Link>
-                      <Link href="/resources#activity-report" className="block text-gray-300 hover:text-yellow-400">Activity Report</Link>
-                      <Link href="/resources#projects" className="block text-gray-300 hover:text-yellow-400">Projects</Link>
+                      <Link href="/resources#annual-report" className="block text-gray-300 hover:text-primary">Annual Report</Link>
+                      <Link href="/resources#activity-report" className="block text-gray-300 hover:text-primary">Activity Report</Link>
+                      <Link href="/resources#projects" className="block text-gray-300 hover:text-primary">Projects</Link>
                     </div>
-                    <Link href="/resources#publications" className="block text-gray-300 hover:text-yellow-400">Publications</Link>
+                    <Link href="/resources#publications" className="block text-gray-300 hover:text-primary">Publications</Link>
                   </div>
                 )}
               </div>
@@ -187,8 +187,8 @@ export function Header() {
             <Link 
               href="/donate" 
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 bg-gradient-to-r from-yellow-400 to-yellow-500 
-                text-gray-900 font-medium rounded-full hover:shadow-lg hover:shadow-yellow-500/20 
+              className="block px-4 py-2 bg-gradient-to-r from-primary to-primary-dark 
+                text-secondary-dark font-medium rounded-full hover:shadow-lg hover:shadow-primary-dark/20 
                 transition-all duration-300 mx-4"
             >
               Donate

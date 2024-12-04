@@ -26,7 +26,7 @@ export function FAQSection() {
   ]
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-primary-light">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"
@@ -34,10 +34,10 @@ export function FAQSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-6 text-gray-900">
+          <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-6 text-secondary-dark">
             Frequently Asked Questions
           </h2>
-          <div className="w-24 h-1 bg-yellow-400 mx-auto mb-6" />
+          <div className="w-24 h-1 bg-primary mx-auto mb-6" />
         </motion.div>
 
         <div className="max-w-3xl mx-auto space-y-4">
@@ -52,11 +52,11 @@ export function FAQSection() {
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors rounded-lg"
+                className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-primary-light transition-colors rounded-lg"
               >
-                <span className="font-medium text-gray-900">{faq.question}</span>
+                <span className="font-medium text-secondary-dark">{faq.question}</span>
                 <ChevronDown 
-                  className={`w-5 h-5 text-yellow-500 transition-transform duration-200 ${
+                  className={`w-5 h-5 text-primary-dark transition-transform duration-200 ${
                     openIndex === index ? 'rotate-180' : ''
                   }`}
                 />

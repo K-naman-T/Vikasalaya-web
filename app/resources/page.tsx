@@ -72,7 +72,7 @@ const resources: { [key: string]: Resource[] } = {
 
 export default function ResourcesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-24">
+    <div className="min-h-screen bg-gradient-to-b from-primary-light to-white py-24">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -156,12 +156,12 @@ function ResourceCard({ resource }: { resource: Resource }) {
     >
       <h3 className="text-xl font-semibold mb-2">{resource.title}</h3>
       {resource.date && (
-        <p className="text-sm text-gray-500 mb-2">{resource.date}</p>
+        <p className="text-sm text-primary-light0 mb-2">{resource.date}</p>
       )}
       <p className="text-gray-600 mb-4">{resource.description}</p>
       <a
         href={resource.url}
-        className="text-yellow-600 hover:text-yellow-700 font-medium"
+        className="text-primary-dark hover:text-yellow-700 font-medium"
       >
         {resource.type === 'report' ? 'Download Report →' : 'Read More →'}
       </a>

@@ -14,7 +14,7 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
+    <footer className="bg-gradient-to-br from-secondary-dark to-secondary-dark text-white py-16">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <motion.div
@@ -31,7 +31,7 @@ export function Footer() {
                 className="object-contain"
               />
             </div>
-            <h3 className="text-xl font-semibold mb-6 text-yellow-500">Contact Us</h3>
+            <h3 className="text-xl font-semibold mb-6 text-primary-dark">Contact Us</h3>
             <div className="space-y-3 text-gray-300">
               <p>Email: vikasalaya@gmail.com</p>
               <p>Phone: 7204453790; 8088212774</p>
@@ -44,7 +44,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h3 className="text-xl font-semibold mb-6 text-yellow-500">Our Locations</h3>
+            <h3 className="text-xl font-semibold mb-6 text-primary-dark">Our Locations</h3>
             <div className="space-y-3 text-gray-300">
               <p>Pradhan Khanta, Baliapur, Dhanbad</p>
               <p>Ohana 857, KR Puram, Bangalore, 560049</p>
@@ -57,13 +57,13 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h3 className="text-xl font-semibold mb-6 text-yellow-500">Quick Links</h3>
+            <h3 className="text-xl font-semibold mb-6 text-primary-dark">Quick Links</h3>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link 
                     href={link.path}
-                    className="text-gray-300 hover:text-yellow-500 transition-colors"
+                    className="text-gray-300 hover:text-primary-dark transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -78,7 +78,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            <h3 className="text-xl font-semibold mb-6 text-yellow-500">Follow Us</h3>
+            <h3 className="text-xl font-semibold mb-6 text-primary-dark">Follow Us</h3>
             <div className="flex space-x-6">
               {[
                 { name: 'Instagram', url: 'https://www.instagram.com/vikasalaya/' },
@@ -90,7 +90,7 @@ export function Footer() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-yellow-500 transition-colors"
+                  className="text-gray-300 hover:text-primary-dark transition-colors"
                 >
                   {social.name}
                 </a>

@@ -4,7 +4,7 @@ import { HeroSection, KeyAreasSection, GetInvolvedSection, FAQSection } from '@/
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-primary-light">
       <HeroSection />
       <KeyAreasSection />
       <GetInvolvedSection />

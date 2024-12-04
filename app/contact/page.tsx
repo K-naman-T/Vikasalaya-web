@@ -5,7 +5,7 @@ import Cal from '@calcom/embed-react'
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-primary-light py-12">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -55,7 +55,7 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-semibold text-gray-700">Email</h3>
-                  <p className="text-yellow-500">vikasalaya@gmail.com</p>
+                  <p className="text-primary-dark">vikasalaya@gmail.com</p>
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-700">Phone</h3>
@@ -65,21 +65,21 @@ export default function ContactPage() {
                   <h3 className="font-semibold text-gray-700">Social Media</h3>
                   <div className="flex space-x-4 mt-2">
                     <a href="https://www.instagram.com/vikasalaya/" 
-                       className="text-gray-600 hover:text-yellow-600"
+                       className="text-gray-600 hover:text-primary-dark"
                        target="_blank"
                        rel="noopener noreferrer"
                     >
                       Instagram
                     </a>
                     <a href="https://www.linkedin.com/in/vikasalaya-foundation-253323258" 
-                       className="text-gray-600 hover:text-yellow-600"
+                       className="text-gray-600 hover:text-primary-dark"
                        target="_blank"
                        rel="noopener noreferrer"
                     >
                       LinkedIn
                     </a>
                     <a href="https://www.facebook.com/people/Vikasalaya-Vikasalaya/100087451647205/" 
-                       className="text-gray-600 hover:text-yellow-600"
+                       className="text-gray-600 hover:text-primary-dark"
                        target="_blank"
                        rel="noopener noreferrer"
                     >

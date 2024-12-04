@@ -9,24 +9,24 @@ export function GetInvolvedSection() {
       title: "Donate",
       description: "Support our programs with your contribution.",
       icon: Users,
-      iconColor: "text-yellow-500",
+      iconColor: "text-primary-dark",
     },
     {
       title: "Volunteer",
       description: "Join our community of dedicated volunteers.",
       icon: Users,
-      iconColor: "text-yellow-500",
+      iconColor: "text-primary-dark",
     },
     {
       title: "Career",
       description: "Join our team and make a difference.",
       icon: Gift,
-      iconColor: "text-yellow-500",
+      iconColor: "text-primary-dark",
     },
   ]
 
   return (
-    <section id="get-involved" className="py-24 relative overflow-hidden bg-gray-50">
+    <section id="get-involved" className="py-24 relative overflow-hidden bg-primary-light">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:32px_32px]" />
       
       <div className="container mx-auto px-4 relative">
@@ -36,10 +36,10 @@ export function GetInvolvedSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-6 text-gray-900">
+          <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-6 text-secondary-dark">
             Get Involved
           </h2>
-          <div className="w-24 h-1 bg-yellow-400 mx-auto mb-6" />
+          <div className="w-24 h-1 bg-primary mx-auto mb-6" />
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Join us in our mission to create lasting change.
           </p>
@@ -56,7 +56,7 @@ export function GetInvolvedSection() {
               className="group text-center hover:transform hover:scale-105 transition-all duration-300"
             >
               <way.icon className={`w-8 h-8 md:w-12 md:h-12 ${way.iconColor} mx-auto mb-3 md:mb-4`} />
-              <h3 className="text-base md:text-2xl font-playfair font-bold mb-2 md:mb-4 text-gray-900">
+              <h3 className="text-base md:text-2xl font-playfair font-bold mb-2 md:mb-4 text-secondary-dark">
                 {way.title}
               </h3>
               <p className="text-sm md:text-base text-gray-600 hidden md:block">

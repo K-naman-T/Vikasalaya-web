@@ -122,14 +122,14 @@ export default function ProgramsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-primary-light to-white">
       <DotPattern className="absolute inset-0 h-full w-full opacity-50" width={16} height={16} cr={2} />
       <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_200px,rgba(255,226,132,0.1),transparent)]" />
 
       <div className="container mx-auto px-4 py-24 relative">
         <motion.div className="text-center mb-24">
           <motion.h1
-            className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-yellow-500"
+            className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-dark to-primary-dark"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -166,7 +166,7 @@ export default function ProgramsPage() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                     >
-                      <h2 className="text-3xl font-bold text-yellow-600">{program.title}</h2>
+                      <h2 className="text-3xl font-bold text-primary-dark">{program.title}</h2>
                       <p className="text-lg text-gray-600 leading-relaxed">{program.description}</p>
                       
                       {program.details && (
@@ -182,7 +182,7 @@ export default function ProgramsPage() {
                             >
                               <span className="h-6 w-6 rounded-full bg-yellow-100 flex items-center 
                                 justify-center flex-shrink-0 group-hover:bg-yellow-200 transition-colors">
-                                <span className="h-2 w-2 rounded-full bg-yellow-500" />
+                                <span className="h-2 w-2 rounded-full bg-primary-dark" />
                               </span>
                               <span className="text-gray-700">{detail}</span>
                             </motion.li>
@@ -222,7 +222,7 @@ export default function ProgramsPage() {
                           viewport={{ once: true }}
                           transition={{ delay: index * 0.1 }}
                         >
-                          <h3 className="text-xl font-semibold text-yellow-600 mb-4">{sub.name}</h3>
+                          <h3 className="text-xl font-semibold text-primary-dark mb-4">{sub.name}</h3>
                           {sub.images && (
                             <div className="mb-4 rounded-lg overflow-hidden cursor-pointer h-[300px] relative"
                                  onClick={() => openGallery('Vikasalaya Pics')}>
@@ -238,7 +238,7 @@ export default function ProgramsPage() {
                           <ul className="space-y-2">
                             {sub.activities.map((activity, idx) => (
                               <li key={idx} className="flex items-center space-x-2 text-gray-700">
-                                <span className="h-1.5 w-1.5 rounded-full bg-yellow-500" />
+                                <span className="h-1.5 w-1.5 rounded-full bg-primary-dark" />
                                 <span>{activity}</span>
                               </li>
                             ))}
@@ -260,7 +260,7 @@ export default function ProgramsPage() {
                           viewport={{ once: true }}
                           transition={{ delay: index * 0.1 }}
                         >
-                          <h3 className="text-xl font-semibold text-yellow-600 mb-4">
+                          <h3 className="text-xl font-semibold text-primary-dark mb-4">
                             {initiative.name}
                           </h3>
                           {initiative.images && (
@@ -281,7 +281,7 @@ export default function ProgramsPage() {
                             <ul className="space-y-2">
                               {initiative.activities.map((activity, idx) => (
                                 <li key={idx} className="flex items-center space-x-2 text-gray-700">
-                                  <span className="h-1.5 w-1.5 rounded-full bg-yellow-500" />
+                                  <span className="h-1.5 w-1.5 rounded-full bg-primary-dark" />
                                   <span>{activity}</span>
                                 </li>
                               ))}

@@ -35,7 +35,7 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen">
       {/* Background with overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 to-gray-800/95">
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-800">
         <Image
           src="/images/hero1.jpg"
           alt="Hero background"
@@ -77,10 +77,10 @@ export function HeroSection() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Button className="text-lg px-8 py-4 bg-primary text-gray-900 hover:bg-primary-dark transition-all duration-300">
+            <Button className="text-lg px-8 py-4 bg-primary text-secondary-dark hover:bg-primary-dark transition-all duration-300">
               <Link href="/donate">Donate Now</Link>
             </Button>
-            <Button className="text-lg px-8 py-4 bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-gray-900 transition-all duration-300">
+            <Button className="text-lg px-8 py-4 bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-secondary-dark transition-all duration-300">
               <Link href="#get-involved">Get Involved</Link>
             </Button>
           </motion.div>
