@@ -6,27 +6,21 @@ import { Users, Gift } from 'lucide-react'
 export function GetInvolvedSection() {
   const ways = [
     {
-      title: "Skill-Based Volunteering",
-      description: "Leverage your professional skills to make a meaningful impact in our programs.",
+      title: "Donate",
+      description: "Support our programs with your contribution.",
       icon: Users,
-      gradient: "from-gray-50 to-white",
-      borderColor: "border-gray-200",
       iconColor: "text-yellow-500",
     },
     {
-      title: "Volunteer with Us",
-      description: "Join our community of dedicated volunteers and make a direct impact in the lives of those we serve.",
+      title: "Volunteer",
+      description: "Join our community of dedicated volunteers.",
       icon: Users,
-      gradient: "from-gray-50 to-white",
-      borderColor: "border-gray-200",
       iconColor: "text-yellow-500",
     },
     {
-      title: "Become a Donor",
-      description: "Your contributions make a lasting impact. Support our mission by donating to our programs in mental health, child welfare, and women's empowerment.",
+      title: "Career",
+      description: "Join our team and make a difference.",
       icon: Gift,
-      gradient: "from-gray-50 to-white",
-      borderColor: "border-gray-200",
       iconColor: "text-yellow-500",
     },
   ]
@@ -37,7 +31,7 @@ export function GetInvolvedSection() {
       
       <div className="container mx-auto px-4 relative">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -47,11 +41,11 @@ export function GetInvolvedSection() {
           </h2>
           <div className="w-24 h-1 bg-yellow-400 mx-auto mb-6" />
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Join us in our mission to create lasting change. There are many ways you can contribute to our cause.
+            Join us in our mission to create lasting change.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-3 md:gap-8">
           {ways.map((way, index) => (
             <motion.div
               key={index}
@@ -59,14 +53,17 @@ export function GetInvolvedSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
-              className={`p-8 rounded-2xl bg-gradient-to-br ${way.gradient} border ${way.borderColor} hover:border-yellow-400 transition-all duration-300 group hover:shadow-lg`}
+              className="group text-center hover:transform hover:scale-105 transition-all duration-300"
             >
-              <way.icon className={`w-12 h-12 ${way.iconColor} mb-6 transform transition-transform group-hover:scale-110`} />
-              <h3 className="text-2xl font-playfair font-bold mb-4 text-gray-900">
+              <way.icon className={`w-8 h-8 md:w-12 md:h-12 ${way.iconColor} mx-auto mb-3 md:mb-4`} />
+              <h3 className="text-base md:text-2xl font-playfair font-bold mb-2 md:mb-4 text-gray-900">
                 {way.title}
               </h3>
-              <p className="text-gray-600">
+              <p className="text-sm md:text-base text-gray-600 hidden md:block">
                 {way.description}
+              </p>
+              <p className="text-xs text-gray-600 md:hidden">
+                {way.description.split('.')[0]}.
               </p>
             </motion.div>
           ))}

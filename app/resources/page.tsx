@@ -1,125 +1,170 @@
 "use client"
+
 import { motion } from "framer-motion"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import YouTube from 'react-youtube'
+
+// Types
+interface Resource {
+  title: string
+  description: string
+  url: string
+  date?: string
+  type?: 'video' | 'article' | 'report' | 'publication'
+}
+
+const resources: { [key: string]: Resource[] } = {
+  media: [
+    {
+      title: "Community Impact Video",
+      description: "Watch our latest impact video on YouTube",
+      url: "wCHqad7nD84",
+      type: "video"
+    },
+    {
+      title: "Community Impact Feature on Facebook",
+      description: "Watch our latest impact video on Facebook",
+      url: "https://fb.watch/lmDKI9o-G4/?mibextid=RUbZ1f",
+      type: "article"
+    }
+  ],
+  reports: [
+    {
+      title: "Mental Health Awareness for Defense Personnel",
+      description: "A comprehensive guide on mental health awareness and support strategies for defense personnel and their families",
+      url: "/reports/Nagpur Activity Report.pdf",
+      type: "report",
+      date: "2024-03-20"
+    },
+    {
+      title: "Annual Report 2023",
+      description: "Our comprehensive annual report detailing our impact and initiatives",
+      url: "#",
+      type: "report",
+      date: "2024-01-15"
+    },
+    {
+      title: "Impact Assessment 2023",
+      description: "Detailed analysis of our program outcomes",
+      url: "#",
+      type: "report",
+      date: "2023-12-20"
+    }
+  ],
+  publications: [
+    {
+      title: "Community Development Study",
+      description: "Research paper on effective community development strategies",
+      url: "#",
+      type: "publication",
+      date: "2024-02-01"
+    },
+    {
+      title: "Mental Health Initiatives",
+      description: "Overview of our mental health programs and their impact",
+      url: "#",
+      type: "publication",
+      date: "2024-01-10"
+    }
+  ]
+}
 
 export default function ResourcesPage() {
-  const reports = [
-    {
-      title: "Annual Report 2023-2024",
-      description: "Comprehensive overview of our initiatives, impact, and financial transparency.",
-      downloadUrl: "#"
-    },
-    {
-      title: "Annual Report 2022-2023",
-      description: "Detailed report of our programs and their impact on communities.",
-      downloadUrl: "#"
-    },
-    {
-      title: "Projects",
-      description: "Overview of various projects undertaken by the foundation.",
-      downloadUrl: "#"
-    },
-    {
-      title: "Activity Report",
-      description: "Summary of activities conducted throughout the year.",
-      downloadUrl: "#"
-    }
-  ]
-
-  const publications = [
-    {
-      title: "Impact Study 2023",
-      description: "An in-depth analysis of our impact on community development.",
-      downloadUrl: "#"
-    },
-    {
-      title: "Community Engagement Guide",
-      description: "A guide to engaging with communities effectively.",
-      downloadUrl: "#"
-    }
-  ]
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-      
-      <div className="container mx-auto px-4 py-24">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-24">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-6xl mx-auto"
         >
-          <h1 className="text-4xl font-bold text-center mb-6">Annual Reports</h1>
-          <p className="text-gray-600 text-center mb-12">
-            Access our annual reports to learn more about our work, impact, and financial transparency.
-          </p>
+          <Tabs defaultValue="media" className="space-y-8">
+            <TabsList className="w-full md:w-[400px] grid grid-cols-3 gap-2">
+              <TabsTrigger value="media">Media</TabsTrigger>
+              <TabsTrigger value="reports">Reports</TabsTrigger>
+              <TabsTrigger value="publications">Publications</TabsTrigger>
+            </TabsList>
 
-          <Card className="bg-white/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl text-yellow-600">Available Reports</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {reports.map((report, index) => (
-                <motion.div
-                  key={report.title}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-6 bg-gradient-to-br from-yellow-50 to-white 
-                    rounded-xl shadow-sm hover:shadow-md transition-all duration-300
-                    border border-yellow-100/50"
-                >
-                  <h3 className="font-semibold text-xl mb-3 text-gray-800">{report.title}</h3>
-                  <p className="text-gray-600 mb-4">{report.description}</p>
-                  <a
-                    href={report.downloadUrl}
-                    className="inline-flex items-center text-yellow-600 hover:text-yellow-700
-                      font-medium transition-colors"
-                  >
-                    Download PDF →
-                  </a>
-                </motion.div>
-              ))}
-            </CardContent>
-          </Card>
+            <TabsContent value="media">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Media Resources</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {resources.media.map((resource) => (
+                    <div key={resource.title} className="space-y-4">
+                      {resource.type === 'video' ? (
+                        <div className="aspect-video">
+                          <YouTube
+                            videoId={resource.url}
+                            className="w-full h-full"
+                            opts={{
+                              width: '100%',
+                              height: '100%',
+                              playerVars: { autoplay: 0 },
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <ResourceCard resource={resource} />
+                      )}
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          {/* Publications Section */}
-          <h1 className="text-4xl font-bold text-center mb-6 mt-12">Publications</h1>
-          <p className="text-gray-600 text-center mb-12">
-            Explore our publications to gain insights into our work and methodologies.
-          </p>
+            <TabsContent value="reports">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Reports</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {resources.reports.map((resource) => (
+                    <ResourceCard key={resource.title} resource={resource} />
+                  ))}
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-          <Card className="bg-white/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl text-yellow-600">Available Publications</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {publications.map((publication, index) => (
-                <motion.div
-                  key={publication.title}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-6 bg-gradient-to-br from-yellow-50 to-white 
-                    rounded-xl shadow-sm hover:shadow-md transition-all duration-300
-                    border border-yellow-100/50"
-                >
-                  <h3 className="font-semibold text-xl mb-3 text-gray-800">{publication.title}</h3>
-                  <p className="text-gray-600 mb-4">{publication.description}</p>
-                  <a
-                    href={publication.downloadUrl}
-                    className="inline-flex items-center text-yellow-600 hover:text-yellow-700
-                      font-medium transition-colors"
-                  >
-                    Download PDF →
-                  </a>
-                </motion.div>
-              ))}
-            </CardContent>
-          </Card>
+            <TabsContent value="publications">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Publications</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {resources.publications.map((resource) => (
+                    <ResourceCard key={resource.title} resource={resource} />
+                  ))}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </motion.div>
       </div>
     </div>
+  )
+}
+
+function ResourceCard({ resource }: { resource: Resource }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-all"
+    >
+      <h3 className="text-xl font-semibold mb-2">{resource.title}</h3>
+      {resource.date && (
+        <p className="text-sm text-gray-500 mb-2">{resource.date}</p>
+      )}
+      <p className="text-gray-600 mb-4">{resource.description}</p>
+      <a
+        href={resource.url}
+        className="text-yellow-600 hover:text-yellow-700 font-medium"
+      >
+        {resource.type === 'report' ? 'Download Report →' : 'Read More →'}
+      </a>
+    </motion.div>
   )
 }

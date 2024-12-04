@@ -22,6 +22,15 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
+            <div className="mb-8">
+              <img
+                src="images/logo/logo.png"  // Update with your actual logo path
+                alt="Vikasalaya Foundation Logo"
+                width={80}
+                height={80}
+                className="object-contain"
+              />
+            </div>
             <h3 className="text-xl font-semibold mb-6 text-yellow-500">Contact Us</h3>
             <div className="space-y-3 text-gray-300">
               <p>Email: vikasalaya@gmail.com</p>

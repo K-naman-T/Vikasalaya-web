@@ -41,12 +41,10 @@ export function Header() {
         <nav className="flex items-center justify-between h-20">
           <Link href="/" className="relative flex items-center">
             <div className="relative w-16 h-16 transform hover:scale-105 transition-transform">
-              <Image
-                src="/images/vikas-logo.jpg"
+              <img
+                src="images/logo/logo.png"  // Update with your actual logo path
                 alt="Vikasalaya Foundation Logo"
-                fill
                 className="object-contain"
-                priority
               />
             </div>
           </Link>
@@ -56,7 +54,7 @@ export function Header() {
             {navItems.map((item) => (
               <div 
                 key={item.name} 
-                className="relative"
+                className="relative group"
                 onMouseEnter={() => item.name === 'Resources' && setIsResourcesOpen(true)}
                 onMouseLeave={() => item.name === 'Resources' && setIsResourcesOpen(false)}
               >
@@ -73,14 +71,42 @@ export function Header() {
                   {item.name}
                 </Link>
                 {item.name === 'Resources' && isResourcesOpen && (
-                  <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
-                    <div className="block px-4 py-2 text-gray-800 hover:bg-yellow-100">Reports</div>
-                    <div className="mt-2 ml-4">
-                      <Link href="/resources#annual-report" className="block px-4 py-2 text-gray-800 hover:bg-yellow-100">Annual Report</Link>
-                      <Link href="/resources#activity-report" className="block px-4 py-2 text-gray-800 hover:bg-yellow-100">Activity Report</Link>
-                      <Link href="/resources#projects" className="block px-4 py-2 text-gray-800 hover:bg-yellow-100">Projects</Link>
+                  <div 
+                    className="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg z-10"
+                    onMouseEnter={() => setIsResourcesOpen(true)}
+                    onMouseLeave={() => setIsResourcesOpen(false)}
+                  >
+                    <div className="py-2">
+                      <div className="px-4 py-2 text-gray-800 hover:bg-yellow-100 cursor-pointer">
+                        Reports
+                      </div>
+                      <div className="ml-4 space-y-1">
+                        <Link 
+                          href="/resources#annual-report" 
+                          className="block px-4 py-2 text-gray-800 hover:bg-yellow-100"
+                        >
+                          Annual Report
+                        </Link>
+                        <Link 
+                          href="/resources#activity-report" 
+                          className="block px-4 py-2 text-gray-800 hover:bg-yellow-100"
+                        >
+                          Activity Report
+                        </Link>
+                        <Link 
+                          href="/resources#projects" 
+                          className="block px-4 py-2 text-gray-800 hover:bg-yellow-100"
+                        >
+                          Projects
+                        </Link>
+                      </div>
+                      <Link 
+                        href="/resources#publications" 
+                        className="block px-4 py-2 text-gray-800 hover:bg-yellow-100"
+                      >
+                        Publications
+                      </Link>
                     </div>
-                    <Link href="/resources#publications" className="block px-4 py-2 text-gray-800 hover:bg-yellow-100">Publications</Link>
                   </div>
                 )}
               </div>

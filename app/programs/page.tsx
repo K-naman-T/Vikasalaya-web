@@ -1,19 +1,12 @@
 "use client"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { Card } from "@/components/ui/card"
 import DotPattern from '@/components/ui/dot-pattern'
+import Modal from 'react-modal'
 
 // Types
-interface ImageSliderProps {
-  images: string[]
-  alt: string
-  interval?: number
-  height?: string
-  objectFit?: 'cover' | 'contain'
-}
-
 interface Program {
   title: string
   description: string
@@ -35,51 +28,6 @@ interface Initiative {
   desc?: string
   activities?: string[]
   images?: string[]
-}
-
-// Components
-const ImageSlider = ({ images, alt, interval = 5000, height = "h-[300px]", objectFit = "cover" }: ImageSliderProps) => {
-  const [currentImage, setCurrentImage] = useState(0)
-  const [imageError, setImageError] = useState(false)
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length)
-    }, interval)
-    return () => clearInterval(timer)
-  }, [images.length, interval])
-
-  if (images.length === 0) return null
-
-  return (
-    <div className={`relative w-full ${height} mb-4 rounded-lg overflow-hidden`}>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentImage}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
-          className="absolute inset-0"
-        >
-          {!imageError ? (
-            <Image
-              src={images[currentImage]}
-              alt={alt}
-              fill
-              className={`object-${objectFit} object-center`}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 50vw"
-              onError={() => setImageError(true)}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-100">
-              <p className="text-gray-500">Image not available</p>
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  )
 }
 
 // Data
@@ -110,8 +58,7 @@ const programsData: Program[] = [
           '/images/after school classes 4.webp',
           '/images/after school classes 5.webp'
         ]
-      },
-      // Add other subPrograms with their respective images
+      }
     ]
   },
   {
@@ -133,14 +80,46 @@ const programsData: Program[] = [
           '/images/dispatch for wayanad landslide.webp',
           '/images/Wayanad flood relief Kerala.webp'
         ]
-      },
-      // Add other initiatives with their respective images
+      }
     ]
   }
 ]
 
 export default function ProgramsPage() {
   const [activeProgram, setActiveProgram] = useState<number | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentImages, setCurrentImages] = useState<string[]>([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const openGallery = (folder: string) => {
+    let images: string[] = []
+    
+    switch(folder) {
+      case 'images':
+        images = programsData[0].images || []
+        break
+      case 'Vikasalaya Pics':
+        images = programsData[1].subPrograms?.[0].images || []
+        break
+      case 'Wayanad':
+        images = programsData[2].initiatives?.[0].images || []
+        break
+      default:
+        images = []
+    }
+    
+    setCurrentImages(images)
+    setCurrentIndex(0)
+    setIsModalOpen(true)
+  }
+
+  const nextImage = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % currentImages.length)
+  }
+
+  const prevImage = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + currentImages.length) % currentImages.length)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -218,18 +197,19 @@ export default function ProgramsPage() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="relative h-[400px] rounded-xl overflow-hidden shadow-lg"
+                        className="relative h-[400px] rounded-xl overflow-hidden shadow-lg cursor-pointer"
+                        onClick={() => openGallery('images')}
                       >
-                        <ImageSlider 
-                          images={program.images} 
+                        <Image
+                          src={program.images[0]}
                           alt={program.title}
-                          height="h-[400px]"
+                          fill
+                          className="object-cover object-center"
                         />
                       </motion.div>
                     )}
                   </div>
 
-                  {/* SubPrograms section with styling from KeyAreasSection */}
                   {program.subPrograms && (
                     <div className="grid md:grid-cols-2 gap-8">
                       {program.subPrograms.map((sub, index) => (
@@ -244,8 +224,14 @@ export default function ProgramsPage() {
                         >
                           <h3 className="text-xl font-semibold text-yellow-600 mb-4">{sub.name}</h3>
                           {sub.images && (
-                            <div className="mb-4 rounded-lg overflow-hidden">
-                              <ImageSlider images={sub.images} alt={sub.name} />
+                            <div className="mb-4 rounded-lg overflow-hidden cursor-pointer h-[300px] relative"
+                                 onClick={() => openGallery('Vikasalaya Pics')}>
+                              <Image
+                                src={sub.images[0]}
+                                alt={sub.name}
+                                fill
+                                className="object-cover object-center"
+                              />
                             </div>
                           )}
                           <p className="text-gray-600 mb-4">{sub.desc}</p>
@@ -262,7 +248,6 @@ export default function ProgramsPage() {
                     </div>
                   )}
 
-                  {/* Initiatives section with styling from AboutPage core values */}
                   {program.initiatives && (
                     <div className="space-y-8">
                       {program.initiatives.map((initiative, index) => (
@@ -279,11 +264,13 @@ export default function ProgramsPage() {
                             {initiative.name}
                           </h3>
                           {initiative.images && (
-                            <div className="mb-6 rounded-lg overflow-hidden">
-                              <ImageSlider 
-                                images={initiative.images} 
+                            <div className="mb-6 rounded-lg overflow-hidden cursor-pointer h-[400px] relative"
+                                 onClick={() => openGallery('Wayanad')}>
+                              <Image
+                                src={initiative.images[0]}
                                 alt={initiative.name}
-                                height="h-[400px]"
+                                fill
+                                className="object-cover object-center"
                               />
                             </div>
                           )}
@@ -310,6 +297,66 @@ export default function ProgramsPage() {
           ))}
         </div>
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Image Gallery"
+        className="fixed inset-0 flex items-center justify-center p-4 bg-black/90 z-50"
+        overlayClassName="fixed inset-0"
+      >
+        <div className="relative w-full max-w-5xl mx-auto bg-white/10 backdrop-blur-sm rounded-xl p-4 md:p-6">
+          <button 
+            onClick={() => setIsModalOpen(false)} 
+            className="absolute top-4 right-4 z-10 text-white/80 hover:text-white
+              bg-black/20 hover:bg-black/40 rounded-full p-2 transition-all duration-200"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <div className="relative aspect-[16/9] md:aspect-[3/2] lg:aspect-[16/9] rounded-lg overflow-hidden">
+            {currentImages.length > 0 && (
+              <Image
+                src={currentImages[currentIndex]}
+                alt={`Gallery image ${currentIndex + 1}`}
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+              />
+            )}
+            
+            <button 
+              onClick={prevImage} 
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 
+                bg-black/20 hover:bg-black/40 text-white/80 hover:text-white
+                rounded-full p-2 md:p-3 transition-all duration-200"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <button 
+              onClick={nextImage} 
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 
+                bg-black/20 hover:bg-black/40 text-white/80 hover:text-white
+                rounded-full p-2 md:p-3 transition-all duration-200"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="mt-4 text-center text-white/80">
+            <p className="text-sm md:text-base">
+              Image {currentIndex + 1} of {currentImages.length}
+            </p>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
