@@ -1,10 +1,9 @@
 "use client"
 import { motion } from "framer-motion"
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { Card } from "@/components/ui/card"
-import DotPattern from '@/components/ui/dot-pattern'
+import { useState } from 'react'
 import Modal from 'react-modal'
+import { ChevronRight, ArrowRight } from 'lucide-react'
 
 // Types
 interface Program {
@@ -34,40 +33,120 @@ interface Initiative {
 const programsData: Program[] = [
   {
     title: "Mental Health Awareness",
-    description: "A dynamic, ongoing initiative delivering mental health support across communities.",
+    description: "Mental Health Program is a dynamic, ongoing initiative dedicated to delivering mental health support across a range of settings, including communities, disaster-affected areas, security forces, schools, and corporate environments.",
     details: [
       "Group and individual counseling sessions",
-      "Mental health awareness workshops",
-      "Stigma reduction campaigns",
-      "Support for domestic violence survivors",
-      "Child and adolescent mental health programs"
+      "Breaking down mental health stigma",
+      "Support for domestic violence and sexual abuse survivors",
+      "Addressing phobias and communication barriers",
+      "Child developmental support",
+      "Community mental health awareness workshops",
+      "Specialized support for security forces",
+      "Corporate mental health programs"
     ],
     images: ['/images/1.webp']
   },
   {
     title: "Child Development and Education",
-    description: "Holistic support program for children from primary school through career-building years.",
+    description: "Our Child Development and Education Program is an ongoing initiative aimed at providing holistic support to children from primary school through to their career-building years.",
     subPrograms: [
       {
         name: "After School Support",
-        desc: "Academic help and skill-building activities in a safe environment",
-        activities: ["Homework assistance", "Academic tutoring", "Life skills development"],
-        images: [
-          '/images/after school classes1.webp',
-          '/images/after school classes 3.webp',
-          '/images/after school classes 4.webp',
-          '/images/after school classes 5.webp'
+        desc: "A safe and engaging environment where children receive academic help, participate in skill-building activities, and receive personalized guidance.",
+        activities: [
+          "Academic tutoring and homework assistance",
+          "Skill-building activities",
+          "Personalized mentoring",
+          "Confidence building exercises"
+        ],
+        images: ['/images/after school classes1.webp', '/images/after school classes 3.webp']
+      },
+      {
+        name: "Play and Learn",
+        desc: "Interactive program combining education with play to promote holistic development.",
+        activities: [
+          "Interactive educational games",
+          "Storytelling sessions",
+          "Creative activities",
+          "Social skills development"
+        ],
+        images: ['/images/after school classes 4.webp', '/images/after school classes 5.webp']
+      },
+      {
+        name: "Festivals Together",
+        desc: "Celebrating cultural and religious festivals with children while providing nutritious meals.",
+        activities: [
+          "Cultural celebrations",
+          "Festival traditions",
+          "Community gatherings",
+          "Nutritious meal distribution"
+        ]
+      },
+      {
+        name: "WASH Training Programs",
+        desc: "Education on Water, Sanitation, and Hygiene practices through hands-on sessions.",
+        activities: [
+          "Hygiene education",
+          "Soap distribution",
+          "Sanitation awareness",
+          "Health outcome monitoring"
+        ]
+      },
+      {
+        name: "Aanganwadi Activities",
+        desc: "Supporting early childhood development through educational and nutritional support.",
+        activities: [
+          "Structured play sessions",
+          "Learning activities",
+          "Health monitoring",
+          "Nutritional guidance"
+        ]
+      }
+    ]
+  },
+  {
+    title: "Women Empowerment and Skill Development",
+    description: "A continuous initiative dedicated to fostering independence and resilience among women in communities across India.",
+    subPrograms: [
+      {
+        name: "Skill Development Trainings",
+        desc: "Practical skills training focusing on stitching, tailoring, and product creation from recycled materials.",
+        activities: [
+          "Stitching workshops",
+          "Tailoring classes",
+          "Recycled material crafts",
+          "Income generation skills"
+        ]
+      },
+      {
+        name: "Menstrual Hygiene Trainings",
+        desc: "Education about menstrual health, hygiene practices, and dispelling common myths.",
+        activities: [
+          "Hygiene education",
+          "Resource distribution",
+          "Myth-busting sessions",
+          "Health awareness workshops"
+        ]
+      },
+      {
+        name: "Financial Literacy Trainings",
+        desc: "Essential financial skills training including budgeting, saving, and basic financial planning.",
+        activities: [
+          "Budgeting workshops",
+          "Savings education",
+          "Financial planning basics",
+          "Economic empowerment"
         ]
       }
     ]
   },
   {
     title: "Disaster Response",
-    description: "Rapid response and support for communities affected by natural disasters.",
+    description: "Rapid response and comprehensive support for communities affected by natural disasters.",
     initiatives: [
       {
         name: "Wayanad Landslide Response",
-        desc: "Emergency response and support for communities affected by landslides in Wayanad",
+        desc: "Comprehensive relief program providing urgent support to affected families in Wayanad.",
         activities: [
           "Distribution of ration & hygiene kits",
           "Menstrual hygiene training for women",
@@ -79,6 +158,26 @@ const programsData: Program[] = [
           '/images/Blanket donation Kashmir.webp',
           '/images/dispatch for wayanad landslide.webp',
           '/images/Wayanad flood relief Kerala.webp'
+        ]
+      },
+      {
+        name: "Healthcare Support Program",
+        desc: "Essential assistance to government health facilities through equipment provision.",
+        activities: [
+          "Oxygen concentrator distribution",
+          "Healthcare facility support",
+          "Infrastructure strengthening",
+          "Medical resource provision"
+        ]
+      },
+      {
+        name: "Winter Care Program",
+        desc: "Support for vulnerable communities in Kashmir facing extreme winter conditions.",
+        activities: [
+          "Blanket distribution",
+          "Winter essentials provision",
+          "Community outreach",
+          "Cold weather support"
         ]
       }
     ]
@@ -122,30 +221,33 @@ export default function ProgramsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary-light to-white">
-      <DotPattern className="absolute inset-0 h-full w-full opacity-50" width={16} height={16} cr={2} />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_200px,rgba(255,226,132,0.1),transparent)]" />
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
+      {/* Hero Section */}
+      <div className="relative h-[40vh] bg-gradient-to-br from-orange-800 to-green-800 overflow-hidden">
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
+          <div className="max-w-3xl">
+            <motion.h1 
+              className="text-5xl font-bold text-white mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              Our Programs
+            </motion.h1>
+            <motion.p 
+              className="text-xl text-white/90"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              Comprehensive initiatives focused on creating lasting positive change in our communities.
+            </motion.p>
+          </div>
+        </div>
+      </div>
 
-      <div className="container mx-auto px-4 py-24 relative">
-        <motion.div className="text-center mb-24">
-          <motion.h1
-            className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary-dark to-primary-dark"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Our Programs
-          </motion.h1>
-          <motion.p 
-            className="text-xl text-gray-600 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Comprehensive initiatives focused on creating lasting positive change in our communities.
-          </motion.p>
-        </motion.div>
-
+      {/* Programs Section */}
+      <div className="container mx-auto px-4 py-16">
         <div className="space-y-32">
           {programsData.map((program, idx) => (
             <motion.section
@@ -154,145 +256,144 @@ export default function ProgramsPage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: "-100px" }}
               className="relative"
-              onViewportEnter={() => setActiveProgram(idx)}
             >
-              <Card className="group overflow-hidden backdrop-blur-sm bg-white/80 border-0 shadow-lg 
-                hover:shadow-xl transition-all duration-500">
-                <div className="p-12 space-y-16">
-                  <div className="grid md:grid-cols-2 gap-12">
-                    <motion.div 
-                      className="space-y-8"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                    >
-                      <h2 className="text-3xl font-bold text-primary-dark">{program.title}</h2>
-                      <p className="text-lg text-gray-600 leading-relaxed">{program.description}</p>
-                      
-                      {program.details && (
-                        <ul className="space-y-4">
-                          {program.details.map((detail, index) => (
-                            <motion.li 
-                              key={index}
-                              initial={{ opacity: 0, x: -20 }}
-                              whileInView={{ opacity: 1, x: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: index * 0.1 }}
-                              className="flex items-start space-x-3"
-                            >
-                              <span className="h-6 w-6 rounded-full bg-yellow-100 flex items-center 
-                                justify-center flex-shrink-0 group-hover:bg-yellow-200 transition-colors">
-                                <span className="h-2 w-2 rounded-full bg-primary-dark" />
-                              </span>
-                              <span className="text-gray-700">{detail}</span>
-                            </motion.li>
-                          ))}
-                        </ul>
-                      )}
-                    </motion.div>
-
-                    {program.images && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="relative h-[400px] rounded-xl overflow-hidden shadow-lg cursor-pointer"
-                        onClick={() => openGallery('images')}
-                      >
-                        <Image
-                          src={program.images[0]}
-                          alt={program.title}
-                          fill
-                          className="object-cover object-center"
-                        />
-                      </motion.div>
-                    )}
-                  </div>
-
-                  {program.subPrograms && (
-                    <div className="grid md:grid-cols-2 gap-8">
-                      {program.subPrograms.map((sub, index) => (
-                        <motion.div
-                          key={sub.name}
-                          className="group bg-gradient-to-br from-yellow-50 to-white p-8 rounded-xl 
-                            shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
+              {/* Program Header */}
+              <div className="flex flex-col md:flex-row gap-12 items-start">
+                <div className="md:w-1/2 sticky top-8">
+                  <span className="text-sm font-medium text-orange-600 mb-2 block">
+                    Program {idx + 1}
+                  </span>
+                  <h2 className="text-4xl font-bold text-gray-900 mb-6">{program.title}</h2>
+                  <p className="text-lg text-gray-600 mb-8">{program.description}</p>
+                  
+                  {program.details && (
+                    <ul className="space-y-4">
+                      {program.details.map((detail, index) => (
+                        <motion.li 
+                          key={index}
+                          className="flex items-start gap-4 text-gray-700"
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true }}
                           transition={{ delay: index * 0.1 }}
                         >
-                          <h3 className="text-xl font-semibold text-primary-dark mb-4">{sub.name}</h3>
-                          {sub.images && (
-                            <div className="mb-4 rounded-lg overflow-hidden cursor-pointer h-[300px] relative"
-                                 onClick={() => openGallery('Vikasalaya Pics')}>
-                              <Image
-                                src={sub.images[0]}
-                                alt={sub.name}
-                                fill
-                                className="object-cover object-center"
-                              />
-                            </div>
-                          )}
-                          <p className="text-gray-600 mb-4">{sub.desc}</p>
-                          <ul className="space-y-2">
-                            {sub.activities.map((activity, idx) => (
-                              <li key={idx} className="flex items-center space-x-2 text-gray-700">
-                                <span className="h-1.5 w-1.5 rounded-full bg-primary-dark" />
+                          <ChevronRight className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
+                          <span>{detail}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                {program.images && (
+                  <div className="md:w-1/2">
+                    <motion.div
+                      className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-2xl cursor-pointer
+                        transform hover:scale-[1.02] transition-all duration-500"
+                      onClick={() => openGallery('images')}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                    >
+                      <Image
+                        src={program.images[0]}
+                        alt={program.title}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    </motion.div>
+                  </div>
+                )}
+              </div>
+
+              {/* Sub Programs */}
+              {program.subPrograms && (
+                <div className="mt-24">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-12">Related Programs</h3>
+                  <div className="grid md:grid-cols-2 gap-12">
+                    {program.subPrograms.map((sub, index) => (
+                      <motion.div
+                        key={sub.name}
+                        className="group"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.2 }}
+                      >
+                        {sub.images && (
+                          <div 
+                            className="aspect-[16/9] relative rounded-xl overflow-hidden mb-6 cursor-pointer"
+                            onClick={() => openGallery('Vikasalaya Pics')}
+                          >
+                            <Image
+                              src={sub.images[0]}
+                              alt={sub.name}
+                              fill
+                              className="object-cover transform group-hover:scale-105 transition-transform duration-500"
+                            />
+                          </div>
+                        )}
+                        <h4 className="text-xl font-semibold text-gray-900 mb-3">{sub.name}</h4>
+                        <p className="text-gray-600 mb-4">{sub.desc}</p>
+                        <ul className="space-y-2">
+                          {sub.activities.map((activity, idx) => (
+                            <li key={idx} className="flex items-center gap-3 text-gray-700">
+                              <ArrowRight className="w-4 h-4 text-orange-600" />
+                              <span>{activity}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Initiatives */}
+              {program.initiatives && (
+                <div className="mt-24">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-12">Special Initiatives</h3>
+                  {program.initiatives.map((initiative, index) => (
+                    <motion.div
+                      key={initiative.name}
+                      className="bg-white rounded-2xl shadow-xl overflow-hidden"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                    >
+                      {initiative.images && (
+                        <div 
+                          className="aspect-[21/9] relative cursor-pointer"
+                          onClick={() => openGallery('Wayanad')}
+                        >
+                          <Image
+                            src={initiative.images[0]}
+                            alt={initiative.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      <div className="p-8">
+                        <h4 className="text-2xl font-bold text-gray-900 mb-4">{initiative.name}</h4>
+                        {initiative.desc && (
+                          <p className="text-gray-600 mb-6">{initiative.desc}</p>
+                        )}
+                        {initiative.activities && (
+                          <ul className="grid md:grid-cols-2 gap-4">
+                            {initiative.activities.map((activity, idx) => (
+                              <li key={idx} className="flex items-center gap-3 text-gray-700">
+                                <ArrowRight className="w-4 h-4 text-green-600" />
                                 <span>{activity}</span>
                               </li>
                             ))}
                           </ul>
-                        </motion.div>
-                      ))}
-                    </div>
-                  )}
-
-                  {program.initiatives && (
-                    <div className="space-y-8">
-                      {program.initiatives.map((initiative, index) => (
-                        <motion.div
-                          key={initiative.name}
-                          className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md 
-                            transition-all duration-300"
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: index * 0.1 }}
-                        >
-                          <h3 className="text-xl font-semibold text-primary-dark mb-4">
-                            {initiative.name}
-                          </h3>
-                          {initiative.images && (
-                            <div className="mb-6 rounded-lg overflow-hidden cursor-pointer h-[400px] relative"
-                                 onClick={() => openGallery('Wayanad')}>
-                              <Image
-                                src={initiative.images[0]}
-                                alt={initiative.name}
-                                fill
-                                className="object-cover object-center"
-                              />
-                            </div>
-                          )}
-                          {initiative.desc && (
-                            <p className="text-gray-600 mb-4">{initiative.desc}</p>
-                          )}
-                          {initiative.activities && (
-                            <ul className="space-y-2">
-                              {initiative.activities.map((activity, idx) => (
-                                <li key={idx} className="flex items-center space-x-2 text-gray-700">
-                                  <span className="h-1.5 w-1.5 rounded-full bg-primary-dark" />
-                                  <span>{activity}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </motion.div>
-                      ))}
-                    </div>
-                  )}
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
-              </Card>
+              )}
             </motion.section>
           ))}
         </div>

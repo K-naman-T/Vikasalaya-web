@@ -1,70 +1,95 @@
 'use client'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Users, Gift } from 'lucide-react'
+import { Users, Gift, Briefcase, Brain, HandHeart, ArrowRight } from 'lucide-react'
 
 export function GetInvolvedSection() {
   const ways = [
     {
       title: "Donate",
-      description: "Support our programs with your contribution.",
-      icon: Users,
-      iconColor: "text-primary-dark",
-    },
-    {
-      title: "Volunteer",
-      description: "Join our community of dedicated volunteers.",
-      icon: Users,
-      iconColor: "text-primary-dark",
-    },
-    {
-      title: "Career",
-      description: "Join our team and make a difference.",
+      description: "Your contributions make a lasting impact. Support our mission by donating to our programs in mental health, child welfare, and women's empowerment. Every donation helps us reach more people and transform lives.",
       icon: Gift,
-      iconColor: "text-primary-dark",
+      gradient: "from-orange-800 to-orange-700",
+      action: "Become a Donor",
+      link: "/donate"
     },
+    {
+      title: "Volunteer with Us",
+      description: "Join our team as a volunteer to work directly on our projects, from organizing workshops to assisting in community outreach programs.",
+      icon: Users,
+      gradient: "from-green-800 to-green-700",
+      action: "Get Started",
+      link: "/volunteer"
+    },
+    {
+      title: "Partner with Us",
+      description: "Collaborate with us as a partner organization, sponsor, or community ally to expand our initiatives and reach more people in need.",
+      icon: Briefcase,
+      gradient: "from-orange-800 to-green-800",
+      action: "Learn More",
+      link: "/partner"
+    },
+    {
+      title: "Skill-Based Volunteering",
+      description: "Use your skills to contribute—whether it's in marketing, counselling, teaching, or administration. Your expertise can make a big difference.",
+      icon: Brain,
+      gradient: "from-green-700 to-orange-700",
+      action: "Share Your Skills",
+      link: "/skills"
+    },
+    {
+      title: "Become a Fundraiser",
+      description: "Organize your own fundraising events to support our causes and involve your community in making a difference.",
+      icon: HandHeart,
+      gradient: "from-orange-700 to-green-700",
+      action: "Start Fundraising",
+      link: "/fundraise"
+    }
   ]
 
   return (
-    <section id="get-involved" className="py-24 relative overflow-hidden bg-primary-light">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:32px_32px]" />
-      
-      <div className="container mx-auto px-4 relative">
+    <section id="get-involved" className="py-24 bg-gradient-to-b from-green-50/40 via-orange-50/30 to-white">
+      <div className="container mx-auto px-4">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-6 text-secondary-dark">
-            Get Involved
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto mb-6" />
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Join us in our mission to create lasting change.
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Get Involved</h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-orange-800 to-green-800 mx-auto mb-6" />
+          <p className="text-xl text-gray-600 mx-auto">
+            Join us in our mission to create lasting change. Every contribution makes a difference.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-3 gap-3 md:gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {ways.map((way, index) => (
             <motion.div
-              key={index}
+              key={way.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
-              className="group text-center hover:transform hover:scale-105 transition-all duration-300"
+              transition={{ delay: index * 0.1 }}
+              className="group bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
             >
-              <way.icon className={`w-8 h-8 md:w-12 md:h-12 ${way.iconColor} mx-auto mb-3 md:mb-4`} />
-              <h3 className="text-base md:text-2xl font-playfair font-bold mb-2 md:mb-4 text-secondary-dark">
-                {way.title}
-              </h3>
-              <p className="text-sm md:text-base text-gray-600 hidden md:block">
-                {way.description}
-              </p>
-              <p className="text-xs text-gray-600 md:hidden">
-                {way.description.split('.')[0]}.
-              </p>
+              <div className={`h-2 bg-gradient-to-r ${way.gradient}`} />
+              <div className="p-8">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-800/10 to-green-800/10 
+                  flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                  <way.icon className="w-8 h-8 text-orange-800" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{way.title}</h3>
+                <p className="text-gray-600 leading-relaxed mb-6">{way.description}</p>
+                <Link 
+                  href={way.link}
+                  className={`inline-flex items-center px-6 py-3 rounded-full text-white 
+                    bg-gradient-to-r ${way.gradient} hover:opacity-90 transition-opacity`}
+                >
+                  {way.action}
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Link>
+              </div>
             </motion.div>
           ))}
         </div>
