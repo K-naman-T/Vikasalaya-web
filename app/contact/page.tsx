@@ -1,72 +1,68 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { getCalApi } from "@calcom/embed-react"
-import { Mail, Phone, MapPin, Instagram, Linkedin, Facebook, Calendar } from 'lucide-react'
+import { Mail, Phone, Building2, MapPin, ExternalLink, Calendar, Facebook, ArrowRight } from 'lucide-react'
+
+const locations = [
+  {
+    name: "Headquarters - Dhanbad",
+    address: "Pradhan Khanta, Baliapur, Dhanbad",
+    region: "East India",
+    coordinates: "23.7957885,86.4266154",
+    isHQ: true
+  },
+  {
+    name: "Bangalore Office",
+    address: "Ohana 857, KR Puram, Bangalore, 560049",
+    region: "South India",
+    coordinates: "13.0219499,77.7027300",
+    isHQ: false
+  }
+]
+
+// Center coordinates for India
+const INDIA_CENTER = "20.5937,78.9629"
 
 export default function ContactPage() {
+  const [selectedLocation, setSelectedLocation] = useState(locations[0])
+
   useEffect(() => {
     (async function () {
       const cal = await getCalApi()
       cal("ui", {
         theme: "light",
-        styles: {
-          branding: { brandColor: "#FF7A00" },
-        },
+        styles: { branding: { brandColor: "#FF7A00" } },
       })
     })()
   }, [])
 
-  const locations = [
-    {
-      city: "Dhanbad",
-      address: "Pradhan Khanta, Baliapur, Dhanbad",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29221.937969283572!2d86.48897429851438!3d23.720896919311663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f69588e372c699%3A0x8c607f1f9a23ed4a!2sBaliapur%2C%20Jharkhand%20828201!5e0!3m2!1sen!2sin!4v1733499363430!5m2!1sen!2sin"
-    },
-    {
-      city: "Bangalore",
-      address: "Ohana 857, KR Puram, Bangalore, 560049",
-      mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.215936920719!2d77.71276547488108!3d13.021916587298069!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae104c3eac4347%3A0xfff5c57cacfadf9!2sOhana%20857!5e0!3m2!1sen!2sin!4v1733499437758!5m2!1sen!2sin"
-    }
-  ]
-
-  const socialLinks = [
-    {
-      name: "Instagram",
-      icon: Instagram,
-      url: "https://www.instagram.com/vikasalaya/",
-      color: "hover:text-pink-600"
-    },
-    {
-      name: "LinkedIn",
-      icon: Linkedin,
-      url: "https://www.linkedin.com/in/vikasalaya-foundation-253323258",
-      color: "hover:text-blue-600"
-    },
-    {
-      name: "Facebook",
-      icon: Facebook,
-      url: "https://www.facebook.com/people/Vikasalaya-Vikasalaya/100087451647205/",
-      color: "hover:text-blue-500"
-    }
-  ]
+  // Construct the map URL with all markers
+  const getMapUrl = () => {
+    const baseUrl = "https://www.google.com/maps/embed/v1/view"
+    const markers = locations.map(loc => 
+      `&markers=icon:${loc.isHQ ? 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'}|${loc.coordinates}`
+    ).join('')
+    
+    return `${baseUrl}?key=YOUR_GOOGLE_MAPS_API_KEY&center=${INDIA_CENTER}&zoom=5${markers}`
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-natural">
       {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-to-br from-orange-800 to-green-800 overflow-hidden">
+      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">
         <div className="absolute inset-0 bg-black/40" />
         <div className="container mx-auto px-4 h-full flex items-center relative z-10">
           <div className="max-w-3xl">
             <motion.h1 
-              className="text-5xl font-bold text-white mb-6"
+              className="text-5xl font-bold text-secondary mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               Get in Touch
             </motion.h1>
             <motion.p 
-              className="text-xl text-white/90"
+              className="text-xl text-secondary/90"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -79,125 +75,169 @@ export default function ContactPage() {
 
       {/* Content Section */}
       <div className="container mx-auto px-4 py-16">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto space-y-12">
           {/* Schedule Meeting Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl shadow-xl p-8 mb-12"
+            className="bg-secondary rounded-2xl shadow-xl p-8"
           >
             <div className="flex items-center gap-6 mb-8">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-800/10 to-green-800/10 
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 
                 flex items-center justify-center">
-                <Calendar className="w-8 h-8 text-orange-800" />
+                <Calendar className="w-8 h-8 text-primary" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-gray-900">Schedule a Meeting</h2>
-                <p className="text-gray-600">Choose a convenient time to discuss how we can help.</p>
+                <h2 className="text-3xl font-bold text-text">Schedule a Meeting</h2>
+                <p className="text-text-muted">Choose a convenient time to discuss how we can help.</p>
               </div>
             </div>
             <button 
               data-cal-link="vikasalaya/meeting" 
               data-cal-config='{"theme":"light"}'
-              className="px-8 py-4 bg-gradient-to-r from-orange-800 to-green-800 text-white rounded-full
-                       font-semibold text-lg transition-all duration-300 transform hover:scale-105
-                       shadow-lg hover:shadow-xl hover:opacity-90"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary to-accent 
+                text-secondary rounded-full font-semibold text-lg transition-all duration-300 
+                hover:opacity-90 shadow-lg hover:shadow-xl group"
             >
               Schedule Now
+              <ArrowRight className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
             </button>
           </motion.div>
 
-          {/* Contact Grid */}
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Locations Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white rounded-2xl shadow-xl p-8"
-            >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Our Locations</h2>
-              <div className="space-y-8">
-                {locations.map((location, index) => (
-                  <div key={location.city} className="space-y-4">
+          {/* Location Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-secondary rounded-2xl shadow-xl overflow-hidden"
+          >
+            <div className="p-8 border-b">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-dark/10 to-secondary/10 
+                  flex items-center justify-center">
+                  <Building2 className="w-8 h-8 text-primary-dark" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-900">Our Locations</h2>
+                  <p className="text-gray-600">Find us across India</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-3">
+              {/* Location List */}
+              <div className="p-6 space-y-6">
+                {locations.map((location) => (
+                  <div 
+                    key={location.name}
+                    onClick={() => setSelectedLocation(location)}
+                    className={`p-4 cursor-pointer rounded-xl transition-all duration-200
+                      ${selectedLocation.name === location.name 
+                        ? 'bg-primary-dark/5 shadow-md' 
+                        : 'hover:bg-gray-50'}`}
+                  >
                     <div className="flex items-start gap-4">
-                      <MapPin className="w-5 h-5 text-orange-800 flex-shrink-0 mt-1" />
-                      <div>
-                        <h3 className="font-semibold text-gray-900">{location.city} Office</h3>
-                        <p className="text-gray-600">{location.address}</p>
-                      </div>
-                    </div>
-                    <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
-                      <iframe
-                        src={location.mapUrl}
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
+                      <MapPin 
+                        className={`w-5 h-5 flex-shrink-0 mt-1 
+                          ${location.isHQ ? 'text-primary-dark' : 'text-secondary'}`} 
                       />
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-semibold text-gray-900">{location.name}</h3>
+                          {location.isHQ && (
+                            <span className="text-xs px-2 py-0.5 bg-primary-dark/10 text-primary-dark rounded-full">
+                              HQ
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-gray-600 mt-1">{location.address}</p>
+                        <p className="text-sm text-primary-dark mt-2">{location.region}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-            </motion.div>
 
-            {/* Quick Contact Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-white rounded-2xl shadow-xl p-8"
-            >
-              <h2 className="text-2xl font-bold text-gray-900 mb-8">Quick Contact</h2>
-              <div className="space-y-8">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-800/10 to-green-800/10 
-                    flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-orange-800" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Email</p>
-                    <a href="mailto:vikasalaya@gmail.com" 
-                       className="text-orange-800 hover:text-green-800 transition-colors">
-                      vikasalaya@gmail.com
-                    </a>
-                  </div>
+              {/* Map Display */}
+              <div className="md:col-span-2 relative">
+                <div className="aspect-video md:h-full w-full min-h-[400px]">
+                  <iframe
+                    src={getMapUrl()}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full h-full"
+                  />
                 </div>
+                <a 
+                  href={`https://www.google.com/maps/search/?api=1&query=${selectedLocation.coordinates}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute bottom-4 right-4 px-4 py-2 bg-white rounded-lg shadow-lg 
+                    flex items-center gap-2 text-sm font-medium text-gray-700 hover:bg-gray-50 
+                    transition-colors duration-200"
+                >
+                  Open in Google Maps
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </motion.div>
 
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-800/10 to-green-800/10 
-                    flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-orange-800" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Phone</p>
-                    <p className="text-gray-600">7204453790; 8088212774</p>
-                  </div>
+          {/* Quick Contact Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-secondary rounded-2xl shadow-xl p-8"
+          >
+            <h2 className="text-2xl font-bold text-text mb-8">Quick Contact</h2>
+            <div className="space-y-8">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 
+                  flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-primary" />
                 </div>
-
                 <div>
-                  <p className="font-medium text-gray-900 mb-4">Connect With Us</p>
-                  <div className="flex gap-6">
-                    {socialLinks.map((social) => (
-                      <a
-                        key={social.name}
-                        href={social.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`w-12 h-12 rounded-xl bg-gradient-to-br from-orange-800/10 to-green-800/10 
-                          flex items-center justify-center transition-transform hover:scale-110 ${social.color}`}
-                        aria-label={social.name}
-                      >
-                        <social.icon className="w-6 h-6" />
-                      </a>
-                    ))}
-                  </div>
+                  <p className="font-medium text-text">Email</p>
+                  <a href="mailto:vikasalaya@gmail.com" 
+                     className="text-primary hover:text-accent transition-colors">
+                    vikasalaya@gmail.com
+                  </a>
                 </div>
               </div>
-            </motion.div>
-          </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-dark/10 to-secondary/10 
+                  flex items-center justify-center">
+                  <Phone className="w-6 h-6 text-orange-800" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">Phone</p>
+                  <p className="text-gray-600">7204453790; 8088212774</p>
+                </div>
+              </div>
+
+              <div>
+                <p className="font-medium text-gray-900 mb-4">Connect With Us</p>
+                <div className="flex gap-6">
+                  <a
+                    href="https://www.facebook.com/vikasalaya"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-br from-primary-dark/10 to-secondary/10 
+                      flex items-center justify-center transition-transform hover:scale-110`}
+                    aria-label="Facebook"
+                    >
+                      <Facebook className="w-6 h-6" />
+                    </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>

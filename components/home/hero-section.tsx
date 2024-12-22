@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button'
 import WordRotate from '@/components/ui/word-rotate'
 
 const backgroundImages = [
-  'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1920',
-  'https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=1920',
-  'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?q=80&w=1920',
-  'https://images.unsplash.com/photo-1542810634-71277d95dcbb?q=80&w=1920',
-  'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1920'
+  '/images/ration_wayanad.webp',
+  '/images/vikasalaya.webp',
+  '/images/vikasalaya1.webp',
+  '/images/kashmir.webp',
+  '/images/nagpur2.jpg'
 ]
 
 const translations = [
@@ -36,10 +36,9 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen">
-      {/* Consistent dark overlay */}
-      <div className="absolute inset-0 bg-black/40 z-10" />
+      <div className="absolute inset-0 bg-black/50 z-10" />
 
-      {/* Background images with fade transition */}
+      {/* Background images remain the same */}
       {backgroundImages.map((image, index) => (
         <div
           key={image}
@@ -59,14 +58,20 @@ export function HeroSection() {
 
       <div className="container mx-auto px-4 h-full relative z-20">
         <div className="flex flex-col justify-center h-screen max-w-4xl">
-          <WordRotate
-            words={translations}
-            duration={3000}
-            className="font-playfair text-7xl md:text-8xl lg:text-9xl font-bold mb-2 text-white drop-shadow-lg"
-          />
+          <div className="min-h-[120px] md:min-h-[160px] lg:min-h-[200px] flex items-center">
+            <WordRotate
+              words={translations}
+              duration={3000}
+              className="font-playfair text-6xl md:text-7xl lg:text-8xl font-bold
+                bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FF8C00] 
+                bg-clip-text text-transparent drop-shadow-lg
+                leading-[1.6] tracking-normal"
+            />
+          </div>
           
           <motion.span 
-            className="text-7xl md:text-8xl lg:text-9xl font-bold mb-8 text-primary drop-shadow-lg"
+            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 
+              text-gradient-gold"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -96,7 +101,7 @@ export function HeroSection() {
               <Link href="/donate">Donate Now</Link>
             </Button>
             <Button className="text-lg px-8 py-4 bg-transparent border-2 border-white 
-              text-white hover:bg-white hover:text-secondary-dark transition-all duration-300 
+              text-white hover:bg-white hover:text-primary-dark transition-all duration-300 
               shadow-lg hover:shadow-xl">
               <Link href="#get-involved">Get Involved</Link>
             </Button>

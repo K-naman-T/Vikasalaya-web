@@ -8,65 +8,74 @@ export default function AboutPage() {
     {
       title: "Compassion",
       description: "We believe in the power of empathy and kindness to drive change. Our programs are designed to meet the unique needs of each community with understanding and care.",
-      icon: Heart
+      icon: Heart,
+      gradient: "from-primary via-primary-light to-accent"
     },
     {
       title: "Inclusivity",
       description: "We are committed to creating spaces where all voices are heard and respected. Our work embraces diversity and ensures equal opportunities for everyone, regardless of background.",
-      icon: Users
+      icon: Users,
+      gradient: "from-accent via-accent-light to-primary-light"
     },
     {
       title: "Empowerment",
       description: "We aim to build self-reliance and confidence, enabling individuals to take charge of their own lives and create positive change within their communities.",
-      icon: Lightbulb
+      icon: Lightbulb,
+      gradient: "from-primary-dark via-primary to-accent-light"
     },
     {
       title: "Integrity",
       description: "We operate with transparency, accountability, and ethical practices. Every action is guided by honesty and a commitment to uphold trust within the communities we serve.",
-      icon: Shield
+      icon: Shield,
+      gradient: "from-primary via-accent to-primary-light"
     },
     {
       title: "Sustainability",
       description: "Our approach is rooted in long-term impact, creating programs that promote sustainable growth and development to benefit future generations.",
-      icon: Leaf
+      icon: Leaf,
+      gradient: "from-accent via-primary to-accent-light"
     }
   ]
 
   const team = [
     {
       name: "Vikash Kumar Paul",
-      linkedin: "https://www.linkedin.com/in/vikash-kumar-paul-3035ba26b/"
+      linkedin: "https://www.linkedin.com/in/vikash-kumar-paul-3035ba26b/",
+      gradient: "from-primary via-primary-light to-accent"
     },
     {
       name: "Priyadarshni Rawal",
-      linkedin: "https://www.linkedin.com/in/priyadarshni-rawal-96162863/"
+      linkedin: "https://www.linkedin.com/in/priyadarshni-rawal-96162863/",
+      gradient: "from-accent via-accent-light to-primary-light"
     },
     {
       name: "Prerna Maheshwari",
-      linkedin: ""
+      linkedin: "",
+      gradient: "from-primary-dark via-primary to-accent-light"
     },
     {
       name: "Sidhanshu Monga",
-      linkedin: "https://www.linkedin.com/in/sidhanshumonga/"
+      linkedin: "https://www.linkedin.com/in/sidhanshumonga/",
+      gradient: "from-primary via-accent to-primary-light"
     }
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-natural">
       {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-to-br from-orange-800 to-green-800 overflow-hidden">
+      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">  
         <div className="absolute inset-0 bg-black/40" />
         <div className="container mx-auto px-4 h-full flex items-center relative z-10">
           <div className="max-w-3xl">
             <motion.h1 
-              className="text-5xl font-bold text-white mb-6"
+              className="text-5xl font-bold text-secondary mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               About Us
             </motion.h1>
             <motion.p 
-              className="text-xl text-white/90"
+              className="text-xl text-secondary/90"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -85,12 +94,12 @@ export default function AboutPage() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl shadow-xl overflow-hidden"
+              className="bg-secondary rounded-2xl shadow-xl overflow-hidden"
             >
-              <div className="h-2 bg-gradient-to-r from-orange-500 to-orange-600" />
+              <div className="h-2 bg-gradient-to-r from-primary via-primary-light to-accent" />
               <div className="p-8">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
-                <p className="text-gray-600 leading-relaxed">
+                <h2 className="text-3xl font-bold text-text mb-6">Our Mission</h2>
+                <p className="text-text-muted leading-relaxed">
                   To empower individuals and communities through holistic development initiatives that prioritize mental health, 
                   child welfare, and women's empowerment. Vikasalaya Foundation is committed to breaking barriers, fostering 
                   resilience, and creating sustainable change for a brighter, more inclusive future.
@@ -102,12 +111,12 @@ export default function AboutPage() {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-white rounded-2xl shadow-xl overflow-hidden"
+              className="bg-secondary rounded-2xl shadow-xl overflow-hidden"
             >
-              <div className="h-2 bg-gradient-to-r from-green-500 to-green-600" />
+              <div className="h-2 bg-gradient-to-r from-accent via-accent-light to-primary-light" />
               <div className="p-8">
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Vision</h2>
-                <p className="text-gray-600 leading-relaxed">
+                <h2 className="text-3xl font-bold text-text mb-6">Our Vision</h2>
+                <p className="text-text-muted leading-relaxed">
                   A world where every individual has access to the resources, support, and opportunities needed to thrive—regardless 
                   of social or economic barriers. We envision a future where mental health is openly supported, children grow up in 
                   nurturing environments, and women are empowered to lead and succeed in all aspects of life.
@@ -124,7 +133,7 @@ export default function AboutPage() {
           viewport={{ once: true }}
           className="mb-32"
         >
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Our Core Values</h2>
+          <h2 className="text-4xl font-bold text-center text-text mb-16">Our Core Values</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {coreValues.map((value, index) => (
               <motion.div
@@ -133,16 +142,18 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500"
+                className="group bg-secondary p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500"
               >
                 <div className="mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/10 to-green-500/10 
-                    flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                    <value.icon className="w-8 h-8 text-primary" />
+                  <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${value.gradient} 
+                    p-[2px] group-hover:scale-110 transition-transform duration-500`}>
+                    <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
+                      <value.icon className="w-8 h-8 text-primary" />
+                    </div>
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
+                <h3 className="text-xl font-bold text-text mb-4">{value.title}</h3>
+                <p className="text-text-muted">{value.description}</p>
               </motion.div>
             ))}
           </div>
@@ -155,7 +166,7 @@ export default function AboutPage() {
           viewport={{ once: true }}
           className="relative"
         >
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-16">Our Team</h2>
+          <h2 className="text-4xl font-bold text-center text-text mb-16">Our Team</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {team.map((member, index) => (
               <motion.div
@@ -166,15 +177,16 @@ export default function AboutPage() {
                 transition={{ delay: index * 0.1 }}
                 className="group relative"
               >
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden p-6 
+                <div className="bg-secondary rounded-2xl shadow-xl overflow-hidden p-6 
                   hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
-                  <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br 
-                    from-orange-500/10 to-green-500/10 flex items-center justify-center
-                    group-hover:scale-110 transition-transform duration-500">
-                    <Users className="w-12 h-12 text-primary" />
+                  <div className={`w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r ${member.gradient}
+                    p-[2px] group-hover:scale-110 transition-transform duration-500`}>
+                    <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
+                      <Users className="w-12 h-12 text-primary" />
+                    </div>
                   </div>
                   <div className="text-center">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
+                    <h3 className="text-xl font-bold text-text mb-2">{member.name}</h3>
                     {member.linkedin && (
                       <a
                         href={member.linkedin}

@@ -10,27 +10,27 @@ export function FAQSection() {
     {
       question: "How can I get involved with Vikasalaya Foundation?",
       answer: "You can get involved by volunteering, becoming a fundraiser, or making a donation. Visit our Get Involved page to learn more about these opportunities.",
-      gradient: "from-orange-800 to-orange-700"
+      gradient: "from-primary to-primary-light"
     },
     {
       question: "Where does my donation go?",
       answer: "Your donations directly support our programs in mental health, child development, and women's empowerment initiatives across India.",
-      gradient: "from-green-800 to-green-700"
+      gradient: "from-accent to-accent-light"
     },
     {
       question: "Can I volunteer remotely?",
       answer: "Yes, we offer both remote and in-person volunteering opportunities. Contact us to learn more about current openings.",
-      gradient: "from-orange-800 to-green-800"
+      gradient: "from-primary to-accent"
     },
     {
       question: "How can organizations partner with Vikasalaya?",
       answer: "We welcome partnerships with organizations that share our vision. Please reach out to us at vikasalaya@gmail.com to discuss collaboration opportunities.",
-      gradient: "from-green-800 to-orange-800"
+      gradient: "from-accent to-primary"
     }
   ]
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-orange-50/20">
+    <section className="py-24 bg-gradient-to-b from-white to-secondary/10">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"
@@ -41,7 +41,7 @@ export function FAQSection() {
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Frequently Asked Questions
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-orange-800 to-green-800 mx-auto mb-6" />
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6" />
           <p className="text-xl text-gray-600 mx-auto">
             Find answers to common questions about our programs and involvement opportunities
           </p>
@@ -64,7 +64,7 @@ export function FAQSection() {
               >
                 <span className="font-bold text-gray-900">{faq.question}</span>
                 <ChevronDown 
-                  className={`w-5 h-5 text-orange-800 transition-transform duration-200 ${
+                  className={`w-5 h-5 text-primary-dark transition-transform duration-200 ${
                     openIndex === index ? 'rotate-180' : ''
                   }`}
                 />

@@ -4,7 +4,8 @@ import { motion } from "framer-motion"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import YouTube from 'react-youtube'
-import { ArrowRight } from 'lucide-react'
+import { FacebookEmbed } from 'react-social-media-embed'
+import { ArrowRight, FileText, Video, Share2, Download } from 'lucide-react'
 
 // Types
 interface Resource {
@@ -12,7 +13,7 @@ interface Resource {
   description: string
   url: string
   date?: string
-  type?: 'video' | 'article' | 'report' | 'publication'
+  type?: 'video' | 'article' | 'report' | 'publication' | 'facebook'
   thumbnail?: string
 }
 
@@ -29,7 +30,7 @@ const resources: { [key: string]: Resource[] } = {
       title: "Mental Health Awareness Campaign",
       description: "Our latest campaign highlighting the importance of mental health awareness and support in communities.",
       url: "https://fb.watch/lmDKI9o-G4/?mibextid=RUbZ1f",
-      type: "article",
+      type: "facebook",
       thumbnail: "/images/mental-health-campaign.webp"
     }
   ],
@@ -76,21 +77,21 @@ const resources: { [key: string]: Resource[] } = {
 
 export default function ResourcesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-natural">
       {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-to-br from-orange-800 to-green-800 overflow-hidden">
+      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">
         <div className="absolute inset-0 bg-black/40" />
         <div className="container mx-auto px-4 h-full flex items-center relative z-10">
           <div className="max-w-3xl">
             <motion.h1 
-              className="text-5xl font-bold text-white mb-6"
+              className="text-5xl font-bold text-secondary mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               Resources
             </motion.h1>
             <motion.p 
-              className="text-xl text-white/90"
+              className="text-xl text-secondary/90"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -108,73 +109,84 @@ export default function ResourcesPage() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-6xl mx-auto"
         >
-          <Tabs defaultValue="media" className="space-y-8">
-            <TabsList className="w-full md:w-[400px] grid grid-cols-3 gap-2">
-              <TabsTrigger value="media">Media</TabsTrigger>
-              <TabsTrigger value="reports">Reports</TabsTrigger>
-              <TabsTrigger value="publications">Publications</TabsTrigger>
+          <Tabs defaultValue="media" className="space-y-12">
+            <TabsList className="w-full max-w-md mx-auto grid grid-cols-3 p-1 bg-secondary rounded-full">
+              <TabsTrigger 
+                value="media" 
+                className="rounded-full data-[state=active]:bg-gradient-to-r from-primary to-accent"
+              >
+                <Video className="w-4 h-4 mr-2" />
+                Media
+              </TabsTrigger>
+              <TabsTrigger 
+                value="reports"
+                className="rounded-full data-[state=active]:bg-gradient-to-r from-primary to-accent"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Reports
+              </TabsTrigger>
+              <TabsTrigger 
+                value="publications"
+                className="rounded-full data-[state=active]:bg-gradient-to-r from-primary to-accent"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Publications
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="media">
-              <Card className="border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-3xl font-bold text-gray-900">Media Resources</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                  {resources.media.map((resource, index) => (
-                    <motion.div 
-                      key={resource.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="space-y-4"
-                    >
+              <div className="space-y-8">
+                {resources.media.map((resource, index) => (
+                  <motion.div 
+                    key={resource.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="bg-secondary rounded-2xl shadow-xl overflow-hidden"
+                  >
+                    <div className="p-8">
+                      <h3 className="text-2xl font-bold text-text mb-4">{resource.title}</h3>
+                      <p className="text-text-muted mb-6">{resource.description}</p>
+                    </div>
+                    <div className="aspect-video w-full">
                       {resource.type === 'video' ? (
-                        <div className="aspect-video rounded-xl overflow-hidden shadow-xl">
-                          <YouTube
-                            videoId={resource.url}
-                            className="w-full h-full"
-                            opts={{
-                              width: '100%',
-                              height: '100%',
-                              playerVars: { autoplay: 0 },
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <ResourceCard resource={resource} />
-                      )}
-                    </motion.div>
-                  ))}
-                </CardContent>
-              </Card>
+                        <YouTube
+                          videoId={resource.url}
+                          className="w-full h-full"
+                          opts={{
+                            width: '100%',
+                            height: '100%',
+                            playerVars: { autoplay: 0 },
+                          }}
+                        />
+                      ) : resource.type === 'facebook' ? (
+                        <FacebookEmbed 
+                          url={resource.url}
+                          width="100%"
+                          height="100%"
+                        />
+                      ) : null}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </TabsContent>
 
             <TabsContent value="reports">
-              <Card className="border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-3xl font-bold text-gray-900">Reports</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {resources.reports.map((resource, index) => (
-                    <ResourceCard key={resource.title} resource={resource} index={index} />
-                  ))}
-                </CardContent>
-              </Card>
+              <div className="grid md:grid-cols-2 gap-8">
+                {resources.reports.map((resource, index) => (
+                  <ResourceCard key={resource.title} resource={resource} index={index} />
+                ))}
+              </div>
             </TabsContent>
 
             <TabsContent value="publications">
-              <Card className="border-0 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-3xl font-bold text-gray-900">Publications</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {resources.publications.map((resource, index) => (
-                    <ResourceCard key={resource.title} resource={resource} index={index} />
-                  ))}
-                </CardContent>
-              </Card>
+              <div className="grid md:grid-cols-2 gap-8">
+                {resources.publications.map((resource, index) => (
+                  <ResourceCard key={resource.title} resource={resource} index={index} />
+                ))}
+              </div>
             </TabsContent>
           </Tabs>
         </motion.div>
@@ -190,22 +202,40 @@ function ResourceCard({ resource, index = 0 }: { resource: Resource; index?: num
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className="group bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1 overflow-hidden"
+      className="group bg-secondary rounded-2xl shadow-xl hover:shadow-2xl 
+        transition-all duration-500 hover:-translate-y-1 overflow-hidden"
     >
-      <div className="h-2 bg-gradient-to-r from-orange-800 to-green-800" />
+      <div className={`h-1 bg-gradient-to-r ${
+        index % 2 === 0 
+          ? 'from-primary via-primary-light to-accent' 
+          : 'from-accent via-accent-light to-primary-light'
+      }`} />
       <div className="p-8">
-        <h3 className="text-2xl font-bold text-gray-900 mb-2">{resource.title}</h3>
+        <h3 className="text-2xl font-bold text-text mb-2">{resource.title}</h3>
         {resource.date && (
-          <p className="text-sm text-orange-600 mb-3">{resource.date}</p>
+          <p className="text-sm text-primary mb-3">{resource.date}</p>
         )}
-        <p className="text-gray-600 mb-6 leading-relaxed">{resource.description}</p>
+        <p className="text-text-muted mb-6 leading-relaxed">{resource.description}</p>
         <a
           href={resource.url}
-          className="inline-flex items-center px-6 py-3 rounded-full text-white 
-            bg-gradient-to-r from-orange-800 to-green-800 hover:opacity-90 transition-opacity"
+          className={`inline-flex items-center px-6 py-3 rounded-full text-secondary 
+            bg-gradient-to-r ${
+              index % 2 === 0 
+                ? 'from-primary to-accent' 
+                : 'from-accent to-primary-light'
+            } hover:opacity-90 transition-opacity`}
         >
-          {resource.type === 'report' ? 'Download Report' : 'Read More'}
-          <ArrowRight className="ml-2 w-4 h-4" />
+          {resource.type === 'report' ? (
+            <>
+              <Download className="w-4 h-4 mr-2" />
+              Download Report
+            </>
+          ) : (
+            <>
+              Read More
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </>
+          )}
         </a>
       </div>
     </motion.div>

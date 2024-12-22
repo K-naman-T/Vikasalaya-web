@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import Image from 'next/image'
 import { useState } from 'react'
 import Modal from 'react-modal'
-import { ChevronRight, ArrowRight } from 'lucide-react'
+import { ChevronRight, ArrowRight, X, ChevronDown } from 'lucide-react'
 
 // Types
 interface Program {
@@ -13,6 +13,7 @@ interface Program {
   subPrograms?: SubProgram[]
   initiatives?: Initiative[]
   images?: string[]
+  gallery?: GalleryImage[]
 }
 
 interface SubProgram {
@@ -27,6 +28,12 @@ interface Initiative {
   desc?: string
   activities?: string[]
   images?: string[]
+}
+
+// Add new type for gallery
+interface GalleryImage {
+  src: string
+  caption?: string
 }
 
 // Data
@@ -44,7 +51,13 @@ const programsData: Program[] = [
       "Specialized support for security forces",
       "Corporate mental health programs"
     ],
-    images: ['/images/1.webp']
+    images: ['/images/1.webp'],
+    gallery: [
+      { src: '/images/1.webp', caption: 'Mental Health Awareness' },
+      { src: '/images/2.webp', caption: 'Mental Health Awareness' },
+      { src: '/images/3.webp', caption: 'Mental Health Awareness' },
+      { src: '/images/4.webp', caption: 'Mental Health Awareness' },
+    ]
   },
   {
     title: "Child Development and Education",
@@ -102,6 +115,12 @@ const programsData: Program[] = [
           "Nutritional guidance"
         ]
       }
+    ],
+    gallery: [
+      { src: '/images/after school classes1.webp', caption: 'After School Support' },
+      { src: '/images/after school classes 3.webp', caption: 'After School Support' },
+      { src: '/images/after school classes 4.webp', caption: 'Play and Learn' },
+      { src: '/images/after school classes 5.webp', caption: 'Play and Learn' },
     ]
   },
   {
@@ -138,6 +157,12 @@ const programsData: Program[] = [
           "Economic empowerment"
         ]
       }
+    ],
+    gallery: [
+      { src: '/images/stitching workshops.webp', caption: 'Skill Development Trainings' },
+      { src: '/images/tailoring classes.webp', caption: 'Skill Development Trainings' },
+      { src: '/images/recycled material crafts.webp', caption: 'Skill Development Trainings' },
+      { src: '/images/income generation skills.webp', caption: 'Skill Development Trainings' },
     ]
   },
   {
@@ -180,15 +205,23 @@ const programsData: Program[] = [
           "Cold weather support"
         ]
       }
+    ],
+    gallery: [
+      { src: '/images/wayanad landslide relief.webp', caption: 'Wayanad Landslide Response' },
+      { src: '/images/Blanket donation Kashmir.webp', caption: 'Blanket Donation to Kashmir' },
+      { src: '/images/dispatch for wayanad landslide.webp', caption: 'Dispatch for Wayanad Landslide' },
+      { src: '/images/Wayanad flood relief Kerala.webp', caption: 'Wayanad Flood Relief' },
     ]
   }
 ]
 
 export default function ProgramsPage() {
-  const [activeProgram, setActiveProgram] = useState<number | null>(null)
+  const [activeProgram, setActiveProgram] = useState<number | null>(0)
+  const [activeSubProgram, setActiveSubProgram] = useState<number | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentImages, setCurrentImages] = useState<string[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [showGallery, setShowGallery] = useState(false)
 
   const openGallery = (folder: string) => {
     let images: string[] = []
@@ -212,30 +245,137 @@ export default function ProgramsPage() {
     setIsModalOpen(true)
   }
 
-  const nextImage = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % currentImages.length)
-  }
+  const nextImage = () => setCurrentIndex((prev) => 
+    prev === currentImages.length - 1 ? 0 : prev + 1
+  )
 
-  const prevImage = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + currentImages.length) % currentImages.length)
-  }
+  const prevImage = () => setCurrentIndex((prev) => 
+    prev === 0 ? currentImages.length - 1 : prev - 1
+  )
+
+  // Program Overview Section Update
+  const ProgramOverview = ({ program, index }: { program: Program, index: number }) => (
+    <section className="space-y-12">
+      <div className="grid md:grid-cols-2 gap-12">
+        <div>
+          <h2 className="text-3xl font-bold text-text mb-6">
+            {program.title}
+          </h2>
+          <p className="text-lg text-text-muted mb-8">
+            {program.description}
+          </p>
+          {program.details && (
+            <ul className="space-y-4">
+              {program.details.map((detail, idx) => (
+                <motion.li
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="flex items-start gap-3"
+                >
+                  <ArrowRight className="w-5 h-5 text-primary mt-1" />
+                  <span className="text-text-muted">{detail}</span>
+                </motion.li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Featured Image with Gallery Button */}
+        <div className="relative">
+          {program.images && program.images.length > 0 && (
+            <div className="relative aspect-video md:aspect-square rounded-2xl overflow-hidden shadow-2xl group">
+              <Image
+                src={program.images[0]}
+                alt={program.title}
+                fill
+                className="object-cover transform group-hover:scale-105 transition-duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent 
+                opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              {/* Gallery Button */}
+              <button
+                onClick={() => setShowGallery(true)}
+                className="absolute bottom-4 left-4 right-4 py-3 px-6 bg-secondary/90 backdrop-blur-sm 
+                  rounded-xl shadow-lg transform translate-y-full opacity-0 group-hover:translate-y-0 
+                  group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <span className="text-text font-medium">View Program Gallery</span>
+                <ChevronRight className="w-5 h-5 text-primary" />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Gallery Grid Preview */}
+      {program.gallery && program.gallery.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-6"
+        >
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-semibold text-text">Program Gallery</h3>
+            <button
+              onClick={() => setShowGallery(true)}
+              className="text-primary hover:text-primary-dark flex items-center gap-2 
+                transition-colors duration-300"
+            >
+              <span>View All Photos</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {program.gallery.slice(0, 4).map((image, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.1 }}
+                className="relative aspect-square rounded-xl overflow-hidden cursor-pointer 
+                  group hover:shadow-xl transition-all duration-300"
+                onClick={() => {
+                  setCurrentImages(program.gallery!.map(img => img.src));
+                  setCurrentIndex(idx);
+                  setIsModalOpen(true);
+                }}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.caption || `Gallery image ${idx + 1}`}
+                  fill
+                  className="object-cover transform group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </section>
+  )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-natural">
       {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-to-br from-orange-800 to-green-800 overflow-hidden">
+      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">
         <div className="absolute inset-0 bg-black/40" />
         <div className="container mx-auto px-4 h-full flex items-center relative z-10">
           <div className="max-w-3xl">
             <motion.h1 
-              className="text-5xl font-bold text-white mb-6"
+              className="text-5xl font-bold text-secondary mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               Our Programs
             </motion.h1>
             <motion.p 
-              className="text-xl text-white/90"
+              className="text-xl text-secondary/90"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -246,215 +386,244 @@ export default function ProgramsPage() {
         </div>
       </div>
 
-      {/* Programs Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="space-y-32">
-          {programsData.map((program, idx) => (
-            <motion.section
-              key={program.title}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              className="relative"
-            >
-              {/* Program Header */}
-              <div className="flex flex-col md:flex-row gap-12 items-start">
-                <div className="md:w-1/2 sticky top-8">
-                  <span className="text-sm font-medium text-orange-600 mb-2 block">
-                    Program {idx + 1}
-                  </span>
-                  <h2 className="text-4xl font-bold text-gray-900 mb-6">{program.title}</h2>
-                  <p className="text-lg text-gray-600 mb-8">{program.description}</p>
-                  
-                  {program.details && (
-                    <ul className="space-y-4">
-                      {program.details.map((detail, index) => (
-                        <motion.li 
-                          key={index}
-                          className="flex items-start gap-4 text-gray-700"
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: index * 0.1 }}
-                        >
-                          <ChevronRight className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                          <span>{detail}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-
-                {program.images && (
-                  <div className="md:w-1/2">
-                    <motion.div
-                      className="aspect-[4/3] relative rounded-2xl overflow-hidden shadow-2xl cursor-pointer
-                        transform hover:scale-[1.02] transition-all duration-500"
-                      onClick={() => openGallery('images')}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                    >
-                      <Image
-                        src={program.images[0]}
-                        alt={program.title}
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    </motion.div>
-                  </div>
-                )}
-              </div>
-
-              {/* Sub Programs */}
-              {program.subPrograms && (
-                <div className="mt-24">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-12">Related Programs</h3>
-                  <div className="grid md:grid-cols-2 gap-12">
-                    {program.subPrograms.map((sub, index) => (
-                      <motion.div
-                        key={sub.name}
-                        className="group"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: index * 0.2 }}
-                      >
-                        {sub.images && (
-                          <div 
-                            className="aspect-[16/9] relative rounded-xl overflow-hidden mb-6 cursor-pointer"
-                            onClick={() => openGallery('Vikasalaya Pics')}
-                          >
-                            <Image
-                              src={sub.images[0]}
-                              alt={sub.name}
-                              fill
-                              className="object-cover transform group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-                        )}
-                        <h4 className="text-xl font-semibold text-gray-900 mb-3">{sub.name}</h4>
-                        <p className="text-gray-600 mb-4">{sub.desc}</p>
-                        <ul className="space-y-2">
-                          {sub.activities.map((activity, idx) => (
-                            <li key={idx} className="flex items-center gap-3 text-gray-700">
-                              <ArrowRight className="w-4 h-4 text-orange-600" />
-                              <span>{activity}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Initiatives */}
-              {program.initiatives && (
-                <div className="mt-24">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-12">Special Initiatives</h3>
-                  {program.initiatives.map((initiative, index) => (
-                    <motion.div
-                      key={initiative.name}
-                      className="bg-white rounded-2xl shadow-xl overflow-hidden"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                    >
-                      {initiative.images && (
-                        <div 
-                          className="aspect-[21/9] relative cursor-pointer"
-                          onClick={() => openGallery('Wayanad')}
-                        >
-                          <Image
-                            src={initiative.images[0]}
-                            alt={initiative.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="p-8">
-                        <h4 className="text-2xl font-bold text-gray-900 mb-4">{initiative.name}</h4>
-                        {initiative.desc && (
-                          <p className="text-gray-600 mb-6">{initiative.desc}</p>
-                        )}
-                        {initiative.activities && (
-                          <ul className="grid md:grid-cols-2 gap-4">
-                            {initiative.activities.map((activity, idx) => (
-                              <li key={idx} className="flex items-center gap-3 text-gray-700">
-                                <ArrowRight className="w-4 h-4 text-green-600" />
-                                <span>{activity}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-            </motion.section>
-          ))}
+      {/* Programs Navigation */}
+      <div className="sticky top-20 z-30 bg-gradient-soft shadow-md">
+        <div className="container mx-auto px-4">
+          <div className="flex overflow-x-auto gap-8 py-4 no-scrollbar">
+            {programsData.map((program, idx) => (
+              <button
+                key={program.title}
+                onClick={() => setActiveProgram(idx)}
+                className={`flex items-center gap-2 whitespace-nowrap px-4 py-2 rounded-full 
+                  transition-all duration-300 ${activeProgram === idx 
+                    ? 'bg-gradient-to-r from-primary to-accent text-secondary shadow-lg' 
+                    : 'text-text-muted hover:text-primary'}`}
+              >
+                <span className="text-sm font-medium">{program.title}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-7xl mx-auto">
+          {activeProgram !== null && (
+            <motion.div
+              key={activeProgram}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-16"
+            >
+              {/* Program Overview */}
+              <ProgramOverview program={programsData[activeProgram]} index={activeProgram} />
+
+              {/* Sub Programs */}
+              {programsData[activeProgram].subPrograms && (
+                <section className="space-y-8">
+                  <h3 className="text-2xl font-bold text-text">Related Programs</h3>
+                  <div className="grid gap-6">
+                    {programsData[activeProgram].subPrograms.map((sub, idx) => (
+                      <motion.div
+                        key={sub.name}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                      >
+                        <button
+                          onClick={() => setActiveSubProgram(activeSubProgram === idx ? null : idx)}
+                          className={`w-full bg-secondary rounded-xl shadow-lg hover:shadow-xl 
+                            transition-all duration-300 overflow-hidden`}
+                        >
+                          <div className={`h-1 bg-gradient-to-r ${
+                            idx % 2 === 0 
+                              ? 'from-primary via-primary-light to-accent' 
+                              : 'from-accent via-accent-light to-primary-light'
+                          }`} />
+                          <div className="p-6 flex items-center justify-between">
+                            <h4 className="text-xl font-semibold text-text">{sub.name}</h4>
+                            <ChevronDown className={`w-5 h-5 text-primary transition-transform duration-300 
+                              ${activeSubProgram === idx ? 'rotate-180' : ''}`} 
+                            />
+                          </div>
+                        </button>
+                        
+                        {activeSubProgram === idx && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="mt-4 bg-secondary/50 rounded-xl p-6"
+                          >
+                            <p className="text-text-muted mb-6">{sub.desc}</p>
+                            
+                            {sub.images && (
+                              <div className="grid grid-cols-2 gap-4 mb-6">
+                                {sub.images.map((img, imgIdx) => (
+                                  <div 
+                                    key={imgIdx}
+                                    className="relative aspect-video rounded-lg overflow-hidden cursor-pointer
+                                      transform hover:scale-105 transition-transform duration-300"
+                                    onClick={() => openGallery('subProgram')}
+                                  >
+                                    <Image
+                                      src={img}
+                                      alt={`${sub.name} image ${imgIdx + 1}`}
+                                      fill
+                                      className="object-cover"
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            
+                            <div className="grid md:grid-cols-2 gap-4">
+                              {sub.activities.map((activity, actIdx) => (
+                                <div 
+                                  key={actIdx}
+                                  className="flex items-start gap-3"
+                                >
+                                  <ArrowRight className="w-5 h-5 text-primary mt-1" />
+                                  <span className="text-text-muted">{activity}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </motion.div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Special Initiatives */}
+              {programsData[activeProgram].initiatives && (
+                <section className="space-y-8">
+                  <h3 className="text-2xl font-bold text-text">Special Initiatives</h3>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {programsData[activeProgram].initiatives.map((initiative, idx) => (
+                      <motion.div
+                        key={initiative.name}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="bg-secondary rounded-xl shadow-lg hover:shadow-xl 
+                          transition-all duration-300 overflow-hidden group"
+                      >
+                        {initiative.images && (
+                          <div 
+                            className="relative aspect-video cursor-pointer overflow-hidden"
+                            onClick={() => openGallery('initiative')}
+                          >
+                            <Image
+                              src={initiative.images[0]}
+                              alt={initiative.name}
+                              fill
+                              className="object-cover transform group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                          </div>
+                        )}
+                        <div className="p-6">
+                          <h4 className="text-xl font-semibold text-text mb-4">{initiative.name}</h4>
+                          {initiative.desc && (
+                            <p className="text-text-muted mb-6">{initiative.desc}</p>
+                          )}
+                          {initiative.activities && (
+                            <div className="space-y-3">
+                              {initiative.activities.map((activity, actIdx) => (
+                                <div 
+                                  key={actIdx}
+                                  className="flex items-start gap-3"
+                                >
+                                  <ArrowRight className="w-5 h-5 text-primary mt-1" />
+                                  <span className="text-text-muted">{activity}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </motion.div>
+          )}
+        </div>
+      </div>
+
+      {/* Enhanced Gallery Modal */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         contentLabel="Image Gallery"
-        className="fixed inset-0 flex items-center justify-center p-4 bg-black/90 z-50"
-        overlayClassName="fixed inset-0"
+        className="fixed inset-0 flex items-center justify-center p-4 z-50"
+        overlayClassName="fixed inset-0 bg-black/95 backdrop-blur-sm"
       >
-        <div className="relative w-full max-w-5xl mx-auto bg-white/10 backdrop-blur-sm rounded-xl p-4 md:p-6">
-          <button 
-            onClick={() => setIsModalOpen(false)} 
-            className="absolute top-4 right-4 z-10 text-white/80 hover:text-white
-              bg-black/20 hover:bg-black/40 rounded-full p-2 transition-all duration-200"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+        <div className="relative w-full max-w-7xl mx-auto">
+          <div className="absolute -top-12 right-0 flex items-center gap-4">
+            <p className="text-secondary/90">
+              {currentIndex + 1} of {currentImages.length}
+            </p>
+            <button 
+              onClick={() => setIsModalOpen(false)} 
+              className="text-secondary/80 hover:text-secondary bg-black/20 
+                hover:bg-black/40 rounded-full p-2 transition-all duration-200"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
 
-          <div className="relative aspect-[16/9] md:aspect-[3/2] lg:aspect-[16/9] rounded-lg overflow-hidden">
-            {currentImages.length > 0 && (
-              <Image
-                src={currentImages[currentIndex]}
-                alt={`Gallery image ${currentIndex + 1}`}
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-              />
-            )}
+          <div className="relative aspect-[16/9] rounded-xl overflow-hidden">
+            <Image
+              src={currentImages[currentIndex]}
+              alt={`Gallery image ${currentIndex + 1}`}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+            />
             
             <button 
               onClick={prevImage} 
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 
-                bg-black/20 hover:bg-black/40 text-white/80 hover:text-white
-                rounded-full p-2 md:p-3 transition-all duration-200"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 
+                hover:bg-black/40 text-secondary/80 hover:text-secondary
+                rounded-full p-3 transition-all duration-200"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <ChevronRight className="h-6 w-6 rotate-180" />
             </button>
             
             <button 
               onClick={nextImage} 
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 
-                bg-black/20 hover:bg-black/40 text-white/80 hover:text-white
-                rounded-full p-2 md:p-3 transition-all duration-200"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 
+                hover:bg-black/40 text-secondary/80 hover:text-secondary
+                rounded-full p-3 transition-all duration-200"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <ChevronRight className="h-6 w-6" />
             </button>
           </div>
 
-          <div className="mt-4 text-center text-white/80">
-            <p className="text-sm md:text-base">
-              Image {currentIndex + 1} of {currentImages.length}
-            </p>
+          {/* Thumbnail Strip */}
+          <div className="mt-4 overflow-x-auto no-scrollbar">
+            <div className="flex gap-2">
+              {currentImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden 
+                    ${currentIndex === idx ? 'ring-2 ring-primary' : 'opacity-60'}`}
+                >
+                  <Image
+                    src={img}
+                    alt={`Thumbnail ${idx + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </Modal>

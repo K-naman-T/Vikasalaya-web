@@ -2,15 +2,27 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
-import { Menu, X } from "lucide-react" // Import Menu and X for the hamburger icon
+import { Menu, X, ChevronDown } from "lucide-react"
 
 const navItems = [
   { name: 'Home', link: '/' },
   { name: 'About Us', link: '/about' },
+  { name: 'Get Involved', link: '/get-involved' },
   { name: 'Programs', link: '/programs' },
-  { name: 'Resources', link: '/resources' },
+  { 
+    name: 'Resources', 
+    link: '/resources',
+    subItems: [
+      { name: 'Reports', items: [
+        { name: 'Annual Report', link: '/resources#annual-report' },
+        { name: 'Activity Report', link: '/resources#activity-report' },
+        { name: 'Projects', link: '/resources#projects' },
+      ]},
+      { name: 'Publications', link: '/resources#publications' },
+    ]
+  },
   { name: 'Events', link: '/events' },
   { name: 'Contact', link: '/contact' }
 ]
@@ -19,6 +31,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [isResourcesOpen, setIsResourcesOpen] = useState(false)
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +47,7 @@ export function Header() {
       animate={{ y: 0 }}
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
-        isScrolled || isOpen ? "bg-secondary-dark backdrop-blur-md shadow-lg" : "bg-gray-700/70"
+        "bg-gradient-soft shadow-lg backdrop-blur-sm bg-opacity-90"
       )}
     >
       <div className="container mx-auto px-4">
@@ -42,7 +55,7 @@ export function Header() {
           <Link href="/" className="relative flex items-center">
             <div className="relative w-16 h-16 transform hover:scale-105 transition-transform">
               <img
-                src="images/logo/logo.png"  // Update with your actual logo path
+                src="/images/logo/logo.png"
                 alt="Vikasalaya Foundation Logo"
                 className="object-contain"
               />
@@ -50,7 +63,7 @@ export function Header() {
           </Link>
           
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8 relative">
+          <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <div 
                 key={item.name} 
@@ -60,52 +73,42 @@ export function Header() {
               >
                 <Link
                   href={item.link}
-                  className={cn(
-                    "text-sm font-medium transition-colors relative group",
-                    isScrolled ? "text-gray-200 hover:text-primary" : "text-white hover:text-primary",
-                    "after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0",
-                    "after:bg-current after:transition-all after:duration-300",
-                    "hover:after:w-full"
-                  )}
+                  className="text-sm font-medium text-text hover:text-primary transition-colors"
                 >
                   {item.name}
                 </Link>
-                {item.name === 'Resources' && isResourcesOpen && (
-                  <div 
-                    className="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg z-10"
-                    onMouseEnter={() => setIsResourcesOpen(true)}
-                    onMouseLeave={() => setIsResourcesOpen(false)}
-                  >
+                {item.subItems && isResourcesOpen && (
+                  <div className="absolute left-0 mt-1 w-48 bg-secondary rounded-xl shadow-xl overflow-hidden">
                     <div className="py-2">
-                      <div className="px-4 py-2 text-secondary-dark hover:bg-yellow-100 cursor-pointer">
-                        Reports
-                      </div>
-                      <div className="ml-4 space-y-1">
-                        <Link 
-                          href="/resources#annual-report" 
-                          className="block px-4 py-2 text-secondary-dark hover:bg-yellow-100"
-                        >
-                          Annual Report
-                        </Link>
-                        <Link 
-                          href="/resources#activity-report" 
-                          className="block px-4 py-2 text-secondary-dark hover:bg-yellow-100"
-                        >
-                          Activity Report
-                        </Link>
-                        <Link 
-                          href="/resources#projects" 
-                          className="block px-4 py-2 text-secondary-dark hover:bg-yellow-100"
-                        >
-                          Projects
-                        </Link>
-                      </div>
-                      <Link 
-                        href="/resources#publications" 
-                        className="block px-4 py-2 text-secondary-dark hover:bg-yellow-100"
-                      >
-                        Publications
-                      </Link>
+                      {item.subItems.map((subItem) => (
+                        <div key={subItem.name}>
+                          {subItem.items ? (
+                            <>
+                              <div className="px-4 py-2 text-text-muted font-medium">
+                                {subItem.name}
+                              </div>
+                              <div className="ml-4 space-y-1">
+                                {subItem.items.map((subSubItem) => (
+                                  <Link 
+                                    key={subSubItem.name}
+                                    href={subSubItem.link} 
+                                    className="block px-4 py-2 text-text hover:bg-primary/10 hover:text-primary transition-colors"
+                                  >
+                                    {subSubItem.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </>
+                          ) : (
+                            <Link 
+                              href={subItem.link}
+                              className="block px-4 py-2 text-text hover:bg-primary/10 hover:text-primary transition-colors"
+                            >
+                              {subItem.name}
+                            </Link>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -113,12 +116,8 @@ export function Header() {
             ))}
             <Link 
               href="/donate" 
-              className={cn(
-                "px-6 py-2.5 rounded-full font-medium transition-all duration-300",
-                isScrolled
-                  ? "bg-primary-dark text-secondary-dark hover:bg-primary-dark"
-                  : "bg-primary text-secondary-dark hover:bg-yellow-300"
-              )}
+              className="px-6 py-2.5 rounded-full font-medium bg-gradient-to-r from-primary to-accent 
+                text-secondary hover:opacity-90 transition-opacity"
             >
               Donate
             </Link>
@@ -128,73 +127,106 @@ export function Header() {
           <div className="flex items-center md:hidden">
             <Link 
               href="/donate" 
-              className={cn(
-                "px-6 py-2.5 rounded-full font-medium transition-all duration-300",
-                isScrolled
-                  ? "bg-primary-dark text-secondary-dark hover:bg-primary-dark"
-                  : "bg-primary text-secondary-dark hover:bg-yellow-300"
-              )}
+              className="px-6 py-2.5 rounded-full font-medium bg-gradient-to-r from-primary to-accent 
+                text-secondary hover:opacity-90 transition-opacity"
             >
               Donate
             </Link>
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="ml-4 text-gray-300 hover:text-primary transition-colors"
+              className="ml-4 p-2 rounded-full hover:bg-primary/10 transition-colors"
             >
               {isOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6 text-primary" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-6 w-6 text-primary" />
               )}
             </button>
           </div>
         </nav>
 
         {/* Mobile Menu */}
-        <motion.div
-          initial="closed"
-          animate={isOpen ? "open" : "closed"}
-          variants={{
-            open: { opacity: 1, height: "auto" },
-            closed: { opacity: 0, height: 0 }
-          }}
-          transition={{ duration: 0.3 }}
-          className="md:hidden overflow-hidden"
-        >
-          <div className="py-4 space-y-4">
-            {navItems.map((item) => (
-              <div key={item.name} className="relative">
-                <Link
-                  href={item.link}
-                  onClick={() => setIsOpen(false)}
-                  className="flex-block text-gray-300 hover:text-primary transition-colors px-4 py-2 flex items-center"
-                >
-                  {item.name}
-                </Link>
-                {item.name === 'Resources' && isOpen && (
-                  <div className="mt-2 ml-10">
-                    <div className="block text-gray-300 hover:text-primary">Reports</div>
-                    <div className="mt-2 ml-4">
-                      <Link href="/resources#annual-report" className="block text-gray-300 hover:text-primary">Annual Report</Link>
-                      <Link href="/resources#activity-report" className="block text-gray-300 hover:text-primary">Activity Report</Link>
-                      <Link href="/resources#projects" className="block text-gray-300 hover:text-primary">Projects</Link>
-                    </div>
-                    <Link href="/resources#publications" className="block text-gray-300 hover:text-primary">Publications</Link>
-                  </div>
-                )}
-              </div>
-            ))}
-            <Link 
-              href="/donate" 
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 bg-gradient-to-r from-primary to-primary-dark 
-                text-secondary-dark font-medium rounded-full hover:shadow-lg hover:shadow-primary-dark/20 
-                transition-all duration-300 mx-4"
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden overflow-hidden bg-secondary rounded-xl shadow-xl mb-4"
             >
-              Donate
-            </Link>
-          </div>
-        </motion.div>
+              <div className="py-4">
+                {navItems.map((item) => (
+                  <div key={item.name} className="relative">
+                    {item.subItems ? (
+                      <button
+                        onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+                        className="w-full flex items-center justify-between px-6 py-3 text-text 
+                          hover:text-primary hover:bg-primary/5 transition-colors"
+                      >
+                        <span>{item.name}</span>
+                        <ChevronDown className={cn(
+                          "w-4 h-4 transition-transform",
+                          mobileResourcesOpen && "rotate-180"
+                        )} />
+                      </button>
+                    ) : (
+                      <Link
+                        href={item.link}
+                        onClick={() => setIsOpen(false)}
+                        className="block px-6 py-3 text-text hover:text-primary hover:bg-primary/5 transition-colors"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                    
+                    {item.subItems && mobileResourcesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="bg-secondary/50"
+                      >
+                        {item.subItems.map((subItem) => (
+                          <div key={subItem.name}>
+                            {subItem.items ? (
+                              <>
+                                <div className="px-8 py-2 text-text-muted font-medium">
+                                  {subItem.name}
+                                </div>
+                                <div className="space-y-1">
+                                  {subItem.items.map((subSubItem) => (
+                                    <Link
+                                      key={subSubItem.name}
+                                      href={subSubItem.link}
+                                      onClick={() => setIsOpen(false)}
+                                      className="block px-12 py-2 text-text hover:text-primary 
+                                        hover:bg-primary/5 transition-colors"
+                                    >
+                                      {subSubItem.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </>
+                            ) : (
+                              <Link
+                                href={subItem.link}
+                                onClick={() => setIsOpen(false)}
+                                className="block px-8 py-2 text-text hover:text-primary 
+                                  hover:bg-primary/5 transition-colors"
+                              >
+                                {subItem.name}
+                              </Link>
+                            )}
+                          </div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.header>
   )
