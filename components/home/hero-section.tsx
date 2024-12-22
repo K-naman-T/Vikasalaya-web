@@ -96,10 +96,23 @@ export function HeroSection() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Button className="text-lg px-8 py-4 bg-primary hover:bg-primary-dark text-white 
-              transition-all duration-300 shadow-lg hover:shadow-xl">
-              <Link href="/donate">Donate Now</Link>
+            <Button 
+              className="text-lg px-8 py-4 relative group overflow-hidden
+                bg-gradient-to-br from-accent-light via-accent to-accent-dark
+                text-secondary font-bold tracking-wide transition-all duration-500
+                rounded-xl border-2 border-secondary/20
+                hover:scale-105 transform hover:border-secondary/40
+                shadow-[0_5px_30px_rgba(214,143,43,0.4)] hover:shadow-[0_8px_40px_rgba(214,143,43,0.6)]"
+            >
+              <Link href="/donate" className="relative z-10 flex items-center gap-3">
+                Donate Now
+                <span className="relative flex h-3 w-3">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-secondary/60 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary/90"></span>
+                </span>
+              </Link>
             </Button>
+            
             <Button className="text-lg px-8 py-4 bg-transparent border-2 border-white 
               text-white hover:bg-white hover:text-primary-dark transition-all duration-300 
               shadow-lg hover:shadow-xl">

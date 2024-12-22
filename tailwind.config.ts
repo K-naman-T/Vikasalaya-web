@@ -47,7 +47,7 @@ const config: Config = {
         info: '#8B5E3C',
       },
       
-      // More visible gradients
+      //gradients
       backgroundImage: {
         'gradient-primary': 'linear-gradient(to right, #8B5E3C 0%, #A67B5B 100%)',
         'gradient-secondary': 'linear-gradient(to right, #FFF9F0 0%, #FFFFFF 100%)',

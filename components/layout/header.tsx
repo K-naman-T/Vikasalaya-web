@@ -1,6 +1,5 @@
 "use client"
 import Link from 'next/link'
-import Image from 'next/image'
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
@@ -116,10 +115,20 @@ export function Header() {
             ))}
             <Link 
               href="/donate" 
-              className="px-6 py-2.5 rounded-full font-medium bg-gradient-to-r from-primary to-accent 
-                text-secondary hover:opacity-90 transition-opacity"
+              className="px-6 py-2.5 relative group overflow-hidden
+                bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%]
+                rounded-full font-medium text-secondary transition-all duration-500 
+                hover:bg-[100%_0] shadow-[0_0_15px_rgba(255,122,0,0.3)] 
+                hover:shadow-[0_0_20px_rgba(255,122,0,0.5)]
+                scale-100 hover:scale-105"
             >
-              Donate
+              <span className="relative z-10 flex items-center gap-2">
+                Donate
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+                </span>
+              </span>
             </Link>
           </div>
 
@@ -127,10 +136,20 @@ export function Header() {
           <div className="flex items-center md:hidden">
             <Link 
               href="/donate" 
-              className="px-6 py-2.5 rounded-full font-medium bg-gradient-to-r from-primary to-accent 
-                text-secondary hover:opacity-90 transition-opacity"
+              className="px-6 py-2.5 relative group overflow-hidden
+                bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%]
+                rounded-full font-medium text-secondary transition-all duration-500 
+                hover:bg-[100%_0] shadow-[0_0_15px_rgba(255,122,0,0.3)] 
+                hover:shadow-[0_0_20px_rgba(255,122,0,0.5)]
+                scale-100 hover:scale-105"
             >
-              Donate
+              <span className="relative z-10 flex items-center gap-2">
+                Donate
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+                </span>
+              </span>
             </Link>
             <button 
               onClick={() => setIsOpen(!isOpen)}
