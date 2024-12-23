@@ -5,7 +5,7 @@ import { Instagram, Facebook } from 'lucide-react'
 
 export function Footer() {
   const quickLinks = [
-    { name: 'About', path: '/about' },
+    { name: 'About Us', path: '/about' },
     { name: 'Programs', path: '/programs' },
     { name: 'Get Involved', path: '/get-involved' },
     { name: 'Resources', path: '/resources' },

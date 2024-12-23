@@ -39,16 +39,129 @@ interface GalleryImage {
 const programsData: Program[] = [
   {
     title: "Mental Health Awareness",
-    description: "Mental Health Program is a dynamic, ongoing initiative dedicated to delivering mental health support across a range of settings, including communities, disaster-affected areas, security forces, schools, and corporate environments.",
-    details: [
-      "Group and individual counseling sessions",
-      "Breaking down mental health stigma",
-      "Support for domestic violence and sexual abuse survivors",
-      "Addressing phobias and communication barriers",
-      "Child developmental support",
-      "Community mental health awareness workshops",
-      "Specialized support for security forces",
-      "Corporate mental health programs"
+    description: "Mental Health Program is a dynamic, ongoing initiative dedicated to delivering comprehensive mental health support through evidence-based counseling, community interventions, and specialized programs tailored to diverse populations and settings.",
+    subPrograms: [
+      {
+        name: "One-to-One Counseling",
+        desc: "Personalized therapeutic sessions using evidence-based methods to address individual emotional and psychological challenges.",
+        activities: [
+          "Individual assessment and treatment planning",
+          "Evidence-based therapeutic interventions", 
+          "Progress monitoring and outcome evaluation",
+          "Referral coordination when needed"
+        ]
+      },
+      {
+        name: "Group Counseling",
+        desc: "Facilitated peer support groups to enhance emotional healing through shared experiences and coping strategy development.",
+        activities: [
+          "Structured group therapy sessions",
+          "Peer support facilitation",
+          "Coping skills development",
+          "Social connection building"
+        ]
+      },
+      {
+        name: "Defense Personnel Counseling",
+        desc: "Targeted mental health support for defense personnel, addressing unique stressors and promoting resilience.",
+        activities: [
+          "Stress management techniques",
+          "PTSD and trauma support",
+          "Reintegration assistance",
+          "Family support services"
+        ],
+        images: ['/images/mental-health/1.jpg', '/images/mental-health/2.jpg']
+      },
+      {
+        name: "Corporate Counseling",
+        desc: "Tailored mental health services for corporate employees, focusing on stress management, well-being, and workplace productivity.",
+        activities: [
+          "Workplace stress management",
+          "Work-life balance coaching",
+          "Team dynamics support",
+          "Leadership mental wellness"
+        ]
+      },
+      {
+        name: "Disaster Victim Counseling",
+        desc: "Offering trauma recovery and emotional resilience support to survivors of natural disasters. Vikasalaya contributed technical assistance for mental health programs supporting Wayanad landslide survivors in collaboration with TATA and DFY.",
+        activities: [
+          "Trauma recovery support",
+          "Crisis intervention",
+          "Community resilience building",
+          "Long-term recovery planning"
+        ]
+      },
+      {
+        name: "Community-Based Intervention",
+        desc: "Mental health initiatives within communities to promote awareness, reduce stigma, and provide accessible support.",
+        activities: [
+          "Mental health awareness workshops",
+          "Stigma reduction programs",
+          "Community support networks",
+          "Resource connection services"
+        ]
+      },
+      {
+        name: "Onco-Psychology",
+        desc: "Psychological support for cancer patients and their families to manage the emotional impact of diagnosis, treatment, and recovery.",
+        activities: [
+          "Treatment coping support",
+          "Family counseling",
+          "Grief and loss processing",
+          "Recovery journey support"
+        ]
+      },
+      {
+        name: "Psychological First Aid",
+        desc: "Immediate support for individuals facing mental health crises, with a focus on providing stabilization, comfort, and connection to further care.",
+        activities: [
+          "Crisis stabilization",
+          "Safety planning",
+          "Resource coordination",
+          "Follow-up care planning"
+        ]
+      },
+      {
+        name: "Telecounseling",
+        desc: "Offering remote counseling services, ensuring accessibility for individuals unable to attend in-person sessions, via secure and confidential platforms.",
+        activities: [
+          "Virtual therapy sessions",
+          "Crisis helpline support",
+          "Digital resource provision",
+          "Remote progress monitoring"
+        ]
+      },
+      {
+        name: "Family Counseling",
+        desc: "Providing therapy to families to address collective mental health challenges, improve communication, and strengthen relationships.",
+        activities: [
+          "Family dynamics assessment",
+          "Communication skills building",
+          "Conflict resolution support",
+          "Relationship strengthening"
+        ]
+      },
+      {
+        name: "Trauma-Informed Care",
+        desc: "Approaching counseling with sensitivity to individuals' trauma history, ensuring a safe, supportive, and effective therapeutic environment.",
+        activities: [
+          "Trauma assessment",
+          "Safety-focused interventions",
+          "Empowerment strategies",
+          "Healing environment creation"
+        ]
+      },
+      {
+        name: "De-addiction Counseling",
+        desc: "Specialized support for individuals struggling with addiction, incorporating strategies for recovery, relapse prevention, and emotional well-being.",
+        activities: [
+          "Addiction assessment",
+          "Recovery planning",
+          "Relapse prevention",
+          "Support system building"
+        ]
+      }
     ],
     imageFolder: 'mental-health',
   },
@@ -152,30 +265,24 @@ const programsData: Program[] = [
   {
     title: "Disaster Response",
     description: "Rapid response and comprehensive support for communities affected by natural disasters.",
-    initiatives: [
+    subPrograms: [
       {
         name: "Wayanad Landslide Response",
         desc: "Comprehensive relief program providing urgent support to affected families in Wayanad.",
         activities: [
-          "Distribution of ration & hygiene kits",
+          "Distribution of ration & hygiene kits", 
           "Menstrual hygiene training for women",
           "Child support through art and play therapy",
           "Technical support for mental health counseling"
-        ],
-        images: [
-          '/images/wayanad landslide relief.webp',
-          '/images/Blanket donation Kashmir.webp',
-          '/images/dispatch for wayanad landslide.webp',
-          '/images/Wayanad flood relief Kerala.webp'
         ]
       },
       {
-        name: "Healthcare Support Program",
+        name: "Healthcare Support Program", 
         desc: "Essential assistance to government health facilities through equipment provision.",
         activities: [
           "Oxygen concentrator distribution",
           "Healthcare facility support",
-          "Infrastructure strengthening",
+          "Infrastructure strengthening", 
           "Medical resource provision"
         ]
       },
@@ -304,56 +411,6 @@ export default function ProgramsPage() {
               </ul>
             )}
           </div>
-
-          {/* Image Gallery Column */}
-          {images.length > 0 && (
-            <div className="space-y-4">
-              {/* Main Image */}
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">
-                <Image
-                  src={images[0]}
-                  alt={`${program.title} main image`}
-                  fill
-                  priority={index === 0}
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (min-width: 769px) 50vw"
-                />
-              </div>
-
-              {/* Thumbnail Grid */}
-              {images.length > 1 && (
-                <div className="grid grid-cols-4 gap-3">
-                  {images.slice(0, 4).map((image, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => {
-                        setCurrentImages(images)
-                        setCurrentIndex(idx)
-                        setIsModalOpen(true)
-                      }}
-                      className="relative aspect-square rounded-lg overflow-hidden 
-                        bg-gray-100 group"
-                    >
-                      <Image
-                        src={image}
-                        alt={`${program.title} thumbnail ${idx + 1}`}
-                        fill
-                        className="object-cover transition-transform duration-300 
-                          group-hover:scale-110"
-                        sizes="(max-width: 768px) 25vw, 15vw"
-                      />
-                      {idx === 3 && images.length > 4 && (
-                        <div className="absolute inset-0 bg-black/60 flex items-center 
-                          justify-center text-white font-medium">
-                          +{images.length - 4}
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </section>
     )
