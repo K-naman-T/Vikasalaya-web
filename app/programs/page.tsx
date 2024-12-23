@@ -1,7 +1,7 @@
 "use client"
 import { motion } from "framer-motion"
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Modal from 'react-modal'
 import { ChevronRight, ArrowRight, X, ChevronDown } from 'lucide-react'
 
@@ -12,8 +12,7 @@ interface Program {
   details?: string[]
   subPrograms?: SubProgram[]
   initiatives?: Initiative[]
-  images?: string[]
-  gallery?: GalleryImage[]
+  imageFolder: string
 }
 
 interface SubProgram {
@@ -51,13 +50,7 @@ const programsData: Program[] = [
       "Specialized support for security forces",
       "Corporate mental health programs"
     ],
-    images: ['/images/1.webp'],
-    gallery: [
-      { src: '/images/1.webp', caption: 'Mental Health Awareness' },
-      { src: '/images/2.webp', caption: 'Mental Health Awareness' },
-      { src: '/images/3.webp', caption: 'Mental Health Awareness' },
-      { src: '/images/4.webp', caption: 'Mental Health Awareness' },
-    ]
+    imageFolder: 'mental-health',
   },
   {
     title: "Child Development and Education",
@@ -116,12 +109,8 @@ const programsData: Program[] = [
         ]
       }
     ],
-    gallery: [
-      { src: '/images/after school classes1.webp', caption: 'After School Support' },
-      { src: '/images/after school classes 3.webp', caption: 'After School Support' },
-      { src: '/images/after school classes 4.webp', caption: 'Play and Learn' },
-      { src: '/images/after school classes 5.webp', caption: 'Play and Learn' },
-    ]
+    imageFolder: 'child-development',
+
   },
   {
     title: "Women Empowerment and Skill Development",
@@ -158,12 +147,7 @@ const programsData: Program[] = [
         ]
       }
     ],
-    gallery: [
-      { src: '/images/stitching workshops.webp', caption: 'Skill Development Trainings' },
-      { src: '/images/tailoring classes.webp', caption: 'Skill Development Trainings' },
-      { src: '/images/recycled material crafts.webp', caption: 'Skill Development Trainings' },
-      { src: '/images/income generation skills.webp', caption: 'Skill Development Trainings' },
-    ]
+    imageFolder: 'women-empowerment',
   },
   {
     title: "Disaster Response",
@@ -206,14 +190,20 @@ const programsData: Program[] = [
         ]
       }
     ],
-    gallery: [
-      { src: '/images/wayanad landslide relief.webp', caption: 'Wayanad Landslide Response' },
-      { src: '/images/Blanket donation Kashmir.webp', caption: 'Blanket Donation to Kashmir' },
-      { src: '/images/dispatch for wayanad landslide.webp', caption: 'Dispatch for Wayanad Landslide' },
-      { src: '/images/Wayanad flood relief Kerala.webp', caption: 'Wayanad Flood Relief' },
-    ]
+    imageFolder: 'disaster-response',
   }
 ]
+
+async function getImagesFromFolder(folderName: string): Promise<string[]> {
+  try {
+    const response = await fetch(`/api/images?folder=${folderName}`)
+    const data = await response.json()
+    return data.images || []
+  } catch (error) {
+    console.error(`Error fetching images for ${folderName}:`, error)
+    return []
+  }
+}
 
 export default function ProgramsPage() {
   const [activeProgram, setActiveProgram] = useState<number | null>(0)
@@ -222,13 +212,31 @@ export default function ProgramsPage() {
   const [currentImages, setCurrentImages] = useState<string[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showGallery, setShowGallery] = useState(false)
+  const [programImages, setProgramImages] = useState<Record<string, string[]>>({})
+
+  useEffect(() => {
+    const loadProgramImages = async () => {
+      const imagePromises = programsData
+        .filter(program => program.imageFolder)
+        .map(async program => {
+          const images = await getImagesFromFolder(program.imageFolder)
+          return [program.imageFolder, images]
+        })
+
+      const results = await Promise.all(imagePromises)
+      const imagesMap = Object.fromEntries(results)
+      setProgramImages(imagesMap)
+    }
+
+    loadProgramImages()
+  }, [])
 
   const openGallery = (folder: string) => {
     let images: string[] = []
     
     switch(folder) {
       case 'images':
-        images = programsData[0].images || []
+        images = programImages[programsData[0].imageFolder || ''] || []
         break
       case 'Vikasalaya Pics':
         images = programsData[1].subPrograms?.[0].images || []
@@ -254,111 +262,225 @@ export default function ProgramsPage() {
   )
 
   // Program Overview Section Update
-  const ProgramOverview = ({ program, index }: { program: Program, index: number }) => (
-    <section className="space-y-12">
-      <div className="grid md:grid-cols-2 gap-12">
-        <div>
-          <h2 className="text-3xl font-bold text-text mb-6">
-            {program.title}
-          </h2>
-          <p className="text-lg text-text-muted mb-8">
-            {program.description}
-          </p>
-          {program.details && (
-            <ul className="space-y-4">
-              {program.details.map((detail, idx) => (
-                <motion.li
-                  key={idx}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="flex items-start gap-3"
-                >
-                  <ArrowRight className="w-5 h-5 text-primary mt-1" />
-                  <span className="text-text-muted">{detail}</span>
-                </motion.li>
-              ))}
-            </ul>
-          )}
-        </div>
+  const ProgramOverview = ({ program, index }: { program: Program, index: number }) => {
+    const [images, setImages] = useState<string[]>([])
+    
+    // Load images for this specific program
+    useEffect(() => {
+      const loadImages = async () => {
+        if (program.imageFolder) {
+          const programImages = await getImagesFromFolder(program.imageFolder)
+          setImages(programImages)
+        }
+      }
+      loadImages()
+    }, [program.imageFolder])
 
-        {/* Featured Image with Gallery Button */}
-        <div className="relative">
-          {program.images && program.images.length > 0 && (
-            <div className="relative aspect-video md:aspect-square rounded-2xl overflow-hidden shadow-2xl group">
-              <Image
-                src={program.images[0]}
-                alt={program.title}
-                fill
-                className="object-cover transform group-hover:scale-105 transition-duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent 
-                opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Gallery Button */}
-              <button
-                onClick={() => setShowGallery(true)}
-                className="absolute bottom-4 left-4 right-4 py-3 px-6 bg-secondary/90 backdrop-blur-sm 
-                  rounded-xl shadow-lg transform translate-y-full opacity-0 group-hover:translate-y-0 
-                  group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <span className="text-text font-medium">View Program Gallery</span>
-                <ChevronRight className="w-5 h-5 text-primary" />
-              </button>
+    return (
+      <section className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-x-12 gap-y-8">
+          {/* Content Column */}
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-text">
+              {program.title}
+            </h2>
+            <p className="text-lg text-text-muted">
+              {program.description}
+            </p>
+            {program.details && (
+              <ul className="space-y-4 mt-6">
+                {program.details.map((detail, idx) => (
+                  <motion.li
+                    key={idx}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="flex items-start gap-3"
+                  >
+                    <ArrowRight className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                    <span className="text-text-muted">{detail}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Image Gallery Column */}
+          {images.length > 0 && (
+            <div className="space-y-4">
+              {/* Main Image */}
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">
+                <Image
+                  src={images[0]}
+                  alt={`${program.title} main image`}
+                  fill
+                  priority={index === 0}
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (min-width: 769px) 50vw"
+                />
+              </div>
+
+              {/* Thumbnail Grid */}
+              {images.length > 1 && (
+                <div className="grid grid-cols-4 gap-3">
+                  {images.slice(0, 4).map((image, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setCurrentImages(images)
+                        setCurrentIndex(idx)
+                        setIsModalOpen(true)
+                      }}
+                      className="relative aspect-square rounded-lg overflow-hidden 
+                        bg-gray-100 group"
+                    >
+                      <Image
+                        src={image}
+                        alt={`${program.title} thumbnail ${idx + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-300 
+                          group-hover:scale-110"
+                        sizes="(max-width: 768px) 25vw, 15vw"
+                      />
+                      {idx === 3 && images.length > 4 && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center 
+                          justify-center text-white font-medium">
+                          +{images.length - 4}
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
-      </div>
+      </section>
+    )
+  }
 
-      {/* Gallery Grid Preview */}
-      {program.gallery && program.gallery.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-6"
-        >
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-text">Program Gallery</h3>
+  // Enhanced Modal Component
+  const GalleryModal = ({
+    isOpen,
+    onClose,
+    images,
+    currentIndex,
+    setCurrentIndex,
+  }: {
+    isOpen: boolean
+    onClose: () => void
+    images: string[]
+    currentIndex: number
+    setCurrentIndex: (index: number) => void
+  }) => {
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        const newIndex = (currentIndex + 1) % images.length
+        setCurrentIndex(newIndex)
+      } else if (e.key === 'ArrowLeft') {
+        const newIndex = (currentIndex - 1 + images.length) % images.length
+        setCurrentIndex(newIndex) 
+      } else if (e.key === 'Escape') {
+        onClose()
+      }
+    }, [images.length, onClose, setCurrentIndex, currentIndex])
+
+    useEffect(() => {
+      if (isOpen) {
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+      }
+    }, [isOpen, handleKeyDown])
+
+    if (!isOpen) return null
+
+    return (
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={onClose}
+        contentLabel="Image Gallery"
+        className="fixed inset-0 z-50"
+        overlayClassName="fixed inset-0 bg-black/95 backdrop-blur-sm"
+      >
+        <div className="h-full flex flex-col p-4">
+          {/* Header */}
+          <div className="flex justify-between items-center text-white mb-4">
+            <p className="text-sm">
+              {currentIndex + 1} / {images.length}
+            </p>
             <button
-              onClick={() => setShowGallery(true)}
-              className="text-primary hover:text-primary-dark flex items-center gap-2 
-                transition-colors duration-300"
+              onClick={onClose}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+              aria-label="Close gallery"
             >
-              <span>View All Photos</span>
-              <ChevronRight className="w-4 h-4" />
+              <X className="w-6 h-6" />
             </button>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {program.gallery.slice(0, 4).map((image, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: idx * 0.1 }}
-                className="relative aspect-square rounded-xl overflow-hidden cursor-pointer 
-                  group hover:shadow-xl transition-all duration-300"
-                onClick={() => {
-                  setCurrentImages(program.gallery!.map(img => img.src));
-                  setCurrentIndex(idx);
-                  setIsModalOpen(true);
-                }}
-              >
-                <Image
-                  src={image.src}
-                  alt={image.caption || `Gallery image ${idx + 1}`}
-                  fill
-                  className="object-cover transform group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </motion.div>
-            ))}
+
+          {/* Main Image */}
+          <div className="relative flex-1 flex items-center justify-center">
+            <div className="relative w-full h-full">
+              <Image
+                src={images[currentIndex]}
+                alt={`Gallery image ${currentIndex + 1}`}
+                fill
+                className="object-contain"
+                sizes="100vw"
+                priority
+              />
+            </div>
+
+            {/* Navigation Buttons */}
+            <button
+              onClick={() => {
+                const newIndex = (currentIndex - 1 + images.length) % images.length
+                setCurrentIndex(newIndex)
+              }}
+              className="absolute left-4 p-2 rounded-full bg-black/50 hover:bg-black/75 
+                transition-colors text-white"
+              aria-label="Previous image"
+            >
+              <ChevronRight className="w-6 h-6 rotate-180" />
+            </button>
+            <button
+              onClick={() => {
+                const newIndex = (currentIndex + 1) % images.length
+                setCurrentIndex(newIndex)
+              }}
+              className="absolute right-4 p-2 rounded-full bg-black/50 hover:bg-black/75 
+                transition-colors text-white"
+              aria-label="Next image"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
           </div>
-        </motion.div>
-      )}
-    </section>
-  )
+
+          {/* Thumbnails */}
+          <div className="mt-4">
+            <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+              {images.map((image, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden 
+                    ${currentIndex === idx ? 'ring-2 ring-primary' : 'opacity-50 hover:opacity-100'} 
+                    transition-all duration-200`}
+                >
+                  <Image
+                    src={image}
+                    alt={`Thumbnail ${idx + 1}`}
+                    fill
+                    className="object-cover"
+                    sizes="80px"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Modal>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-natural">
@@ -556,77 +678,13 @@ export default function ProgramsPage() {
       </div>
 
       {/* Enhanced Gallery Modal */}
-      <Modal
+      <GalleryModal
         isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        contentLabel="Image Gallery"
-        className="fixed inset-0 flex items-center justify-center p-4 z-50"
-        overlayClassName="fixed inset-0 bg-black/95 backdrop-blur-sm"
-      >
-        <div className="relative w-full max-w-7xl mx-auto">
-          <div className="absolute -top-12 right-0 flex items-center gap-4">
-            <p className="text-secondary/90">
-              {currentIndex + 1} of {currentImages.length}
-            </p>
-            <button 
-              onClick={() => setIsModalOpen(false)} 
-              className="text-secondary/80 hover:text-secondary bg-black/20 
-                hover:bg-black/40 rounded-full p-2 transition-all duration-200"
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-
-          <div className="relative aspect-[16/9] rounded-xl overflow-hidden">
-            <Image
-              src={currentImages[currentIndex]}
-              alt={`Gallery image ${currentIndex + 1}`}
-              fill
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-            />
-            
-            <button 
-              onClick={prevImage} 
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 
-                hover:bg-black/40 text-secondary/80 hover:text-secondary
-                rounded-full p-3 transition-all duration-200"
-            >
-              <ChevronRight className="h-6 w-6 rotate-180" />
-            </button>
-            
-            <button 
-              onClick={nextImage} 
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 
-                hover:bg-black/40 text-secondary/80 hover:text-secondary
-                rounded-full p-3 transition-all duration-200"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </button>
-          </div>
-
-          {/* Thumbnail Strip */}
-          <div className="mt-4 overflow-x-auto no-scrollbar">
-            <div className="flex gap-2">
-              {currentImages.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentIndex(idx)}
-                  className={`relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden 
-                    ${currentIndex === idx ? 'ring-2 ring-primary' : 'opacity-60'}`}
-                >
-                  <Image
-                    src={img}
-                    alt={`Thumbnail ${idx + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Modal>
+        onClose={() => setIsModalOpen(false)}
+        images={currentImages}
+        currentIndex={currentIndex}
+        setCurrentIndex={setCurrentIndex}
+      />
     </div>
   )
 }
