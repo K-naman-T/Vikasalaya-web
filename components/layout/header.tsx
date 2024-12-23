@@ -14,6 +14,7 @@ const navItems = [
     name: 'Resources', 
     link: '/resources',
     subItems: [
+      { name: 'Media', link: '/resources#media' },
       { name: 'Reports', items: [
         { name: 'Annual Report', link: '/resources#annual-report' },
         { name: 'Activity Report', link: '/resources#activity-report' },
@@ -136,12 +137,10 @@ export function Header() {
           <div className="flex items-center md:hidden">
             <Link 
               href="/donate" 
-              className="px-6 py-2.5 relative group overflow-hidden
+              className="px-4 py-2 text-sm relative group overflow-hidden
                 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%]
                 rounded-full font-medium text-secondary transition-all duration-500 
-                hover:bg-[100%_0] shadow-[0_0_15px_rgba(255,122,0,0.3)] 
-                hover:shadow-[0_0_20px_rgba(255,122,0,0.5)]
-                scale-100 hover:scale-105"
+                hover:bg-[100%_0] shadow-[0_0_15px_rgba(255,122,0,0.3)]"
             >
               <span className="relative z-10 flex items-center gap-2">
                 Donate
@@ -153,12 +152,12 @@ export function Header() {
             </Link>
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="ml-4 p-2 rounded-full hover:bg-primary/10 transition-colors"
+              className="ml-2 p-2 rounded-full hover:bg-primary/10 transition-colors"
             >
               {isOpen ? (
-                <X className="h-6 w-6 text-primary" />
+                <X className="h-5 w-5 text-primary" />
               ) : (
-                <Menu className="h-6 w-6 text-primary" />
+                <Menu className="h-5 w-5 text-primary" />
               )}
             </button>
           </div>

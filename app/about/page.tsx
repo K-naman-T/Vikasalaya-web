@@ -57,6 +57,21 @@ export default function AboutPage() {
       name: "Sidhanshu Monga",
       linkedin: "https://www.linkedin.com/in/sidhanshumonga/",
       gradient: "from-primary via-accent to-primary-light"
+    },
+    {
+      name: "Ellahi Bilal",
+      linkedin: "",
+      gradient: "from-primary-dark via-primary to-accent-light"
+    },
+    {
+      name: "Dr. Cheifrish R B",
+      linkedin: "",
+      gradient: "from-primary-dark via-primary to-accent-light"
+    },
+    {
+      name: "Harish Sukhwani",
+      linkedin: "",
+      gradient: "from-primary via-accent to-primary-light"
     }
   ]
 

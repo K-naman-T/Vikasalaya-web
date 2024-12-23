@@ -60,6 +60,11 @@ const config: Config = {
         'gradient-warm': 'linear-gradient(to bottom right, #D68F2B 0%, #FFF9F0 100%)',
         'gradient-natural': 'linear-gradient(to bottom, #A67B5B 0%, #FFF9F0 100%)',
       },
+      fontFamily: {
+        playfair: ['var(--font-playfair)'],
+        inter: ['var(--font-inter)'],
+        montserrat: ['var(--font-montserrat)'],
+      },
     }
   },
   plugins: [tailwindcssAnimate],

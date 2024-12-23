@@ -19,13 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
       </head>
-      <body className={`${playfair.variable} ${inter.variable} ${montserrat.variable} font-inter antialiased`}>
+      <body className={`${playfair.variable} ${inter.variable} ${montserrat.variable} font-inter antialiased overflow-x-hidden`}>
         <Header />
-        <main className="flex-grow">
+        <main className="flex-grow overflow-x-hidden">
           {children}
         </main>
         <Footer />

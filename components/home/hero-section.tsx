@@ -70,7 +70,7 @@ export function HeroSection() {
           </div>
           
           <motion.span 
-            className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-8 
               text-gradient-gold"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
