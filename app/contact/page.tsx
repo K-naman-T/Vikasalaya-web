@@ -1,61 +1,15 @@
 'use client'
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import { getCalApi } from "@calcom/embed-react"
 import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight } from 'lucide-react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { Icon } from 'leaflet'
-import 'leaflet/dist/leaflet.css'
 
-// Fix for default marker icons
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
-
-const locations = [
-  {
-    name: "Jharkhand Office",
-    address: "Baliapur, Dhanbad",
-    coordinates: [23.7957885, 86.4266154] as [number, number]
-  },
-  {
-    name: "Rajasthan Office - Udaipur", 
-    address: "Udaipur",
-    coordinates: [24.5854, 73.7125] as [number, number]
-  },
-  {
-    name: "Rajasthan Office - Jaipur",
-    address: "Jaipur", 
-    coordinates: [26.9124, 75.7873] as [number, number]
-  },
-  {
-    name: "Karnataka Office",
-    address: "Bangalore",
-    coordinates: [12.9716, 77.5946] as [number, number]
-  },
-  {
-    name: "Uttar Pradesh Office",
-    address: "Bareilly",
-    coordinates: [28.3670, 79.4304] as [number, number]
-  },
-  {
-    name: "Kerala Office", 
-    address: "Wayanad",
-    coordinates: [11.6854, 76.1320] as [number, number]
-  },
-  {
-    name: "Gujarat Office",
-    address: "Bharuch",
-    coordinates: [21.7051, 72.9959] as [number, number]
-  }
-]
-
-// Fix for marker icons
-delete (Icon.Default.prototype as any)._getIconUrl
-Icon.Default.mergeOptions({
-  iconUrl: markerIcon.src,
-  iconRetinaUrl: markerIcon2x.src,
-  shadowUrl: markerShadow.src,
+const Map = dynamic(() => import('./components/map'), { 
+  ssr: false,
+  loading: () => (
+    <div className="h-[500px] w-full bg-gray-100 animate-pulse rounded-lg" />
+  )
 })
 
 export default function ContactPage() {
@@ -148,32 +102,7 @@ export default function ContactPage() {
 
             {/* Map Display */}
             <div className="relative">
-              <div className="aspect-video w-full h-[500px] relative rounded-lg overflow-hidden">
-                <MapContainer 
-                  center={[20.5937, 78.9629]} // Center of India
-                  zoom={5}
-                  className="h-full w-full"
-                  scrollWheelZoom={false}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  {locations.map((location) => (
-                    <Marker 
-                      key={location.name}
-                      position={location.coordinates}
-                    >
-                      <Popup>
-                        <div className="p-2">
-                          <h3 className="font-bold text-primary">{location.name}</h3>
-                          <p className="text-sm text-gray-600">{location.address}</p>
-                        </div>
-                      </Popup>
-                    </Marker>
-                  ))}
-                </MapContainer>
-              </div>
+              <Map />
               <a 
                 href={`https://www.openstreetmap.org/#map=5/20.5937/78.9629`}
                 target="_blank"
