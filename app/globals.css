@@ -90,3 +90,16 @@
     @apply bg-gradient-earth bg-clip-text text-transparent;
   }
 }
+
+/* Leaflet Map Styles */
+.leaflet-container {
+  @apply rounded-lg shadow-lg;
+}
+
+.leaflet-popup-content-wrapper {
+  @apply rounded-lg shadow-lg;
+}
+
+.leaflet-popup-content {
+  @apply m-0;
+}

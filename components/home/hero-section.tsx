@@ -1,5 +1,5 @@
 'use client'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
@@ -38,7 +38,6 @@ export function HeroSection() {
     <section className="relative min-h-screen">
       <div className="absolute inset-0 bg-black/50 z-10" />
 
-      {/* Background images remain the same */}
       {backgroundImages.map((image, index) => (
         <div
           key={image}
@@ -58,20 +57,20 @@ export function HeroSection() {
 
       <div className="container mx-auto px-4 h-full relative z-20">
         <div className="flex flex-col justify-center h-screen max-w-4xl">
-          <div className="min-h-[120px] md:min-h-[160px] lg:min-h-[200px] flex items-center">
+          <div className="min-h-[140px] md:min-h-[180px] lg:min-h-[220px] flex items-center py-4">
             <WordRotate
               words={translations}
               duration={3000}
               className="font-playfair text-6xl md:text-7xl lg:text-8xl font-bold
                 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FF8C00] 
                 bg-clip-text text-transparent drop-shadow-lg
-                leading-[1.6] tracking-normal"
+                leading-[1.2] tracking-normal py-2"
             />
           </div>
           
           <motion.span 
             className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-8 
-              text-gradient-gold"
+              text-gradient-gold leading-[1.2]"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -104,11 +103,11 @@ export function HeroSection() {
                 hover:scale-105 transform hover:border-secondary/40
                 shadow-[0_5px_30px_rgba(214,143,43,0.4)] hover:shadow-[0_8px_40px_rgba(214,143,43,0.6)]"
             >
-              <Link href="/donate" className="relative z-10 flex items-center gap-3">
-                Donate Now
-                <span className="relative flex h-3 w-3">
+              <Link href="/donate" className="relative z-10 flex items-center gap-2 sm:gap-3">
+                <span className="whitespace-nowrap text-sm sm:text-base md:text-lg">Donate Now</span>
+                <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-secondary/60 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary/90"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-secondary/90"></span>
                 </span>
               </Link>
             </Button>

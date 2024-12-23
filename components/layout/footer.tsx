@@ -1,6 +1,7 @@
 "use client"
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { Instagram, Facebook } from 'lucide-react'
 
 export function Footer() {
   const quickLinks = [
@@ -46,10 +47,11 @@ export function Footer() {
           >
             <h3 className="text-xl font-semibold text-primary">Our Locations</h3>
             <ul className="space-y-3 text-text-muted">
-              <li>Chennai, TamilNadu</li>
-              <li>Bangalore, Karnataka</li>
-              <li>Rajasthan, India</li>
-              <li>Kerala, India</li>
+              <li>Jharkhand - Baliapur, Dhanbad</li>
+              <li>Rajasthan - Udaipur & Jaipur</li>
+              <li>Karnataka - Bangalore</li>
+              <li>Uttar Pradesh - Bareilly</li>
+              <li>Kerala - Wayanad</li>
             </ul>
           </motion.div>
           
@@ -84,15 +86,17 @@ export function Footer() {
             <div className="flex space-x-4">
               <Link 
                 href="https://www.instagram.com/vikasalaya/"
-                className="text-text-muted hover:text-primary transition-colors duration-200"
+                className="w-10 h-10 rounded-full bg-text-muted/10 flex items-center justify-center hover:bg-primary/10 transition-colors duration-200"
+                aria-label="Instagram"
               >
-                Instagram
+                <Instagram className="w-5 h-5 text-text-muted hover:text-primary transition-colors duration-200" />
               </Link>
               <Link 
                 href="https://www.facebook.com/vikasalaya"
-                className="text-text-muted hover:text-primary transition-colors duration-200"
+                className="w-10 h-10 rounded-full bg-text-muted/10 flex items-center justify-center hover:bg-primary/10 transition-colors duration-200"
+                aria-label="Facebook"
               >
-                Facebook
+                <Facebook className="w-5 h-5 text-text-muted hover:text-primary transition-colors duration-200" />
               </Link>
             </div>
           </motion.div>

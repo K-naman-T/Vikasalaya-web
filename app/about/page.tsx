@@ -12,7 +12,7 @@ export default function AboutPage() {
       gradient: "from-primary via-primary-light to-accent"
     },
     {
-      title: "Inclusivity",
+      title: "Inclusivity", 
       description: "We are committed to creating spaces where all voices are heard and respected. Our work embraces diversity and ensures equal opportunities for everyone, regardless of background.",
       icon: Users,
       gradient: "from-accent via-accent-light to-primary-light"
@@ -41,36 +41,43 @@ export default function AboutPage() {
     {
       name: "Vikash Kumar Paul",
       linkedin: "https://www.linkedin.com/in/vikash-kumar-paul-3035ba26b/",
+      image: "/images/pfp/vikash.jpg",
       gradient: "from-primary via-primary-light to-accent"
     },
     {
       name: "Priyadarshni Rawal",
       linkedin: "https://www.linkedin.com/in/priyadarshni-rawal-96162863/",
+      image: "/images/pfp/priya.jpeg",
       gradient: "from-accent via-accent-light to-primary-light"
     },
     {
       name: "Prerna Maheshwari",
-      linkedin: "",
+      linkedin: "https://www.linkedin.com/in/prerna-maheshwari-183a05a7/",
+      image: "/images/pfp/prerna.png",
       gradient: "from-primary-dark via-primary to-accent-light"
     },
     {
       name: "Sidhanshu Monga",
       linkedin: "https://www.linkedin.com/in/sidhanshumonga/",
+      image: "/images/pfp/sidhanshu.jpeg",
       gradient: "from-primary via-accent to-primary-light"
     },
     {
       name: "Ellahi Bilal",
-      linkedin: "",
+      linkedin: "https://www.linkedin.com/in/ellahi-bilal-642611118",
+      image: "/images/pfp/ellahi.jpg",
       gradient: "from-primary-dark via-primary to-accent-light"
     },
     {
-      name: "Dr. Cheifrish R B",
-      linkedin: "",
+      name: "Dr. Chefriesh R B",
+      linkedin: "https://www.linkedin.com/in/dr-chefriesh-rb",
+      image: "/images/pfp/chefreish.jpeg",
       gradient: "from-primary-dark via-primary to-accent-light"
     },
     {
       name: "Harish Sukhwani",
       linkedin: "",
+      image: "/images/pfp/harish.jpg",
       gradient: "from-primary via-accent to-primary-light"
     }
   ]
@@ -195,10 +202,20 @@ export default function AboutPage() {
                 <div className="bg-secondary rounded-2xl shadow-xl overflow-hidden p-6 
                   hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
                   <div className={`w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r ${member.gradient}
-                    p-[2px] group-hover:scale-110 transition-transform duration-500`}>
-                    <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
-                      <Users className="w-12 h-12 text-primary" />
-                    </div>
+                    p-[2px] group-hover:scale-110 transition-transform duration-500 overflow-hidden`}>
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        width={96}
+                        height={96}
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
+                        <Users className="w-12 h-12 text-primary" />
+                      </div>
+                    )}
                   </div>
                   <div className="text-center">
                     <h3 className="text-xl font-bold text-text mb-2">{member.name}</h3>

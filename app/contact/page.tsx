@@ -1,32 +1,64 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { getCalApi } from "@calcom/embed-react"
-import { Mail, Phone, Building2, MapPin, ExternalLink, Calendar, Facebook, ArrowRight } from 'lucide-react'
+import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight } from 'lucide-react'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Icon } from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+
+// Fix for default marker icons
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 
 const locations = [
   {
-    name: "Headquarters - Dhanbad",
-    address: "Pradhan Khanta, Baliapur, Dhanbad",
-    region: "East India",
-    coordinates: "23.7957885,86.4266154",
-    isHQ: true
+    name: "Jharkhand Office",
+    address: "Baliapur, Dhanbad",
+    coordinates: [23.7957885, 86.4266154] as [number, number]
   },
   {
-    name: "Bangalore Office",
-    address: "Ohana 857, KR Puram, Bangalore, 560049",
-    region: "South India",
-    coordinates: "13.0219499,77.7027300",
-    isHQ: false
+    name: "Rajasthan Office - Udaipur", 
+    address: "Udaipur",
+    coordinates: [24.5854, 73.7125] as [number, number]
+  },
+  {
+    name: "Rajasthan Office - Jaipur",
+    address: "Jaipur", 
+    coordinates: [26.9124, 75.7873] as [number, number]
+  },
+  {
+    name: "Karnataka Office",
+    address: "Bangalore",
+    coordinates: [12.9716, 77.5946] as [number, number]
+  },
+  {
+    name: "Uttar Pradesh Office",
+    address: "Bareilly",
+    coordinates: [28.3670, 79.4304] as [number, number]
+  },
+  {
+    name: "Kerala Office", 
+    address: "Wayanad",
+    coordinates: [11.6854, 76.1320] as [number, number]
+  },
+  {
+    name: "Gujarat Office",
+    address: "Bharuch",
+    coordinates: [21.7051, 72.9959] as [number, number]
   }
 ]
 
-// Center coordinates for India
-const INDIA_CENTER = "20.5937,78.9629"
+// Fix for marker icons
+delete (Icon.Default.prototype as any)._getIconUrl
+Icon.Default.mergeOptions({
+  iconUrl: markerIcon.src,
+  iconRetinaUrl: markerIcon2x.src,
+  shadowUrl: markerShadow.src,
+})
 
 export default function ContactPage() {
-  const [selectedLocation, setSelectedLocation] = useState(locations[0])
-
   useEffect(() => {
     (async function () {
       const cal = await getCalApi()
@@ -36,16 +68,6 @@ export default function ContactPage() {
       })
     })()
   }, [])
-
-  // Construct the map URL with all markers
-  const getMapUrl = () => {
-    const baseUrl = "https://www.google.com/maps/embed/v1/view"
-    const markers = locations.map(loc => 
-      `&markers=icon:${loc.isHQ ? 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'}|${loc.coordinates}`
-    ).join('')
-    
-    return `${baseUrl}?key=YOUR_GOOGLE_MAPS_API_KEY&center=${INDIA_CENTER}&zoom=5${markers}`
-  }
 
   return (
     <div className="min-h-screen bg-gradient-natural">
@@ -124,66 +146,45 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3">
-              {/* Location List */}
-              <div className="p-6 space-y-6">
-                {locations.map((location) => (
-                  <div 
-                    key={location.name}
-                    onClick={() => setSelectedLocation(location)}
-                    className={`p-4 cursor-pointer rounded-xl transition-all duration-200
-                      ${selectedLocation.name === location.name 
-                        ? 'bg-primary-dark/5 shadow-md' 
-                        : 'hover:bg-gray-50'}`}
-                  >
-                    <div className="flex items-start gap-4">
-                      <MapPin 
-                        className={`w-5 h-5 flex-shrink-0 mt-1 
-                          ${location.isHQ ? 'text-primary-dark' : 'text-secondary'}`} 
-                      />
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-gray-900">{location.name}</h3>
-                          {location.isHQ && (
-                            <span className="text-xs px-2 py-0.5 bg-primary-dark/10 text-primary-dark rounded-full">
-                              HQ
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-600 mt-1">{location.address}</p>
-                        <p className="text-sm text-primary-dark mt-2">{location.region}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Map Display */}
-              <div className="md:col-span-2 relative">
-                <div className="aspect-video md:h-full w-full min-h-[400px]">
-                  <iframe
-                    src={getMapUrl()}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="w-full h-full"
-                  />
-                </div>
-                <a 
-                  href={`https://www.google.com/maps/search/?api=1&query=${selectedLocation.coordinates}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute bottom-4 right-4 px-4 py-2 bg-white rounded-lg shadow-lg 
-                    flex items-center gap-2 text-sm font-medium text-gray-700 hover:bg-gray-50 
-                    transition-colors duration-200"
+            {/* Map Display */}
+            <div className="relative">
+              <div className="aspect-video w-full h-[500px] relative rounded-lg overflow-hidden">
+                <MapContainer 
+                  center={[20.5937, 78.9629]} // Center of India
+                  zoom={5}
+                  className="h-full w-full"
+                  scrollWheelZoom={false}
                 >
-                  Open in Google Maps
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+                  <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  />
+                  {locations.map((location) => (
+                    <Marker 
+                      key={location.name}
+                      position={location.coordinates}
+                    >
+                      <Popup>
+                        <div className="p-2">
+                          <h3 className="font-bold text-primary">{location.name}</h3>
+                          <p className="text-sm text-gray-600">{location.address}</p>
+                        </div>
+                      </Popup>
+                    </Marker>
+                  ))}
+                </MapContainer>
               </div>
+              <a 
+                href={`https://www.openstreetmap.org/#map=5/20.5937/78.9629`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute bottom-4 right-4 px-4 py-2 bg-white rounded-lg shadow-lg 
+                  flex items-center gap-2 text-sm font-medium text-gray-700 hover:bg-gray-50 
+                  transition-colors duration-200"
+              >
+                Open in OpenStreetMap
+                <ExternalLink className="w-4 h-4" />
+              </a>
             </div>
           </motion.div>
 
