@@ -41,7 +41,7 @@ export default function AboutPage() {
     {
       name: "Vikash Kumar Paul",
       linkedin: "https://www.linkedin.com/in/vikash-kumar-paul-3035ba26b/",
-      image: "/images/pfp/vikash.jpg",
+      image: "/images/pfp/vikash.png",
       gradient: "from-primary via-primary-light to-accent"
     },
     {
@@ -65,7 +65,7 @@ export default function AboutPage() {
     {
       name: "Ellahi Bilal",
       linkedin: "https://www.linkedin.com/in/ellahi-bilal-642611118",
-      image: "/images/pfp/ellahi.jpg",
+      image: "/images/pfp/bilal.jpeg",
       gradient: "from-primary-dark via-primary to-accent-light"
     },
     {
