@@ -59,14 +59,15 @@ export default function GetInvolvedPage() {
 
         {/* Content Section */}
         <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-min">
             {ways.map((way, index) => (
               <motion.div
                 key={way.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-secondary rounded-2xl shadow-xl overflow-hidden"
+                className={`bg-secondary rounded-2xl shadow-xl overflow-hidden
+                  ${expandedCard === index ? 'md:col-span-3' : ''}`}
               >
                 {way.expandable ? (
                   <div 

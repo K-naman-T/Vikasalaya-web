@@ -25,20 +25,20 @@ export default function ContactPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-natural">
+    <div className="min-h-screen bg-gradient-natural relative">
       <PageHero
         title="Get in Touch"
         description="Have questions? We'd love to hear from you. Schedule a meeting or reach out directly."
       />
 
       {/* Content Section */}
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 py-16 relative z-[5]">
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Schedule Meeting Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-secondary rounded-2xl shadow-xl p-8"
+            className="bg-secondary rounded-2xl shadow-xl p-8 relative z-[5]"
           >
             <div className="flex items-center gap-6 mb-8">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 
@@ -68,7 +68,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-secondary rounded-2xl shadow-xl overflow-hidden"
+            className="bg-secondary rounded-2xl shadow-xl overflow-hidden relative"
           >
             <div className="p-8 border-b">
               <div className="flex items-center gap-6">
@@ -84,7 +84,7 @@ export default function ContactPage() {
             </div>
 
             {/* Map Display */}
-            <div className="relative">
+            <div className="relative z-[1]">
               <Map />
               <a 
                 href={`https://www.openstreetmap.org/#map=5/20.5937/78.9629`}
@@ -92,7 +92,7 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="absolute bottom-4 right-4 px-4 py-2 bg-white rounded-lg shadow-lg 
                   flex items-center gap-2 text-sm font-medium text-gray-700 hover:bg-gray-50 
-                  transition-colors duration-200"
+                  transition-colors duration-200 z-[2]"
               >
                 Open in OpenStreetMap
                 <ExternalLink className="w-4 h-4" />
@@ -105,7 +105,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-secondary rounded-2xl shadow-xl p-8"
+            className="bg-secondary rounded-2xl shadow-xl p-8 relative z-[5]"
           >
             <h2 className="text-2xl font-bold text-text mb-8">Quick Contact</h2>
             <div className="space-y-8">
