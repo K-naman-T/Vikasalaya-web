@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Instagram, Facebook, Linkedin } from 'lucide-react'
+import { Instagram, Facebook, Linkedin, MessageCircle, Mail } from 'lucide-react'
 
 export function Footer() {
   const quickLinks = [
@@ -34,8 +34,22 @@ export function Footer() {
             </div>
             <h3 className="text-xl font-semibold mb-6 text-primary">Contact Us</h3>
             <div className="space-y-3 text-text-muted">
-              <p>Email: vikasalaya@gmail.com</p>
-              <p>Phone: +91 7204453790; +91 8088212774</p>
+              <p>
+                <a href="mailto:vikasalaya@gmail.com" className="hover:text-primary transition-colors flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  vikasalaya@gmail.com
+                </a>
+              </p>
+              <div className="flex flex-col gap-1">
+                <a href="https://wa.me/917204453790" className="flex items-center gap-2 hover:text-primary transition-colors">
+                  +91 72044 53790
+                  <MessageCircle className="w-4 h-4 text-green-600" />
+                </a>
+                <a href="https://wa.me/918088212774" className="flex items-center gap-2 hover:text-primary transition-colors">
+                  +91 80882 12774
+                  <MessageCircle className="w-4 h-4 text-green-600" />
+                </a>
+              </div>
             </div>
           </motion.div>
           

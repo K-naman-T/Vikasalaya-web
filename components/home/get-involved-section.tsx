@@ -14,7 +14,7 @@ export function GetInvolvedSection() {
       icon: Users,
       gradient: "from-primary via-primary-light to-accent",
       action: "Get Started",
-      link: "/get-involved?section=0" // Links to volunteer section
+      link: "/get-involved?section=0"
     },
     {
       title: "Partner",
@@ -22,7 +22,7 @@ export function GetInvolvedSection() {
       icon: Handshake,
       gradient: "from-accent via-accent-light to-primary-light",
       action: "Learn More",
-      link: "/get-involved?section=1" // Links to partner section
+      link: "/get-involved?section=1"
     },
     {
       title: "Careers",
@@ -30,7 +30,7 @@ export function GetInvolvedSection() {
       icon: Heart,
       gradient: "from-primary-dark via-primary to-accent-light",
       action: "Apply Now",
-      link: "/get-involved?section=2" // Links to careers section
+      link: "/get-involved?section=2"
     }
   ]
 
@@ -54,9 +54,9 @@ export function GetInvolvedSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-text mb-6">Get Involved</h2>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text mb-6 md:whitespace-nowrap">Get Involved</h2>
           <div className="w-24 h-1 bg-gradient-gold mx-auto mb-6" />
-          <p className="text-xl text-text-muted max-w-3xl mx-auto">
+          <p className="text-xl lg:text-2xl text-text-muted max-w-4xl mx-auto md:whitespace-nowrap">
             Join us in our mission to create lasting change. Every contribution makes a difference.
           </p>
         </motion.div>

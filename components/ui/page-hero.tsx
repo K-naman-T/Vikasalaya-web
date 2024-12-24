@@ -31,7 +31,7 @@ export function PageHero({
               {title}
             </motion.h1>
             <motion.p 
-              className="text-xl text-white font-medium tracking-wide leading-relaxed"
+              className="text-xl text-white font-medium tracking-wide leading-relaxed md:whitespace-nowrap"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}

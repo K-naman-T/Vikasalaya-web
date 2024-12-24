@@ -1,9 +1,10 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Users, Handshake, Heart, ArrowRight } from 'lucide-react'
 import { PageHero } from '@/components/ui/page-hero'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 const ways = [
   {
@@ -33,6 +34,22 @@ const ways = [
 ]
 
 export default function GetInvolvedPage() {
+  const searchParams = useSearchParams()
+  const sectionParam = searchParams.get('section')
+  
+  useEffect(() => {
+    if (sectionParam) {
+      const sectionIndex = parseInt(sectionParam)
+      if (!isNaN(sectionIndex) && sectionIndex >= 0 && sectionIndex < ways.length) {
+        if (sectionIndex === 0) {
+          setExpandedCard(0)
+        }
+        const element = document.getElementById(`section-${sectionIndex}`)
+        element?.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }, [sectionParam])
+
   const [expandedCard, setExpandedCard] = useState<number | null>(null)
   const [volunteerType, setVolunteerType] = useState<'skill' | 'regular' | null>(null)
   const [formData, setFormData] = useState({
@@ -58,7 +75,7 @@ export default function GetInvolvedPage() {
         />
 
         {/* Content Section */}
-        <div className="container mx-auto px-4 py-16">
+        <div id="get-involved-content" className="container mx-auto px-4 py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-min">
             {ways.map((way, index) => (
               <motion.div

@@ -12,7 +12,7 @@ export function KeyAreasSection() {
       image: "/images/nagpur2.jpg",
       stats: "2000+ Lives Impacted",
       gradient: "from-primary via-primary-light to-accent-light",
-      href: "/programs?program=0" // Links to Mental Health program
+      href: "/programs?program=0"
     },
     {
       title: "Child Development", 
@@ -20,7 +20,7 @@ export function KeyAreasSection() {
       image: "/images/child_development.webp",
       stats: "1500+ Children Supported",
       gradient: "from-accent via-accent-light to-primary-light",
-      href: "/programs?program=1" // Links to Child Development program
+      href: "/programs?program=1"
     },
     {
       title: "Women's Empowerment",
@@ -28,7 +28,7 @@ export function KeyAreasSection() {
       image: "/images/Menstrual Hygiene training Kerala.webp", 
       stats: "1000+ Women Empowered",
       gradient: "from-primary-dark via-primary to-accent",
-      href: "/programs?program=2" // Links to Women Empowerment program
+      href: "/programs?program=2"
     }
   ]
 

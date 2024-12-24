@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { getCalApi } from "@calcom/embed-react"
-import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight, Linkedin, Instagram } from 'lucide-react'
+import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight, Linkedin, Instagram, MessageCircle } from 'lucide-react'
 import { PageHero } from '@/components/ui/page-hero'
 
 const Map = dynamic(() => import('./components/map'), { 
@@ -34,10 +34,12 @@ export default function ContactPage() {
       {/* Content Section */}
       <div className="container mx-auto px-4 py-16 relative z-[5]">
         <div className="max-w-6xl mx-auto space-y-12">
+
           {/* Schedule Meeting Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
             className="bg-secondary rounded-2xl shadow-xl p-8 relative z-[5]"
           >
             <div className="flex items-center gap-6 mb-8">
@@ -112,6 +114,17 @@ export default function ContactPage() {
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 
                   flex items-center justify-center">
+                  <Building2 className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <p className="font-medium text-text">Legal Entity</p>
+                  <p className="text-text-muted">Vikasalaya Foundation</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 
+                  flex items-center justify-center">
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
                 <div>
@@ -130,7 +143,16 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900">Phone</p>
-                  <p className="text-gray-600">+91 7204453790; +91 8088212774</p>
+                  <div className="flex flex-col gap-1">
+                    <a href="https://wa.me/917204453790" className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
+                      +91 72044 53790
+                      <MessageCircle className="w-4 h-4 text-green-600" />
+                    </a>
+                    <a href="https://wa.me/918088212774" className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
+                      +91 80882 12774
+                      <MessageCircle className="w-4 h-4 text-green-600" />
+                    </a>
+                  </div>
                 </div>
               </div>
 

@@ -5,24 +5,51 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 import { Menu, X, ChevronDown } from "lucide-react"
 
-const navItems = [
+type SubItem = {
+  name: string
+  link: string
+  items?: SubItem[]
+}
+
+type NavItem = {
+  name: string
+  link: string
+  subItems?: SubItem[]
+}
+
+const navItems: NavItem[] = [
   { name: 'Home', link: '/' },
-  { name: 'About Us', link: '/about' },
-  { name: 'Get Involved', link: '/get-involved' },
-  { name: 'Programs', link: '/programs' },
   { 
-    name: 'Resources', 
-    link: '/resources',
+    name: 'About Us', 
+    link: '/about',
     subItems: [
-      { name: 'Media', link: '/resources#media' },
-      { name: 'Reports', items: [
-        { name: 'Annual Report', link: '/resources#annual-report' },
-        { name: 'Activity Report', link: '/resources#activity-report' },
-        { name: 'Projects', link: '/resources#projects' },
-      ]},
-      { name: 'Publications', link: '/resources#publications' },
+      { name: 'Our Mission', link: '/about#mission' },
+      { name: 'Our Vision', link: '/about#vision' },
+      { name: 'Our Core Values', link: '/about#core-values' },
+      { name: 'Our Team', link: '/about#team' },
     ]
   },
+  { 
+    name: 'Programs', 
+    link: '/programs',
+    subItems: [
+      { name: 'Mental Health Awareness & Counselling', link: '/programs?program=0' },
+      { name: 'Child Development & Education', link: '/programs?program=1' },
+      { name: 'Women Empowerment', link: '/programs?program=2' },
+      { name: 'Disaster Response', link: '/programs?program=3' },
+      { name: 'Grih Udyog', link: '/programs?program=4' },
+    ]
+  },
+  { 
+    name: 'Get Involved', 
+    link: '/get-involved',
+    subItems: [
+      { name: 'Volunteer', link: '/get-involved?section=0' },
+      { name: 'Fundraiser', link: '/get-involved?section=1' },
+      { name: 'Careers', link: '/get-involved?section=2' },
+    ]
+  },
+  { name: 'Resources', link: '/resources' },
   { name: 'Events', link: '/events' },
   { name: 'Contact', link: '/contact' }
 ]
@@ -30,8 +57,8 @@ const navItems = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [isResourcesOpen, setIsResourcesOpen] = useState(false)
-  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const [mobileOpenDropdown, setMobileOpenDropdown] = useState<string | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,16 +95,24 @@ export function Header() {
               <div 
                 key={item.name} 
                 className="relative group"
-                onMouseEnter={() => item.name === 'Resources' && setIsResourcesOpen(true)}
-                onMouseLeave={() => item.name === 'Resources' && setIsResourcesOpen(false)}
+                onMouseEnter={() => item.subItems && setOpenDropdown(item.name)}
+                onMouseLeave={() => setOpenDropdown(null)}
               >
-                <Link
-                  href={item.link}
-                  className="text-sm font-medium text-text hover:text-primary transition-colors"
-                >
-                  {item.name}
-                </Link>
-                {item.subItems && isResourcesOpen && (
+                <div className="flex items-center gap-1">
+                  <Link
+                    href={item.link}
+                    className="text-sm font-medium text-text hover:text-primary transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                  {item.subItems && (
+                    <ChevronDown className={cn(
+                      "w-4 h-4 transition-transform",
+                      openDropdown === item.name && "rotate-180"
+                    )} />
+                  )}
+                </div>
+                {item.subItems && openDropdown === item.name && (
                   <div className="absolute left-0 mt-1 w-48 bg-secondary rounded-xl shadow-xl overflow-hidden">
                     <div className="py-2">
                       {item.subItems.map((subItem) => (
@@ -178,14 +213,14 @@ export function Header() {
                   <div key={item.name} className="relative">
                     {item.subItems ? (
                       <button
-                        onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+                        onClick={() => setMobileOpenDropdown(mobileOpenDropdown === item.name ? null : item.name)}
                         className="w-full flex items-center justify-between px-6 py-3 text-text 
                           hover:text-primary hover:bg-primary/5 transition-colors"
                       >
                         <span>{item.name}</span>
                         <ChevronDown className={cn(
                           "w-4 h-4 transition-transform",
-                          mobileResourcesOpen && "rotate-180"
+                          mobileOpenDropdown === item.name && "rotate-180"
                         )} />
                       </button>
                     ) : (
@@ -198,7 +233,7 @@ export function Header() {
                       </Link>
                     )}
                     
-                    {item.subItems && mobileResourcesOpen && (
+                    {item.subItems && mobileOpenDropdown === item.name && (
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

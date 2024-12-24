@@ -1,10 +1,10 @@
 "use client"
 import { motion } from "framer-motion"
 import Image from 'next/image'
-import { useState, useEffect, useCallback } from 'react'
-import Modal from 'react-modal'
-import { ChevronRight, ArrowRight, X, ChevronDown } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { ArrowRight, X, ChevronDown } from 'lucide-react'
 import { PageHero } from '@/components/ui/page-hero'
+import { useSearchParams } from 'next/navigation'
 
 // Types
 interface Program {
@@ -13,7 +13,6 @@ interface Program {
   details?: string[]
   subPrograms?: SubProgram[]
   initiatives?: Initiative[]
-  imageFolder: string
 }
 
 interface SubProgram {
@@ -28,12 +27,6 @@ interface Initiative {
   desc?: string
   activities?: string[]
   images?: string[]
-}
-
-// Add new type for gallery
-interface GalleryImage {
-  src: string
-  caption?: string
 }
 
 // Data
@@ -164,7 +157,6 @@ const programsData: Program[] = [
         ]
       }
     ],
-    imageFolder: 'mental-health',
   },
   {
     title: "Child Development and Education",
@@ -223,8 +215,6 @@ const programsData: Program[] = [
         ]
       }
     ],
-    imageFolder: 'child-development',
-
   },
   {
     title: "Women Empowerment and Skill Development",
@@ -261,7 +251,6 @@ const programsData: Program[] = [
         ]
       }
     ],
-    imageFolder: 'women-empowerment',
   },
   {
     title: "Disaster Response",
@@ -275,7 +264,8 @@ const programsData: Program[] = [
           "Menstrual hygiene training for women",
           "Child support through art and play therapy",
           "Technical support for mental health counseling"
-        ]
+        ],
+        images: ['/images/Wayanad/1.webp', '/images/Wayanad/2.webp', '/images/Wayanad/3.webp', '/images/Wayanad/4.webp', '/images/Wayanad/5.webp', '/images/Wayanad/6.webp', '/images/Wayanad/7.webp', '/images/Wayanad/8.webp', '/images/Wayanad/9.webp', '/images/Wayanad/10.webp', '/images/Wayanad/11.webp', '/images/Wayanad/12.webp']
       },
       {
         name: "Healthcare Support Program", 
@@ -298,245 +288,84 @@ const programsData: Program[] = [
         ]
       }
     ],
-    imageFolder: 'disaster-response',
+  },
+  {
+    title: "Rural Livelihood Empowerment",
+    description: "Empowering rural communities through sustainable livelihood initiatives and traditional crafts preservation.",
+    subPrograms: [
+      {
+        name: "Laghu Udyog",
+        desc: "Promoting small-scale industries in rural communities by enabling locals to produce essential items, providing sustainable employment and reducing urban migration.",
+        activities: [
+          "Skill development for local production",
+          "Setting up small-scale manufacturing units",
+          "Training in pattal-done, agarbatti, and snack production",
+          "Financial literacy and business management support",
+          "Market linkage development"
+        ]
+      },
+      {
+        name: "VillageKart",
+        desc: "A platform connecting rural artisans and producers with broader markets, preserving indigenous crafts while ensuring sustainable livelihoods.",
+        activities: [
+          "Indigenous craft promotion and preservation",
+          "Market access for local artisans",
+          "Traditional art form documentation and support",
+          "E-commerce platform development",
+          "Artisan capacity building and training"
+        ]
+      }
+    ]
   }
 ]
 
-async function getImagesFromFolder(folderName: string): Promise<string[]> {
-  try {
-    const response = await fetch(`/api/images?folder=${folderName}`)
-    const data = await response.json()
-    return data.images || []
-  } catch (error) {
-    console.error(`Error fetching images for ${folderName}:`, error)
-    return []
-  }
-}
-
 export default function ProgramsPage() {
+  const searchParams = useSearchParams()
+  const programParam = searchParams.get('program')
+  
+  useEffect(() => {
+    if (programParam) {
+      const programIndex = parseInt(programParam)
+      if (!isNaN(programIndex) && programIndex >= 0 && programIndex < programsData.length) {
+        setActiveProgram(programIndex)
+        // Smooth scroll to program content
+        const element = document.getElementById('program-content')
+        element?.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }, [programParam])
+
   const [activeProgram, setActiveProgram] = useState<number | null>(0)
   const [activeSubProgram, setActiveSubProgram] = useState<number | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [currentImages, setCurrentImages] = useState<string[]>([])
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [showGallery, setShowGallery] = useState(false)
-  const [programImages, setProgramImages] = useState<Record<string, string[]>>({})
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
-  useEffect(() => {
-    const loadProgramImages = async () => {
-      const imagePromises = programsData
-        .filter(program => program.imageFolder)
-        .map(async program => {
-          const images = await getImagesFromFolder(program.imageFolder)
-          return [program.imageFolder, images]
-        })
-
-      const results = await Promise.all(imagePromises)
-      const imagesMap = Object.fromEntries(results)
-      setProgramImages(imagesMap)
-    }
-
-    loadProgramImages()
-  }, [])
-
-  const openGallery = (folder: string) => {
-    let images: string[] = []
-    
-    switch(folder) {
-      case 'images':
-        images = programImages[programsData[0].imageFolder || ''] || []
-        break
-      case 'Vikasalaya Pics':
-        images = programsData[1].subPrograms?.[0].images || []
-        break
-      case 'Wayanad':
-        images = programsData[2].initiatives?.[0].images || []
-        break
-      default:
-        images = []
-    }
-    
-    setCurrentImages(images)
-    setCurrentIndex(0)
-    setIsModalOpen(true)
-  }
-
-  const nextImage = () => setCurrentIndex((prev) => 
-    prev === currentImages.length - 1 ? 0 : prev + 1
-  )
-
-  const prevImage = () => setCurrentIndex((prev) => 
-    prev === 0 ? currentImages.length - 1 : prev - 1
-  )
-
-  // Program Overview Section Update
-  const ProgramOverview = ({ program, index }: { program: Program, index: number }) => {
-    const [images, setImages] = useState<string[]>([])
-    
-    // Load images for this specific program
-    useEffect(() => {
-      const loadImages = async () => {
-        if (program.imageFolder) {
-          const programImages = await getImagesFromFolder(program.imageFolder)
-          setImages(programImages)
-        }
-      }
-      loadImages()
-    }, [program.imageFolder])
-
+  // Program Overview Section
+  const ProgramOverview = ({ program }: { program: Program, index: number }) => {
     return (
-      <section className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-x-12 gap-y-8">
-          {/* Content Column */}
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-text">
-              {program.title}
-            </h2>
-            <p className="text-lg text-text-muted">
-              {program.description}
-            </p>
-            {program.details && (
-              <ul className="space-y-4 mt-6">
-                {program.details.map((detail, idx) => (
-                  <motion.li
-                    key={idx}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="flex items-start gap-3"
-                  >
-                    <ArrowRight className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
-                    <span className="text-text-muted">{detail}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  // Enhanced Modal Component
-  const GalleryModal = ({
-    isOpen,
-    onClose,
-    images,
-    currentIndex,
-    setCurrentIndex,
-  }: {
-    isOpen: boolean
-    onClose: () => void
-    images: string[]
-    currentIndex: number
-    setCurrentIndex: (index: number) => void
-  }) => {
-    const handleKeyDown = useCallback((e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
-        const newIndex = (currentIndex + 1) % images.length
-        setCurrentIndex(newIndex)
-      } else if (e.key === 'ArrowLeft') {
-        const newIndex = (currentIndex - 1 + images.length) % images.length
-        setCurrentIndex(newIndex) 
-      } else if (e.key === 'Escape') {
-        onClose()
-      }
-    }, [images.length, onClose, setCurrentIndex, currentIndex])
-
-    useEffect(() => {
-      if (isOpen) {
-        window.addEventListener('keydown', handleKeyDown)
-        return () => window.removeEventListener('keydown', handleKeyDown)
-      }
-    }, [isOpen, handleKeyDown])
-
-    if (!isOpen) return null
-
-    return (
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={onClose}
-        contentLabel="Image Gallery"
-        className="fixed inset-0 z-50"
-        overlayClassName="fixed inset-0 bg-black/95 backdrop-blur-sm"
-      >
-        <div className="h-full flex flex-col p-4">
-          {/* Header */}
-          <div className="flex justify-between items-center text-white mb-4">
-            <p className="text-sm">
-              {currentIndex + 1} / {images.length}
-            </p>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-white/10 rounded-full transition-colors"
-              aria-label="Close gallery"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-
-          {/* Main Image */}
-          <div className="relative flex-1 flex items-center justify-center">
-            <div className="relative w-full h-full">
-              <Image
-                src={images[currentIndex]}
-                alt={`Gallery image ${currentIndex + 1}`}
-                fill
-                className="object-contain"
-                sizes="100vw"
-                priority
-              />
-            </div>
-
-            {/* Navigation Buttons */}
-            <button
-              onClick={() => {
-                const newIndex = (currentIndex - 1 + images.length) % images.length
-                setCurrentIndex(newIndex)
-              }}
-              className="absolute left-4 p-2 rounded-full bg-black/50 hover:bg-black/75 
-                transition-colors text-white"
-              aria-label="Previous image"
-            >
-              <ChevronRight className="w-6 h-6 rotate-180" />
-            </button>
-            <button
-              onClick={() => {
-                const newIndex = (currentIndex + 1) % images.length
-                setCurrentIndex(newIndex)
-              }}
-              className="absolute right-4 p-2 rounded-full bg-black/50 hover:bg-black/75 
-                transition-colors text-white"
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
-
-          {/* Thumbnails */}
-          <div className="mt-4">
-            <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-              {images.map((image, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentIndex(idx)}
-                  className={`relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden 
-                    ${currentIndex === idx ? 'ring-2 ring-primary' : 'opacity-50 hover:opacity-100'} 
-                    transition-all duration-200`}
-                >
-                  <Image
-                    src={image}
-                    alt={`Thumbnail ${idx + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="80px"
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Modal>
+      <div className="space-y-6">
+        <h2 className="text-3xl font-bold text-text">
+          {program.title}
+        </h2>
+        <p className="text-lg text-text-muted">
+          {program.description}
+        </p>
+        {program.details && (
+          <ul className="space-y-4 mt-6">
+            {program.details.map((detail, idx) => (
+              <motion.li
+                key={idx}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="flex items-start gap-3"
+              >
+                <ArrowRight className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                <span className="text-text-muted">{detail}</span>
+              </motion.li>
+            ))}
+          </ul>
+        )}
+      </div>
     )
   }
 
@@ -568,7 +397,7 @@ export default function ProgramsPage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-16">
+      <div id="program-content" className="container mx-auto px-4 py-16">
         <div className="max-w-7xl mx-auto">
           {activeProgram !== null && (
             <motion.div
@@ -620,14 +449,26 @@ export default function ProgramsPage() {
                           >
                             <p className="text-text-muted mb-6">{sub.desc}</p>
                             
+                            <div className="grid md:grid-cols-2 gap-4 mb-6">
+                              {sub.activities.map((activity, actIdx) => (
+                                <div 
+                                  key={actIdx}
+                                  className="flex items-start gap-3"
+                                >
+                                  <ArrowRight className="w-5 h-5 text-primary mt-1" />
+                                  <span className="text-text-muted">{activity}</span>
+                                </div>
+                              ))}
+                            </div>
+
                             {sub.images && (
-                              <div className="grid grid-cols-2 gap-4 mb-6">
+                              <div className="grid grid-cols-2 gap-4">
                                 {sub.images.map((img, imgIdx) => (
                                   <div 
                                     key={imgIdx}
                                     className="relative aspect-video rounded-lg overflow-hidden cursor-pointer
                                       transform hover:scale-105 transition-transform duration-300"
-                                    onClick={() => openGallery('subProgram')}
+                                    onClick={() => setSelectedImage(img)}
                                   >
                                     <Image
                                       src={img}
@@ -639,73 +480,8 @@ export default function ProgramsPage() {
                                 ))}
                               </div>
                             )}
-                            
-                            <div className="grid md:grid-cols-2 gap-4">
-                              {sub.activities.map((activity, actIdx) => (
-                                <div 
-                                  key={actIdx}
-                                  className="flex items-start gap-3"
-                                >
-                                  <ArrowRight className="w-5 h-5 text-primary mt-1" />
-                                  <span className="text-text-muted">{activity}</span>
-                                </div>
-                              ))}
-                            </div>
                           </motion.div>
                         )}
-                      </motion.div>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {/* Special Initiatives */}
-              {programsData[activeProgram].initiatives && (
-                <section className="space-y-8">
-                  <h3 className="text-2xl font-bold text-text">Special Initiatives</h3>
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {programsData[activeProgram].initiatives.map((initiative, idx) => (
-                      <motion.div
-                        key={initiative.name}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="bg-secondary rounded-xl shadow-lg hover:shadow-xl 
-                          transition-all duration-300 overflow-hidden group"
-                      >
-                        {initiative.images && (
-                          <div 
-                            className="relative aspect-video cursor-pointer overflow-hidden"
-                            onClick={() => openGallery('initiative')}
-                          >
-                            <Image
-                              src={initiative.images[0]}
-                              alt={initiative.name}
-                              fill
-                              className="object-cover transform group-hover:scale-105 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                          </div>
-                        )}
-                        <div className="p-6">
-                          <h4 className="text-xl font-semibold text-text mb-4">{initiative.name}</h4>
-                          {initiative.desc && (
-                            <p className="text-text-muted mb-6">{initiative.desc}</p>
-                          )}
-                          {initiative.activities && (
-                            <div className="space-y-3">
-                              {initiative.activities.map((activity, actIdx) => (
-                                <div 
-                                  key={actIdx}
-                                  className="flex items-start gap-3"
-                                >
-                                  <ArrowRight className="w-5 h-5 text-primary mt-1" />
-                                  <span className="text-text-muted">{activity}</span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
                       </motion.div>
                     ))}
                   </div>
@@ -716,14 +492,28 @@ export default function ProgramsPage() {
         </div>
       </div>
 
-      {/* Enhanced Gallery Modal */}
-      <GalleryModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        images={currentImages}
-        currentIndex={currentIndex}
-        setCurrentIndex={setCurrentIndex}
-      />
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            className="absolute top-4 right-4 text-white p-2 hover:bg-white/10 rounded-full"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <div className="relative w-full h-full max-w-7xl max-h-[90vh] m-4" onClick={e => e.stopPropagation()}>
+            <Image
+              src={selectedImage}
+              alt="Full screen image"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

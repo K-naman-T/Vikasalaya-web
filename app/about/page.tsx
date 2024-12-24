@@ -89,7 +89,7 @@ export default function AboutPage() {
       
       <div className="container mx-auto px-4 py-16">
         {/* Mission & Vision Section */}
-        <div className="relative mb-32">
+        <div id="mission" className="relative mb-32">
           <div className="grid md:grid-cols-2 gap-8">
             <GradientCard
               gradient="from-primary via-primary-light to-accent"
@@ -125,53 +125,52 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Core Values Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-32"
-        >
-          <SectionHeader
-            title="Our Core Values"
-            description="The principles that guide our mission and shape our impact"
-            className="mb-16"
-          />
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center">
-            {coreValues.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group relative text-center"
-              >
-                <GradientIcon
-                  Icon={value.icon}
-                  gradient={value.gradient}
-                  size="lg"
-                  className="group-hover:scale-110 transition-transform duration-500 cursor-pointer mx-auto"
-                />
-                <h3 className="text-lg md:text-xl font-bold text-text mt-4 mb-2">{value.title}</h3>
-                <div className="absolute left-1/2 -translate-x-1/2 w-64 p-4 bg-secondary rounded-lg shadow-xl 
-                  opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none
-                  mt-2 z-10">
-                  <p className="text-sm text-text-muted">{value.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
+        <div id="vision" className="relative mb-32">
+          {/* Vision content */}
+        </div>
 
-        {/* Team Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative"
-        >
+        <div id="core-values" className="relative mb-32">
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-32"
+          >
+            <SectionHeader
+              title="Our Core Values"
+              description="The principles that guide our mission and shape our impact"
+              className="mb-16"
+            />
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center">
+              {coreValues.map((value, index) => (
+                <motion.div
+                  key={value.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group relative text-center"
+                >
+                  <GradientIcon
+                    Icon={value.icon}
+                    gradient={value.gradient}
+                    size="lg"
+                    className="group-hover:scale-110 transition-transform duration-500 cursor-pointer mx-auto"
+                  />
+                  <h3 className="text-lg md:text-xl font-bold text-text mt-4 mb-2">{value.title}</h3>
+                  <div className="absolute left-1/2 -translate-x-1/2 w-64 p-4 bg-secondary rounded-lg shadow-xl 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none
+                    mt-2 z-10">
+                    <p className="text-sm text-text-muted">{value.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        </div>
+
+        <div id="team" className="relative">
           <h2 className="text-4xl font-bold text-center text-text mb-16">Our Team</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {team.map((member, index) => (
@@ -232,7 +231,7 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </div>
-        </motion.section>
+        </div>
       </div>
     </div>
   )
