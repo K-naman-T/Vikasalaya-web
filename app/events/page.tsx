@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { getCalApi } from "@calcom/embed-react"
 import { Calendar, ArrowRight } from 'lucide-react'
+import { PageHero } from '@/components/ui/page-hero'
 
 export default function EventsPage() {
   useEffect(() => {
@@ -19,29 +20,10 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-natural">
-      {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
-          <div className="max-w-3xl">
-            <motion.h1 
-              className="text-5xl font-bold text-secondary mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              Upcoming Events
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-secondary/90"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              Stay tuned for our upcoming events and initiatives.
-            </motion.p>
-          </div>
-        </div>
-      </div>
+      <PageHero
+        title="Events"
+        description="Stay updated with our upcoming events and initiatives that create positive change."
+      />
 
       {/* Content Section */}
       <div className="container mx-auto px-4 py-16">

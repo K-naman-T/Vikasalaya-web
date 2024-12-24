@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Users, Handshake, Heart, ArrowRight, X } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 
 export function GetInvolvedSection() {
   const [activeCard, setActiveCard] = useState<number | null>(null);
@@ -34,6 +34,17 @@ export function GetInvolvedSection() {
     }
   ]
 
+  // Debounce state changes
+  const debouncedSetActiveCard = useCallback(
+    (index: number | null) => {
+      const timer = setTimeout(() => {
+        setActiveCard(index)
+      }, 100)
+      return () => clearTimeout(timer)
+    },
+    []
+  )
+
   return (
     <section className="py-24 bg-gradient-natural relative">
       <div className="container mx-auto px-4">
@@ -55,10 +66,10 @@ export function GetInvolvedSection() {
           {ways.map((way, index) => (
             <motion.button
               key={way.title}
-              onClick={() => setActiveCard(activeCard === index ? null : index)}
+              onClick={() => debouncedSetActiveCard(activeCard === index ? null : index)}
               className={`group relative ${activeCard === index ? 'scale-110' : ''}`}
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.2 }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2, type: "tween" }}
             >
               <div className={`w-20 h-20 rounded-full bg-gradient-to-r ${way.gradient} 
                 p-[2px] transition-transform duration-300`}>

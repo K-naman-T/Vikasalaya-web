@@ -2,8 +2,9 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
+import { useState, useEffect, memo } from 'react'
+import { GradientButton } from '@/components/ui/gradient-button'
+import { OutlineButton } from '@/components/ui/outline-button'
 import WordRotate from '@/components/ui/word-rotate'
 
 const backgroundImages = [
@@ -24,8 +25,9 @@ const translations = [
   'വികസാലയ',
 ]
 
-export function HeroSection() {
+export const HeroSection = memo(function HeroSection() {
   const [currentImage, setCurrentImage] = useState(0)
+  const [loadedImages, setLoadedImages] = useState([0, 1])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,25 +36,35 @@ export function HeroSection() {
     return () => clearInterval(interval)
   }, [])
 
+  useEffect(() => {
+    const loadRemainingImages = () => {
+      const remainingImages = Array.from(Array(backgroundImages.length).keys())
+        .filter(i => !loadedImages.includes(i))
+      setLoadedImages([...loadedImages, ...remainingImages])
+    }
+    const timer = setTimeout(loadRemainingImages, 3000)
+    return () => clearTimeout(timer)
+  }, [loadedImages])
+
   return (
     <section className="relative min-h-screen">
       <div className="absolute inset-0 bg-black/50 z-10" />
 
       {backgroundImages.map((image, index) => (
-        <div
-          key={image}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
+        loadedImages.includes(index) && (
+          <div key={image} className={`absolute inset-0 ${
             currentImage === index ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <Image
-            src={image}
-            alt={`Hero background ${index + 1}`}
-            fill
-            className="object-cover"
-            priority={index === 0}
-          />
-        </div>
+          }`}>
+            <Image
+              src={image}
+              alt={`Hero background ${index + 1}`}
+              fill
+              className="object-cover"
+              priority={index === 0}
+              loading={index <= 1 ? "eager" : "lazy"}
+            />
+          </div>
+        )
       ))}
 
       <div className="container mx-auto px-4 h-full relative z-20">
@@ -95,14 +107,7 @@ export function HeroSection() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <Button 
-              className="text-lg px-8 py-4 relative group overflow-hidden
-                bg-gradient-to-br from-accent-light via-accent to-accent-dark
-                text-secondary font-bold tracking-wide transition-all duration-500
-                rounded-xl border-2 border-secondary/20
-                hover:scale-105 transform hover:border-secondary/40
-                shadow-[0_5px_30px_rgba(214,143,43,0.4)] hover:shadow-[0_8px_40px_rgba(214,143,43,0.6)]"
-            >
+            <GradientButton>
               <Link href="/donate" className="relative z-10 flex items-center gap-2 sm:gap-3">
                 <span className="whitespace-nowrap text-sm sm:text-base md:text-lg">Donate Now</span>
                 <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
@@ -110,16 +115,14 @@ export function HeroSection() {
                   <span className="relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-secondary/90"></span>
                 </span>
               </Link>
-            </Button>
+            </GradientButton>
             
-            <Button className="text-lg px-8 py-4 bg-transparent border-2 border-white 
-              text-white hover:bg-white hover:text-primary-dark transition-all duration-300 
-              shadow-lg hover:shadow-xl">
+            <OutlineButton>
               <Link href="#get-involved">Get Involved</Link>
-            </Button>
+            </OutlineButton>
           </motion.div>
         </div>
       </div>
     </section>
   )
-} 
+}) 

@@ -2,6 +2,10 @@
 import { motion } from "framer-motion"
 import { Heart, Users, Lightbulb, Shield, Leaf } from 'lucide-react'
 import Image from 'next/image'
+import { PageHero } from '@/components/ui/page-hero'
+import { GradientCard } from '@/components/ui/gradient-card'
+import { GradientIcon } from '@/components/ui/gradient-icon'
+import { SectionHeader } from '@/components/ui/section-header'
 
 export default function AboutPage() {
   const coreValues = [
@@ -73,52 +77,26 @@ export default function AboutPage() {
       linkedin: "https://www.linkedin.com/in/dr-chefriesh-rb",
       image: "/images/pfp/chefreish.jpeg",
       gradient: "from-primary-dark via-primary to-accent-light"
-    },
-    {
-      name: "Harish Sukhwani",
-      linkedin: "",
-      image: "/images/pfp/harish.jpg",
-      gradient: "from-primary via-accent to-primary-light"
     }
   ]
 
   return (
     <div className="min-h-screen bg-gradient-natural">
-      {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">  
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
-          <div className="max-w-3xl">
-            <motion.h1 
-              className="text-5xl font-bold text-secondary mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              About Us
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-secondary/90"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              Building a brighter future through compassion, innovation, and community empowerment.
-            </motion.p>
-          </div>
-        </div>
-      </div>
-
+      <PageHero
+        title="About Us"
+        description="Building a brighter future through compassion, innovation, and community empowerment."
+      />
+      
       <div className="container mx-auto px-4 py-16">
         {/* Mission & Vision Section */}
         <div className="relative mb-32">
           <div className="grid md:grid-cols-2 gap-8">
-            <motion.div
+            <GradientCard
+              gradient="from-primary via-primary-light to-accent"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-secondary rounded-2xl shadow-xl overflow-hidden"
             >
-              <div className="h-2 bg-gradient-to-r from-primary via-primary-light to-accent" />
               <div className="p-8">
                 <h2 className="text-3xl font-bold text-text mb-6">Our Mission</h2>
                 <p className="text-text-muted leading-relaxed">
@@ -127,15 +105,14 @@ export default function AboutPage() {
                   resilience, and creating sustainable change for a brighter, more inclusive future.
                 </p>
               </div>
-            </motion.div>
+            </GradientCard>
 
-            <motion.div
+            <GradientCard
+              gradient="from-accent via-accent-light to-primary-light"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="bg-secondary rounded-2xl shadow-xl overflow-hidden"
             >
-              <div className="h-2 bg-gradient-to-r from-accent via-accent-light to-primary-light" />
               <div className="p-8">
                 <h2 className="text-3xl font-bold text-text mb-6">Our Vision</h2>
                 <p className="text-text-muted leading-relaxed">
@@ -144,7 +121,7 @@ export default function AboutPage() {
                   nurturing environments, and women are empowered to lead and succeed in all aspects of life.
                 </p>
               </div>
-            </motion.div>
+            </GradientCard>
           </div>
         </div>
 
@@ -155,8 +132,13 @@ export default function AboutPage() {
           viewport={{ once: true }}
           className="mb-32"
         >
-          <h2 className="text-4xl font-bold text-center text-text mb-16">Our Core Values</h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <SectionHeader
+            title="Our Core Values"
+            description=""
+            className="mb-16"
+          />
+          
+          <div className="grid grid-cols-5 gap-8 justify-items-center">
             {coreValues.map((value, index) => (
               <motion.div
                 key={value.title}
@@ -164,18 +146,21 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-secondary p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500"
+                className="group relative"
               >
-                <div className="mb-6">
-                  <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${value.gradient} 
-                    p-[2px] group-hover:scale-110 transition-transform duration-500`}>
-                    <div className="w-full h-full rounded-full bg-secondary flex items-center justify-center">
-                      <value.icon className="w-8 h-8 text-primary" />
-                    </div>
-                  </div>
+                <GradientIcon
+                  Icon={value.icon}
+                  gradient={value.gradient}
+                  size="lg"
+                  className="group-hover:scale-110 transition-transform duration-500 cursor-pointer"
+                />
+                <div className="absolute left-1/2 -translate-x-1/2 w-64 p-4 bg-secondary rounded-lg shadow-xl 
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none
+                  mt-4 z-10">
+                  <h3 className="text-lg font-bold text-text mb-2">{value.title}</h3>
+                  <p className="text-sm text-text-muted">{value.description}</p>
                 </div>
                 <h3 className="text-xl font-bold text-text mb-4">{value.title}</h3>
-                <p className="text-text-muted">{value.description}</p>
               </motion.div>
             ))}
           </div>

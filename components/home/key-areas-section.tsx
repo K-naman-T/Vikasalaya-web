@@ -1,7 +1,8 @@
 'use client'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
 import Link from 'next/link'
+import Image from 'next/image'
+import { SectionHeader } from '@/components/ui/section-header'
+import { GradientCard } from '@/components/ui/gradient-card'
 
 export function KeyAreasSection() {
   const areas = [
@@ -34,25 +35,23 @@ export function KeyAreasSection() {
   return (
     <section className="py-24 bg-gradient-natural">
       <div className="container mx-auto px-4">
-        <motion.div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-text mb-6">Our Key Focus Areas</h2>
-          <div className="w-24 h-1 bg-gradient-earth mx-auto mb-6" />
-          <p className="text-xl text-text-muted max-w-3xl mx-auto">
-            Empowering communities through targeted initiatives that create lasting impact
-          </p>
-        </motion.div>
+        <SectionHeader
+          title="Our Key Focus Areas"
+          description="Empowering communities through targeted initiatives that create lasting impact."
+          gradient="bg-gradient-earth"
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
           {areas.map((area, index) => (
             <Link key={area.title} href={area.href}>
-              <motion.div
+              <GradientCard
+                gradient={area.gradient}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-secondary rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 cursor-pointer"
+                className="group hover:-translate-y-1 cursor-pointer"
               >
-                <div className={`h-2 bg-gradient-to-r ${area.gradient}`} />
                 <div className="relative h-48 overflow-hidden">
                   <Image
                     src={area.image}
@@ -69,7 +68,7 @@ export function KeyAreasSection() {
                     {area.stats}
                   </div>
                 </div>
-              </motion.div>
+              </GradientCard>
             </Link>
           ))}
         </div>

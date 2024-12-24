@@ -3,6 +3,8 @@ import { Playfair_Display, Inter, Montserrat } from 'next/font/google'
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { Suspense } from 'react'
+import { Loading } from "@/components/ui/loading";
 
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -24,11 +26,13 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
       </head>
       <body className={`${playfair.variable} ${inter.variable} ${montserrat.variable} font-inter antialiased overflow-x-hidden`}>
-        <Header />
-        <main className="flex-grow overflow-x-hidden">
-          {children}
-        </main>
-        <Footer />
+        <Suspense fallback={<Loading />}>
+          <Header />
+          <main className="flex-grow overflow-x-hidden">
+            {children}
+          </main>
+          <Footer />
+        </Suspense>
       </body>
     </html>
   );

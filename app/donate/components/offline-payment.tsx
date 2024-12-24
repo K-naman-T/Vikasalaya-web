@@ -41,28 +41,9 @@ const OfflinePayment = () => {
             <p>Jharkhand - 826001</p>
           </div>
         </div>
-
-        {/* Foreign Passport Holders */}
-        <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
-          <div className="flex items-center gap-3 mb-4">
-            <Globe2 className="w-5 h-5 text-primary-dark" />
-            <h3 className="text-lg font-semibold text-text">For Foreign Nationals</h3>
-          </div>
-          <div className="space-y-2 text-sm text-text-muted">
-            <p><span className="font-medium text-text">Bank:</span> [Bank Name]</p>
-            <p><span className="font-medium text-text">A/c Name:</span> [Account Name]</p>
-            <p><span className="font-medium text-text">A/c No:</span> [Account Number]</p>
-            <p><span className="font-medium text-text">A/c Type:</span> [Account Type]</p>
-            <p><span className="font-medium text-text">IFSC Code:</span> [IFSC]</p>
-            <p><span className="font-medium text-text">SWIFT Code:</span> [SWIFT]</p>
-            <p><span className="font-medium text-text">Branch Code:</span> [Branch Code]</p>
-            <p><span className="font-medium text-text">Branch Address:</span> [Address]</p>
-          </div>
-        </div>
       </div>
-
       <div className="mt-6 p-4 bg-gray-50 rounded-xl text-sm text-text-muted">
-        <p>Note: After making an offline contribution, please email the transaction details to [email] for tracking and tax receipt purposes.</p>
+        <p>Note: After making an offline contribution, please email the transaction details to <a href="mailto:vikasalaya@gmail.com" className="text-primary hover:underline">vikasalaya@gmail.com</a> for tracking and tax receipt purposes.</p>
       </div>
     </motion.div>
   )

@@ -2,6 +2,8 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
+import { SectionHeader } from '@/components/ui/section-header'
+import { GradientCard } from '@/components/ui/gradient-card'
 
 export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -30,34 +32,25 @@ export function FAQSection() {
   ]
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-secondary/10">
+    <section className="py-24 bg-gradient-natural">
       <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Frequently Asked Questions
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6" />
-          <p className="text-xl text-gray-600 mx-auto">
-            Find answers to common questions about our programs and involvement opportunities
-          </p>
-        </motion.div>
+        <SectionHeader
+          title="Frequently Asked Questions"
+          description="Find answers to common questions about our programs and involvement opportunities"
+          gradient="from-primary to-accent"
+        />
 
         <div className="max-w-3xl mx-auto space-y-4">
           {faqs.map((faq, index) => (
-            <motion.div
+            <GradientCard
               key={index}
+              gradient={faq.gradient}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500"
+              className="hover:shadow-2xl transition-all duration-500"
             >
-              <div className={`h-2 bg-gradient-to-r ${faq.gradient}`} />
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 className="w-full px-8 py-6 text-left flex items-center justify-between"
@@ -69,23 +62,17 @@ export function FAQSection() {
                   }`}
                 />
               </button>
-              
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="px-8 pb-6 text-gray-600 leading-relaxed">
-                      {faq.answer}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+              {openIndex === index && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="px-8 pb-6"
+                >
+                  <p className="text-gray-600">{faq.answer}</p>
+                </motion.div>
+              )}
+            </GradientCard>
           ))}
         </div>
       </div>

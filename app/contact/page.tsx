@@ -3,7 +3,8 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { getCalApi } from "@calcom/embed-react"
-import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight } from 'lucide-react'
+import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight, Linkedin, Instagram } from 'lucide-react'
+import { PageHero } from '@/components/ui/page-hero'
 
 const Map = dynamic(() => import('./components/map'), { 
   ssr: false,
@@ -25,29 +26,10 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gradient-natural">
-      {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
-          <div className="max-w-3xl">
-            <motion.h1 
-              className="text-5xl font-bold text-secondary mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              Get in Touch
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-secondary/90"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              Have questions? We'd love to hear from you. Schedule a meeting or reach out directly.
-            </motion.p>
-          </div>
-        </div>
-      </div>
+      <PageHero
+        title="Get in Touch"
+        description="Have questions? We'd love to hear from you. Schedule a meeting or reach out directly."
+      />
 
       {/* Content Section */}
       <div className="container mx-auto px-4 py-16">
@@ -147,7 +129,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900">Phone</p>
-                  <p className="text-gray-600">7204453790; 8088212774</p>
+                  <p className="text-gray-600">+91 7204453790; +91 8088212774</p>
                 </div>
               </div>
 
@@ -163,6 +145,26 @@ export default function ContactPage() {
                     aria-label="Facebook"
                     >
                       <Facebook className="w-6 h-6" />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/vikasalaya"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-dark/10 to-secondary/10 
+                        flex items-center justify-center transition-transform hover:scale-110"
+                      aria-label="Instagram"
+                    >
+                      <Instagram className="w-6 h-6" />
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/company/vikasalaya"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-dark/10 to-secondary/10 
+                        flex items-center justify-center transition-transform hover:scale-110"
+                      aria-label="LinkedIn"
+                    >
+                      <Linkedin className="w-6 h-6" />
                     </a>
                 </div>
               </div>

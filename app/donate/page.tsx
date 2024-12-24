@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { IndianRupee, AlertCircle } from 'lucide-react'
 import OfflinePayment from './components/offline-payment'
+import { PageHero } from '@/components/ui/page-hero'
 
 const PRESET_AMOUNTS = [
   { amount: 800, description: "Can help provide educational support to one child" },
@@ -16,29 +17,10 @@ export default function DonatePage() {
 
   return (
     <div className="min-h-screen bg-gradient-natural">
-      {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
-          <div className="max-w-3xl">
-            <motion.h1 
-              className="text-5xl font-bold text-secondary mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              Support Our Cause
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-secondary/90"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              Your contribution helps us create lasting impact in communities across India
-            </motion.p>
-          </div>
-        </div>
-      </div>
+      <PageHero
+        title="Support Our Cause"
+        description="Your contribution helps us create lasting impact in communities across India"
+      />
 
       {/* Content Section */}
       <div className="container mx-auto px-4 -mt-16 relative z-20 pb-16">

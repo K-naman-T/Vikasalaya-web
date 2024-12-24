@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState, useEffect, useCallback } from 'react'
 import Modal from 'react-modal'
 import { ChevronRight, ArrowRight, X, ChevronDown } from 'lucide-react'
+import { PageHero } from '@/components/ui/page-hero'
 
 // Types
 interface Program {
@@ -541,29 +542,10 @@ export default function ProgramsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-natural">
-      {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-hero overflow-hidden">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
-          <div className="max-w-3xl">
-            <motion.h1 
-              className="text-5xl font-bold text-secondary mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              Our Programs
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-secondary/90"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              Comprehensive initiatives focused on creating lasting positive change in our communities.
-            </motion.p>
-          </div>
-        </div>
-      </div>
+      <PageHero
+        title="Our Programs"
+        description="Comprehensive initiatives focused on creating lasting positive change in our communities."
+      />
 
       {/* Programs Navigation */}
       <div className="sticky top-20 z-30 bg-gradient-soft shadow-md">
