@@ -69,20 +69,20 @@ export const HeroSection = memo(function HeroSection() {
 
       <div className="container mx-auto px-4 h-full relative z-20">
         <div className="flex flex-col justify-center h-screen max-w-4xl">
-          <div className="min-h-[140px] md:min-h-[180px] lg:min-h-[220px] flex items-center py-4">
+          <div className="min-h-[100px] md:min-h-[140px] lg:min-h-[180px] flex items-end">
             <WordRotate
               words={translations}
               duration={3000}
               className="font-playfair text-6xl md:text-7xl lg:text-8xl font-bold
                 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FF8C00] 
                 bg-clip-text text-transparent drop-shadow-lg
-                leading-[1.2] tracking-normal py-2"
+                leading-[1] tracking-normal"
             />
           </div>
           
           <motion.span 
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-8 
-              text-gradient-gold leading-[1.2]"
+            className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-4 
+              text-gradient-gold leading-[1]"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}

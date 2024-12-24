@@ -134,11 +134,11 @@ export default function AboutPage() {
         >
           <SectionHeader
             title="Our Core Values"
-            description=""
+            description="The principles that guide our mission and shape our impact"
             className="mb-16"
           />
           
-          <div className="grid grid-cols-5 gap-8 justify-items-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center">
             {coreValues.map((value, index) => (
               <motion.div
                 key={value.title}
@@ -146,21 +146,20 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative"
+                className="group relative text-center"
               >
                 <GradientIcon
                   Icon={value.icon}
                   gradient={value.gradient}
                   size="lg"
-                  className="group-hover:scale-110 transition-transform duration-500 cursor-pointer"
+                  className="group-hover:scale-110 transition-transform duration-500 cursor-pointer mx-auto"
                 />
+                <h3 className="text-lg md:text-xl font-bold text-text mt-4 mb-2">{value.title}</h3>
                 <div className="absolute left-1/2 -translate-x-1/2 w-64 p-4 bg-secondary rounded-lg shadow-xl 
                   opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none
-                  mt-4 z-10">
-                  <h3 className="text-lg font-bold text-text mb-2">{value.title}</h3>
+                  mt-2 z-10">
                   <p className="text-sm text-text-muted">{value.description}</p>
                 </div>
-                <h3 className="text-xl font-bold text-text mb-4">{value.title}</h3>
               </motion.div>
             ))}
           </div>
