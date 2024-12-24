@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
-
 import { cn } from "@/lib/utils";
 
 interface WordRotateProps {
@@ -16,10 +15,10 @@ export default function WordRotate({
   words,
   duration = 2500,
   framerProps = {
-    initial: { opacity: 0, y: -50 },
+    initial: { opacity: 0, y: -20 },
     animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 50 },
-    transition: { duration: 0.25, ease: "easeOut" },
+    exit: { opacity: 0, y: 20 },
+    transition: { duration: 0.3, ease: "easeInOut" },
   },
   className,
 }: WordRotateProps) {
@@ -30,20 +29,22 @@ export default function WordRotate({
       setIndex((prevIndex) => (prevIndex + 1) % words.length);
     }, duration);
 
-    // Clean up interval on unmount
     return () => clearInterval(interval);
   }, [words, duration]);
 
   return (
-    <div className="overflow-hidden py-4">
+    <div className="relative overflow-visible h-auto">
       <AnimatePresence mode="wait">
-        <motion.h1
+        <motion.div
           key={words[index]}
-          className={cn(className)}
+          className={cn(
+            "whitespace-nowrap will-change-transform pb-1",
+            className
+          )}
           {...framerProps}
         >
           {words[index]}
-        </motion.h1>
+        </motion.div>
       </AnimatePresence>
     </div>
   );

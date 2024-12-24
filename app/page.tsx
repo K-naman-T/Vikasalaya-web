@@ -8,9 +8,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <Suspense fallback={<Loading />}>
-        <KeyAreasSection />
-      </Suspense>
+      <KeyAreasSection />
       <Suspense fallback={<Loading />}>
         <GetInvolvedSection />
       </Suspense>
