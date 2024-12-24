@@ -43,7 +43,7 @@ export const HeroSection = memo(function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-screen">
+    <section className="relative min-h-screen pt-20">
       <div className="absolute inset-0 bg-gradient-to-b 
         from-black/80 via-black/50 to-black/80 z-10" />
 
@@ -59,7 +59,7 @@ export const HeroSection = memo(function HeroSection() {
       )}
 
       <div className="container mx-auto px-4 h-full relative z-20">
-        <div className="flex flex-col justify-center h-screen">
+        <div className="flex flex-col justify-center h-[calc(100vh-5rem)]">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
               <WordRotate

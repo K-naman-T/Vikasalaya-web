@@ -14,7 +14,7 @@ export function GetInvolvedSection() {
       icon: Users,
       gradient: "from-primary via-primary-light to-accent",
       action: "Get Started",
-      link: "/volunteer"
+      link: "/get-involved?section=0" // Links to volunteer section
     },
     {
       title: "Partner",
@@ -22,7 +22,7 @@ export function GetInvolvedSection() {
       icon: Handshake,
       gradient: "from-accent via-accent-light to-primary-light",
       action: "Learn More",
-      link: "/partner"
+      link: "/get-involved?section=1" // Links to partner section
     },
     {
       title: "Careers",
@@ -30,7 +30,7 @@ export function GetInvolvedSection() {
       icon: Heart,
       gradient: "from-primary-dark via-primary to-accent-light",
       action: "Apply Now",
-      link: "/careers"
+      link: "/get-involved?section=2" // Links to careers section
     }
   ]
 
