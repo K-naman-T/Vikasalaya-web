@@ -27,8 +27,8 @@ const resources: { [key: string]: Resource[] } = {
       thumbnail: "/images/community-impact.webp"
     },
     {
-      title: "Mental Health Awareness Campaign",
-      description: "Our latest campaign highlighting the importance of mental health awareness and support in communities.",
+      title: "Oxygen Concentrator Donation",
+      description: "We donated oxygen concentrators to hospitals in need across India. This is a video showcasing the donation process and the impact it is having on communities.",
       url: "https://fb.watch/lmDKI9o-G4/?mibextid=RUbZ1f",
       type: "facebook",
       thumbnail: "/images/mental-health-campaign.webp"

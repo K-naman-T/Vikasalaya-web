@@ -35,7 +35,7 @@ export function Footer() {
             <h3 className="text-xl font-semibold mb-6 text-primary">Contact Us</h3>
             <div className="space-y-3 text-text-muted">
               <p>Email: vikasalaya@gmail.com</p>
-              <p>Phone: 7204453790; 8088212774</p>
+              <p>Phone: +91 7204453790; +91 8088212774</p>
             </div>
           </motion.div>
           

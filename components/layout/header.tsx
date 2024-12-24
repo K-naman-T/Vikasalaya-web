@@ -155,9 +155,9 @@ export function Header() {
               className="ml-2 p-2 rounded-full hover:bg-primary/10 transition-colors"
             >
               {isOpen ? (
-                <X className="h-5 w-5 text-primary" />
+                <X className="h-8 w-8 text-primary" />
               ) : (
-                <Menu className="h-5 w-5 text-primary" />
+                <Menu className="h-8 w-8 text-primary" />
               )}
             </button>
           </div>
