@@ -25,7 +25,7 @@ export function KeyAreasSection() {
     {
       title: "Women Empowerment",
       description: "Enabling Women to Lead and Thrive. We provide essential training and resources that empower women economically and socially.",
-      image: "/images/Menstrual Hygiene training Kerala.webp", 
+      image: "/images/menstrual-hygiene/Menstrual Hygiene training Kerala.webp", 
       stats: "1000+ Women Empowered",
       gradient: "from-primary-dark via-primary to-accent",
       href: "/programs?program=2"
