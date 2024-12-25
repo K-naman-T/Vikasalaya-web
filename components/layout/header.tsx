@@ -37,7 +37,7 @@ const navItems: NavItem[] = [
       { name: 'Child Development & Education', link: '/programs?program=1' },
       { name: 'Women Empowerment', link: '/programs?program=2' },
       { name: 'Disaster Response', link: '/programs?program=3' },
-      { name: 'Rural Livelihood Empowerment', link: '/programs?program=4' },
+      { name: 'Livelihood Empowerment', link: '/programs?program=4' },
     ]
   },
   { 

@@ -290,7 +290,7 @@ const programsData: Program[] = [
     ],
   },
   {
-    title: "Rural Livelihood Empowerment",
+    title: "Livelihood Empowerment",
     description: "Empowering rural communities through sustainable livelihood initiatives and traditional crafts preservation.",
     subPrograms: [
       {
