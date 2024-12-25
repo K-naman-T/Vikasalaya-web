@@ -54,7 +54,7 @@ const navItems: NavItem[] = [
     link: '/resources',
     subItems: [
       { name: 'Media', link: '/resources?tab=media' },
-      { name: 'Annual Reports', link: '/resources?tab=reports' },
+      { name: 'Reports', link: '/resources?tab=reports' },
       { name: 'Publications', link: '/resources?tab=publications' }
     ]
   },
