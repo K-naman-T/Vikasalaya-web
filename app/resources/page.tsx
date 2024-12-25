@@ -6,6 +6,7 @@ import YouTube from 'react-youtube'
 import { FacebookEmbed } from 'react-social-media-embed'
 import { ArrowRight, FileText, Video, Share2, Download } from 'lucide-react'
 import { PageHero } from '@/components/ui/page-hero'
+import { useSearchParams } from 'next/navigation'
 
 // Types
 interface Resource {
@@ -76,6 +77,14 @@ const resources: { [key: string]: Resource[] } = {
 }
 
 export default function ResourcesPage() {
+  const searchParams = useSearchParams()
+  const tabParam = searchParams.get('tab')
+  
+  // Set default tab value based on URL parameter
+  const defaultTab = tabParam && ['media', 'reports', 'publications'].includes(tabParam) 
+    ? tabParam 
+    : 'media'
+
   return (
     <div className="min-h-screen bg-gradient-natural">
       <PageHero
@@ -90,7 +99,7 @@ export default function ResourcesPage() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-6xl mx-auto"
         >
-          <Tabs defaultValue="media" className="space-y-12">
+          <Tabs defaultValue={defaultTab} className="space-y-12">
             <TabsList className="w-full max-w-md mx-auto grid grid-cols-3 p-1 bg-secondary rounded-full">
               <TabsTrigger 
                 value="media" 

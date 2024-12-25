@@ -37,7 +37,7 @@ const navItems: NavItem[] = [
       { name: 'Child Development & Education', link: '/programs?program=1' },
       { name: 'Women Empowerment', link: '/programs?program=2' },
       { name: 'Disaster Response', link: '/programs?program=3' },
-      { name: 'Grih Udyog', link: '/programs?program=4' },
+      { name: 'Rural Livelihood Empowerment', link: '/programs?program=4' },
     ]
   },
   { 
@@ -49,7 +49,15 @@ const navItems: NavItem[] = [
       { name: 'Careers', link: '/get-involved?section=2' },
     ]
   },
-  { name: 'Resources', link: '/resources' },
+  { 
+    name: 'Resources', 
+    link: '/resources',
+    subItems: [
+      { name: 'Media', link: '/resources?tab=media' },
+      { name: 'Annual Reports', link: '/resources?tab=reports' },
+      { name: 'Publications', link: '/resources?tab=publications' }
+    ]
+  },
   { name: 'Events', link: '/events' },
   { name: 'Contact', link: '/contact' }
 ]
