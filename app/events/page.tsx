@@ -39,9 +39,8 @@ export default function EventsPage() {
               <Calendar className="w-10 h-10 text-primary" />
             </div>
             <h2 className="text-3xl font-bold text-text mb-4">Events Coming Soon</h2>
-            <p className="text-text-muted text-lg mb-8 max-w-2xl mx-auto">
-              We're currently planning exciting events and initiatives. 
-              Subscribe to our newsletter or follow us on social media to stay updated.
+            <p className="text-text-muted text-lg mb-8 mx-auto">
+              We're currently planning exciting events and initiative. Follow us on social media to stay updated.
             </p>
             <button 
               data-cal-link="vikasalaya/meeting" 

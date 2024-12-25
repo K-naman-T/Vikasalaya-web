@@ -3,7 +3,8 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { getCalApi } from "@calcom/embed-react"
-import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight, Linkedin, Instagram, MessageCircle } from 'lucide-react'
+import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight, Linkedin, Instagram} from 'lucide-react'
+import { FaWhatsapp } from 'react-icons/fa'
 import { PageHero } from '@/components/ui/page-hero'
 
 const Map = dynamic(() => import('./components/map'), { 
@@ -146,11 +147,11 @@ export default function ContactPage() {
                   <div className="flex flex-col gap-1">
                     <a href="https://wa.me/917204453790" className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
                       +91 72044 53790
-                      <MessageCircle className="w-4 h-4 text-green-600" />
+                      <FaWhatsapp className="w-4 h-4 text-green-600" />
                     </a>
                     <a href="https://wa.me/918088212774" className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors">
                       +91 80882 12774
-                      <MessageCircle className="w-4 h-4 text-green-600" />
+                      <FaWhatsapp className="w-4 h-4 text-green-600" />
                     </a>
                   </div>
                 </div>

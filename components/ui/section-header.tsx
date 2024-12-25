@@ -23,7 +23,7 @@ export function SectionHeader({
       <h2 className="text-4xl md:text-5xl font-bold text-text mb-6">{title}</h2>
       <div className={`w-24 h-1 ${gradient} mx-auto mb-6`} />
       {description && (
-        <p className="text-xl text-text-muted max-w-3xl mx-auto">
+        <p className="text-xl text-text-muted mx-auto">
           {description}
         </p>
       )}

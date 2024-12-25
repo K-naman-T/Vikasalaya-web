@@ -33,7 +33,7 @@ const navItems: NavItem[] = [
     name: 'Programs', 
     link: '/programs',
     subItems: [
-      { name: 'Mental Health Awareness & Counselling', link: '/programs?program=0' },
+      { name: 'Brain Whisper', link: '/programs?program=0' },
       { name: 'Child Development & Education', link: '/programs?program=1' },
       { name: 'Women Empowerment', link: '/programs?program=2' },
       { name: 'Disaster Response', link: '/programs?program=3' },

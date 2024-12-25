@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { ArrowRight, X, ChevronDown } from 'lucide-react'
 import { PageHero } from '@/components/ui/page-hero'
 import { useSearchParams } from 'next/navigation'
+import { Carousel } from '@/components/ui/carousel'
 
 // Types
 interface Program {
@@ -19,7 +20,8 @@ interface SubProgram {
   name: string
   desc: string
   activities: string[]
-  images?: string[]
+  imageFolder?: string
+  imagePath?: string
 }
 
 interface Initiative {
@@ -32,8 +34,8 @@ interface Initiative {
 // Data
 const programsData: Program[] = [
   {
-    title: "Mental Health Awareness",
-    description: "Mental Health Program is a dynamic, ongoing initiative dedicated to delivering comprehensive mental health support through evidence-based counseling, community interventions, and specialized programs tailored to diverse populations and settings.",
+    title: "Brain Whisper",
+    description: "Mental wellness and counseling for empowering minds. We're committed to reshaping how society perceives mental health by encouraging open, judgment-free conversations.",
     subPrograms: [
       {
         name: "One-to-One Counseling",
@@ -64,7 +66,7 @@ const programsData: Program[] = [
           "Reintegration assistance",
           "Family support services"
         ],
-        images: ['/images/mental-health/1.jpg', '/images/mental-health/2.jpg']
+        imageFolder: '/images/mental-health'
       },
       {
         name: "Corporate Counseling",
@@ -171,7 +173,7 @@ const programsData: Program[] = [
           "Personalized mentoring",
           "Confidence building exercises"
         ],
-        images: ['/images/after school classes1.webp', '/images/after school classes 3.webp']
+        imageFolder: '/images/after-school'
       },
       {
         name: "Play and Learn",
@@ -182,7 +184,7 @@ const programsData: Program[] = [
           "Creative activities",
           "Social skills development"
         ],
-        images: ['/images/after school classes 4.webp', '/images/after school classes 5.webp']
+        imageFolder: '/images/play-n-learn'
       },
       {
         name: "Festivals Together",
@@ -192,7 +194,8 @@ const programsData: Program[] = [
           "Festival traditions",
           "Community gatherings",
           "Nutritious meal distribution"
-        ]
+        ],
+        imagePath: '/images/fest1.webp'
       },
       {
         name: "WASH Training Programs",
@@ -202,7 +205,8 @@ const programsData: Program[] = [
           "Soap distribution",
           "Sanitation awareness",
           "Health outcome monitoring"
-        ]
+        ],
+        imagePath: '/images/wash-training.webp'
       },
       {
         name: "Aanganwadi Activities",
@@ -212,7 +216,8 @@ const programsData: Program[] = [
           "Learning activities",
           "Health monitoring",
           "Nutritional guidance"
-        ]
+        ],
+        imageFolder: '/images/aanganwadi-bangalore'
       }
     ],
   },
@@ -228,7 +233,8 @@ const programsData: Program[] = [
           "Tailoring classes",
           "Recycled material crafts",
           "Income generation skills"
-        ]
+        ],
+        imagePath: '/images/skill-dev.webp'
       },
       {
         name: "Menstrual Hygiene Trainings",
@@ -238,7 +244,8 @@ const programsData: Program[] = [
           "Resource distribution",
           "Myth-busting sessions",
           "Health awareness workshops"
-        ]
+        ],
+        imageFolder: '/images/menstrual-hygiene'
       },
       {
         name: "Financial Literacy Trainings",
@@ -265,7 +272,7 @@ const programsData: Program[] = [
           "Child support through art and play therapy",
           "Technical support for mental health counseling"
         ],
-        images: ['/images/Wayanad/1.webp', '/images/Wayanad/2.webp', '/images/Wayanad/3.webp', '/images/Wayanad/4.webp', '/images/Wayanad/5.webp', '/images/Wayanad/6.webp', '/images/Wayanad/7.webp', '/images/Wayanad/8.webp', '/images/Wayanad/9.webp', '/images/Wayanad/10.webp', '/images/Wayanad/11.webp', '/images/Wayanad/12.webp']
+        imageFolder: '/images/Wayanad'
       },
       {
         name: "Healthcare Support Program", 
@@ -275,7 +282,8 @@ const programsData: Program[] = [
           "Healthcare facility support",
           "Infrastructure strengthening", 
           "Medical resource provision"
-        ]
+        ],
+        imageFolder: '/images/oxygen-donation'
       },
       {
         name: "Winter Care Program",
@@ -285,7 +293,8 @@ const programsData: Program[] = [
           "Winter essentials provision",
           "Community outreach",
           "Cold weather support"
-        ]
+        ],
+        imageFolder: '/images/kashmir'
       }
     ],
   },
@@ -339,7 +348,7 @@ export default function ProgramsPage() {
   const [activeSubProgram, setActiveSubProgram] = useState<number | null>(null)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
-  // Program Overview Section
+  // Program Overview
   const ProgramOverview = ({ program }: { program: Program, index: number }) => {
     return (
       <div className="space-y-6">
@@ -461,24 +470,17 @@ export default function ProgramsPage() {
                               ))}
                             </div>
 
-                            {sub.images && (
-                              <div className="grid grid-cols-2 gap-4">
-                                {sub.images.map((img, imgIdx) => (
-                                  <div 
-                                    key={imgIdx}
-                                    className="relative aspect-video rounded-lg overflow-hidden cursor-pointer
-                                      transform hover:scale-105 transition-transform duration-300"
-                                    onClick={() => setSelectedImage(img)}
-                                  >
-                                    <Image
-                                      src={img}
-                                      alt={`${sub.name} image ${imgIdx + 1}`}
-                                      fill
-                                      className="object-cover"
-                                    />
-                                  </div>
-                                ))}
-                              </div>
+                            {sub.imageFolder && (
+                              <Carousel 
+                                folder={sub.imageFolder}
+                                onImageClick={setSelectedImage}
+                              />
+                            )}
+                            {sub.imagePath && (
+                              <Carousel 
+                                imagePath={sub.imagePath}
+                                onImageClick={setSelectedImage}
+                              />
                             )}
                           </motion.div>
                         )}

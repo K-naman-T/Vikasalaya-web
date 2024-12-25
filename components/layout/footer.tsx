@@ -1,7 +1,8 @@
 "use client"
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Instagram, Facebook, Linkedin, MessageCircle, Mail } from 'lucide-react'
+import { Instagram, Facebook, Linkedin, Mail, Youtube } from 'lucide-react'
+import {FaWhatsapp} from 'react-icons/fa' 
 
 export function Footer() {
   const quickLinks = [
@@ -43,11 +44,11 @@ export function Footer() {
               <div className="flex flex-col gap-1">
                 <a href="https://wa.me/917204453790" className="flex items-center gap-2 hover:text-primary transition-colors">
                   +91 72044 53790
-                  <MessageCircle className="w-4 h-4 text-green-600" />
+                  <FaWhatsapp className="w-4 h-4 text-green-600" />
                 </a>
                 <a href="https://wa.me/918088212774" className="flex items-center gap-2 hover:text-primary transition-colors">
                   +91 80882 12774
-                  <MessageCircle className="w-4 h-4 text-green-600" />
+                  <FaWhatsapp className="w-4 h-4 text-green-600" />
                 </a>
               </div>
             </div>
@@ -118,6 +119,13 @@ export function Footer() {
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5 text-text-muted hover:text-primary transition-colors duration-200" />
+              </Link>
+              <Link 
+                href="https://youtube.com/@vikasalaya?si=TveV85QaHOJP2PK1"
+                className="w-10 h-10 rounded-full bg-text-muted/10 flex items-center justify-center hover:bg-primary/10 transition-colors duration-200"
+                aria-label="Youtube"
+              >
+                <Youtube className="w-5 h-5 text-text-muted hover:text-primary transition-colors duration-200" />
               </Link>
             </div>
           </motion.div>

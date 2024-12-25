@@ -7,8 +7,8 @@ import { GradientCard } from '@/components/ui/gradient-card'
 export function KeyAreasSection() {
   const areas = [
     {
-      title: "Mental Health",
-      description: "Empowering Minds, Breaking Barriers. We're committed to reshaping how society perceives mental health by encouraging open, judgment-free conversations.",
+      title: "Brain Whisper",
+      description: "Mental Wellness and Counseling is a crucial aspect of our well-being, and it's often overlooked. Our Brain Whisper program aims to address this gap by providing comprehensive support to individuals in need.",
       image: "/images/nagpur2.jpg",
       stats: "2000+ Lives Impacted",
       gradient: "from-primary via-primary-light to-accent-light",
@@ -23,7 +23,7 @@ export function KeyAreasSection() {
       href: "/programs?program=1"
     },
     {
-      title: "Women's Empowerment",
+      title: "Women Empowerment",
       description: "Enabling Women to Lead and Thrive. We provide essential training and resources that empower women economically and socially.",
       image: "/images/Menstrual Hygiene training Kerala.webp", 
       stats: "1000+ Women Empowered",
