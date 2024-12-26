@@ -7,15 +7,17 @@ import { FacebookEmbed } from 'react-social-media-embed'
 import { ArrowRight, FileText, Video, Share2, Download } from 'lucide-react'
 import { PageHero } from '@/components/ui/page-hero'
 import { useSearchParams } from 'next/navigation'
+import { Carousel } from '@/components/ui/carousel'
+import { useState } from "react"
 
 // Types
 interface Resource {
   title: string
   description: string
-  url: string
+  url?: string
   date?: string
-  type?: 'video' | 'article' | 'report' | 'publication' | 'facebook'
-  thumbnail?: string
+  type?: 'video' | 'article' | 'report' | 'publication' | 'facebook' | 'gallery'
+  folders?: string[]
 }
 
 const resources: { [key: string]: Resource[] } = {
@@ -24,15 +26,28 @@ const resources: { [key: string]: Resource[] } = {
       title: "Community Impact Video",
       description: "Experience the transformative impact of our initiatives through this comprehensive video showcase. Watch how our programs are making a real difference in communities across India.",
       url: "wCHqad7nD84",
-      type: "video",
-      thumbnail: "/images/community-impact.webp"
+      type: "video"
     },
     {
       title: "Oxygen Concentrator Donation",
       description: "We donated oxygen concentrators to hospitals in need across India. This is a video showcasing the donation process and the impact it is having on communities.",
       url: "https://fb.watch/lmDKI9o-G4/?mibextid=RUbZ1f",
-      type: "facebook",
-      thumbnail: "/images/mental-health-campaign.webp"
+      type: "facebook"
+    },
+    {
+      title: "Vikasalaya Gallery",
+      description: "Explore our visual journey through various initiatives and programs that showcase our impact across communities.",
+      type: "gallery",
+      folders: [
+        '/images/Wayanad',
+        '/images/mental-health',
+        '/images/after-school',
+        '/images/play-n-learn',
+        '/images/aanganwadi-bangalore',
+        '/images/menstrual-hygiene',
+        '/images/oxygen-donation',
+        '/images/kashmir'
+      ],
     }
   ],
   reports: [
@@ -79,6 +94,7 @@ const resources: { [key: string]: Resource[] } = {
 export default function ResourcesPage() {
   const searchParams = useSearchParams()
   const tabParam = searchParams.get('tab')
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
   
   // Set default tab value based on URL parameter
   const defaultTab = tabParam && ['media', 'reports', 'publications'].includes(tabParam) 
@@ -139,7 +155,7 @@ export default function ResourcesPage() {
                       <h3 className="text-2xl font-bold text-text mb-4">{resource.title}</h3>
                       <p className="text-text-muted mb-6">{resource.description}</p>
                     </div>
-                    <div className="aspect-video w-full">
+                    <div className={`${resource.type === 'gallery' ? 'p-8 pt-0' : 'aspect-video'} w-full`}>
                       {resource.type === 'video' ? (
                         <YouTube
                           videoId={resource.url}
@@ -151,11 +167,36 @@ export default function ResourcesPage() {
                           }}
                         />
                       ) : resource.type === 'facebook' ? (
-                        <FacebookEmbed 
-                          url={resource.url}
-                          width="100%"
-                          height="100%"
-                        />
+                        <div className="w-full h-full relative" style={{ paddingTop: '56.25%' }}>
+                          <div className="absolute top-0 left-0 right-0 bottom-0">
+                            <FacebookEmbed 
+                              url={resource.url || ''}
+                              width="100%"
+                              height="100%"
+                              style={{ border: 'none', overflow: 'hidden', width: '100%', height: '100%' }}
+                            />
+                          </div>
+                        </div>
+                      ) : resource.type === 'gallery' && resource.folders ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {resource.folders.map((folder, idx) => (
+                            <motion.div
+                              key={folder}
+                              initial={{ opacity: 0, y: 20 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: idx * 0.1 }}
+                            >
+                              <Carousel 
+                                folder={folder}
+                                onImageClick={setSelectedImage} 
+                              />
+                              <p className="text-sm text-text-muted mt-2 text-center">
+                                {folder.split('/').pop()?.replace(/-/g, ' ')}
+                              </p>
+                            </motion.div>
+                          ))}
+                        </div>
                       ) : null}
                     </div>
                   </motion.div>

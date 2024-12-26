@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.1",
+    "@emailjs/browser": "^4.4.1",
     "@nwrks/webp-converter": "^2.4.2",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",

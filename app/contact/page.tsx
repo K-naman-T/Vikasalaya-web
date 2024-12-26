@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { getCalApi } from "@calcom/embed-react"
-import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight, Linkedin, Instagram} from 'lucide-react'
+import { Mail, Phone, Building2, ExternalLink, Calendar, Facebook, ArrowRight, Linkedin, Instagram, Youtube} from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { PageHero } from '@/components/ui/page-hero'
 
@@ -189,6 +189,16 @@ export default function ContactPage() {
                       aria-label="LinkedIn"
                     >
                       <Linkedin className="w-6 h-6" />
+                    </a>
+                    <a
+                      href="https://youtube.com/@vikasalaya?si=TveV85QaHOJP2PK1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-dark/10 to-secondary/10 
+                        flex items-center justify-center transition-transform hover:scale-110"
+                      aria-label="YouTube"
+                    >
+                      <Youtube className="w-6 h-6" />
                     </a>
                 </div>
               </div>

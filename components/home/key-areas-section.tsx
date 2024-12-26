@@ -7,12 +7,20 @@ import { GradientCard } from '@/components/ui/gradient-card'
 export function KeyAreasSection() {
   const areas = [
     {
-      title: "Brain Whisper",
-      description: "Mental Wellness and Counseling is a crucial aspect of our well-being, and it's often overlooked. Our Brain Whisper program aims to address this gap by providing comprehensive support to individuals in need.",
+      title: "Livelihood Empowerment",
+      description: "Empowering Lives, One Skill at a Time. Our livelihood empowerment program equips individuals with essential skills to secure sustainable employment and improve their quality of life.",
+      image: "/images/skill-dev/skill-dev.webp",
+      stats: "1000+ Livelihoods Empowered",
+      gradient: "from-primary-dark via-primary to-accent",
+      href: "/programs?section=0" // Updated to match programs page
+    },
+    {
+      title: "Mental Wellness and Counseling",
+      description: "Vikasalya's Brain Whisper program is dedicated to providing comprehensive mental health support to individuals in need.",
       image: "/images/nagpur2.jpg",
       stats: "2000+ Lives Impacted",
       gradient: "from-primary via-primary-light to-accent-light",
-      href: "/programs?program=0"
+      href: "/programs?section=1" // Updated to match programs page
     },
     {
       title: "Child Development", 
@@ -20,7 +28,7 @@ export function KeyAreasSection() {
       image: "/images/child_development.webp",
       stats: "1500+ Children Supported",
       gradient: "from-accent via-accent-light to-primary-light",
-      href: "/programs?program=1"
+      href: "/programs?section=2" // Updated to match programs page
     },
     {
       title: "Women Empowerment",
@@ -28,7 +36,15 @@ export function KeyAreasSection() {
       image: "/images/menstrual-hygiene/Menstrual Hygiene training Kerala.webp", 
       stats: "1000+ Women Empowered",
       gradient: "from-primary-dark via-primary to-accent",
-      href: "/programs?program=2"
+      href: "/programs?section=3" // Updated to match programs page
+    },
+    {
+      title: "Disaster Response",
+      description: "Compassionate Care in Critical Times. Our dedicated disaster response team provides immediate humanitarian relief, rehabilitation support, and helps rebuild communities affected by natural and man-made disasters.",
+      image: "/images/wayanad landslide relief.webp",
+      stats: "1000+ Disasters Responded",
+      gradient: "from-primary-dark via-primary to-accent",
+      href: "/programs?section=4" // Updated to match programs page
     }
   ]
 

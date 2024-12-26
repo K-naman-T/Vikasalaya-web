@@ -34,8 +34,36 @@ interface Initiative {
 // Data
 const programsData: Program[] = [
   {
-    title: "Brain Whisper",
-    description: "Mental wellness and counseling for empowering minds. We're committed to reshaping how society perceives mental health by encouraging open, judgment-free conversations.",
+    title: "Livelihood Empowerment",
+    description: "Empowering rural communities through sustainable livelihood initiatives and traditional crafts preservation.",
+    subPrograms: [
+      {
+        name: "Laghu Udyog",
+        desc: "Promoting small-scale industries in rural communities by enabling locals to produce essential items, providing sustainable employment and reducing urban migration.",
+        activities: [
+          "Skill development for local production",
+          "Setting up small-scale manufacturing units",
+          "Training in pattal-done, agarbatti, and snack production",
+          "Financial literacy and business management support",
+          "Market linkage development"
+        ]
+      },
+      {
+        name: "VillageKart",
+        desc: "A platform connecting rural artisans and producers with broader markets, preserving indigenous crafts while ensuring sustainable livelihoods.",
+        activities: [
+          "Indigenous craft promotion and preservation",
+          "Market access for local artisans",
+          "Traditional art form documentation and support",
+          "E-commerce platform development",
+          "Artisan capacity building and training"
+        ]
+      }
+    ]
+  },
+  {
+    title: "Mental Wellness and Counseling",
+    description: "Vikasalya's Brain Whisper program is dedicated to providing comprehensive mental health support to individuals in need.",
     subPrograms: [
       {
         name: "One-to-One Counseling",
@@ -297,34 +325,6 @@ const programsData: Program[] = [
         imageFolder: '/images/kashmir'
       }
     ],
-  },
-  {
-    title: "Livelihood Empowerment",
-    description: "Empowering rural communities through sustainable livelihood initiatives and traditional crafts preservation.",
-    subPrograms: [
-      {
-        name: "Laghu Udyog",
-        desc: "Promoting small-scale industries in rural communities by enabling locals to produce essential items, providing sustainable employment and reducing urban migration.",
-        activities: [
-          "Skill development for local production",
-          "Setting up small-scale manufacturing units",
-          "Training in pattal-done, agarbatti, and snack production",
-          "Financial literacy and business management support",
-          "Market linkage development"
-        ]
-      },
-      {
-        name: "VillageKart",
-        desc: "A platform connecting rural artisans and producers with broader markets, preserving indigenous crafts while ensuring sustainable livelihoods.",
-        activities: [
-          "Indigenous craft promotion and preservation",
-          "Market access for local artisans",
-          "Traditional art form documentation and support",
-          "E-commerce platform development",
-          "Artisan capacity building and training"
-        ]
-      }
-    ]
   }
 ]
 

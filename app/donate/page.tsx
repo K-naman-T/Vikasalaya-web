@@ -6,10 +6,10 @@ import OfflinePayment from './components/offline-payment'
 import { PageHero } from '@/components/ui/page-hero'
 
 const PRESET_AMOUNTS = [
-  { amount: 800, description: "Can help provide educational support to one child" },
-  { amount: 1200, description: "Can help provide nutrition support for a month" },
-  { amount: 1600, description: "Can help sponsor vocational training" },
-  { amount: 2400, description: "Can help support women's empowerment programs" }
+  { amount: 500, description: "Can help provide educational support to one child" },
+  { amount: 1000, description: "Can help provide nutrition support for a month" },
+  { amount: 1500, description: "Can help sponsor vocational training" },
+  { amount: 2000, description: "Can help support women's empowerment programs" }
 ]
 
 export default function DonatePage() {
