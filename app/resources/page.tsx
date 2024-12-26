@@ -4,11 +4,11 @@ import { motion } from "framer-motion"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import YouTube from 'react-youtube'
 import { FacebookEmbed } from 'react-social-media-embed'
-import { ArrowRight, FileText, Video, Share2, Download } from 'lucide-react'
+import { ArrowRight, FileText, Video, Share2, Download, ChevronLeft, ChevronRight } from 'lucide-react'
 import { PageHero } from '@/components/ui/page-hero'
 import { useSearchParams } from 'next/navigation'
-import { Carousel } from '@/components/ui/carousel'
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import Image from 'next/image'
 
 // Types
 interface Resource {
@@ -89,6 +89,54 @@ const resources: { [key: string]: Resource[] } = {
       date: "2024-01-10"
     }
   ]
+}
+
+// Function to combine all images from different folders
+const useGalleryImages = (folders: string[] = []) => {
+  const [allImages, setAllImages] = useState<string[]>([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        const imagePromises = folders.map(async (folder) => {
+          const response = await fetch(`/api/images?folder=${encodeURIComponent(folder)}`)
+          const data = await response.json()
+          return data.images || []
+        })
+
+        const results = await Promise.all(imagePromises)
+        const combinedImages = results.flat()
+        setAllImages(combinedImages)
+      } catch (error) {
+        console.error('Error loading images:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    if (folders.length > 0) {
+      loadImages()
+    }
+  }, [folders])
+
+  const nextImage = () => {
+    setCurrentIndex((prev) => (prev + 1) % allImages.length)
+  }
+
+  const previousImage = () => {
+    setCurrentIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1))
+  }
+
+  return {
+    currentImage: allImages[currentIndex],
+    totalImages: allImages.length,
+    currentIndex,
+    isLoading,
+    nextImage,
+    previousImage
+  }
 }
 
 export default function ResourcesPage() {
@@ -178,25 +226,7 @@ export default function ResourcesPage() {
                           </div>
                         </div>
                       ) : resource.type === 'gallery' && resource.folders ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                          {resource.folders.map((folder, idx) => (
-                            <motion.div
-                              key={folder}
-                              initial={{ opacity: 0, y: 20 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              viewport={{ once: true }}
-                              transition={{ delay: idx * 0.1 }}
-                            >
-                              <Carousel 
-                                folder={folder}
-                                onImageClick={setSelectedImage} 
-                              />
-                              <p className="text-sm text-text-muted mt-2 text-center">
-                                {folder.split('/').pop()?.replace(/-/g, ' ')}
-                              </p>
-                            </motion.div>
-                          ))}
-                        </div>
+                        <GalleryView folders={resource.folders} />
                       ) : null}
                     </div>
                   </motion.div>
@@ -270,5 +300,68 @@ function ResourceCard({ resource, index = 0 }: { resource: Resource; index?: num
         </a>
       </div>
     </motion.div>
+  )
+}
+
+// New GalleryView component
+function GalleryView({ folders }: { folders: string[] }) {
+  const {
+    currentImage,
+    totalImages,
+    currentIndex,
+    isLoading,
+    nextImage,
+    previousImage
+  } = useGalleryImages(folders)
+
+  if (isLoading) {
+    return (
+      <div className="aspect-video w-full bg-gray-100 animate-pulse rounded-lg" />
+    )
+  }
+
+  if (!currentImage) {
+    return (
+      <div className="aspect-video w-full flex items-center justify-center bg-gray-100 rounded-lg">
+        <p className="text-text-muted">No images available</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="relative aspect-video w-full">
+      <div className="absolute inset-0 rounded-lg overflow-hidden">
+        <Image
+          src={currentImage}
+          alt={`Gallery image ${currentIndex + 1}`}
+          fill
+          className="object-contain"
+          priority
+        />
+      </div>
+      
+      {/* Navigation buttons */}
+      <div className="absolute inset-0 flex items-center justify-between p-4">
+        <button
+          onClick={previousImage}
+          className="p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+          aria-label="Previous image"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          onClick={nextImage}
+          className="p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+          aria-label="Next image"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Image counter */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/50 text-white rounded-full text-sm">
+        {currentIndex + 1} / {totalImages}
+      </div>
+    </div>
   )
 }

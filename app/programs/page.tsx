@@ -63,7 +63,7 @@ const programsData: Program[] = [
   },
   {
     title: "Mental Wellness and Counseling",
-    description: "Vikasalya's Brain Whisper program is dedicated to providing comprehensive mental health support to individuals in need.",
+    description: "Vikasalaya's “Brain-Whisper” Program offers comprehensive professional mental health services, catering to diverse needs such as individual, family, corporate, trauma, onco-care, tele-counseling, de-addiction, and counseling for defense personnel. The program is dedicated to fostering emotional well-being and resilience through personalized and evidence-based therapeutic approaches.",
     subPrograms: [
       {
         name: "One-to-One Counseling",
