@@ -131,8 +131,28 @@ export function Footer() {
           </motion.div>
         </div>
         
-        <div className="mt-16 pt-8 border-t border-primary/10 text-center text-text-muted">
-          <p>© 2024 Vikasalaya Foundation. All rights reserved.</p>
+        <div className="mt-16 pt-8 border-t border-primary/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-text-muted text-sm">
+            <p>© 2024 Vikasalaya Foundation. All rights reserved.</p>
+            <div className="flex items-center gap-6">
+              <a 
+                href="/reports/Vikasalaya Foundation privacy policy.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                Privacy Policy
+              </a>
+              <a 
+                href="/reports/Vikasalaya Foundation Terms of Service.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-colors"
+              >
+                Terms of Service
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
