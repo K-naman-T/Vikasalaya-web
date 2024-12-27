@@ -40,17 +40,6 @@ export default function EventsPage() {
             <p className="text-text-muted text-lg mb-8 mx-auto">
               We're currently planning exciting events and initiative. Follow us on social media to stay updated.
             </p>
-            <a 
-              href="https://cal.com/vikasalaya"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary to-accent 
-                text-secondary rounded-full font-semibold text-lg transition-all duration-300 
-                hover:opacity-90 shadow-lg hover:shadow-xl group"
-            >
-              Schedule a Meeting
-              <ArrowRight className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
-            </a>
           </motion.div>
         </div>
       </div>

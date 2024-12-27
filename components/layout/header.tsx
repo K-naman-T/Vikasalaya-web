@@ -9,6 +9,7 @@ type SubItem = {
   name: string
   link: string
   items?: SubItem[]
+  className?: string // Add className to type definition
 }
 
 type NavItem = {
@@ -55,7 +56,10 @@ const navItems: NavItem[] = [
     subItems: [
       { name: 'Media', link: '/resources?tab=media' },
       { name: 'Reports', link: '/resources?tab=reports' },
-      { name: 'Publications', link: '/resources?tab=publications' }
+      { name: 'Publications', link: '/resources?tab=publications' },
+      { name: '- Articles', link: '/resources?tab=publications#articles', className: 'ml-4 text-sm text-text-muted' },
+      { name: '- Newsletters', link: '/resources?tab=publications#newsletters', className: 'ml-4 text-sm text-text-muted' },
+      { name: '- Policies', link: '/resources?tab=publications#policies', className: 'ml-4 text-sm text-text-muted' }
     ]
   },
   { name: 'Events', link: '/events' },
@@ -151,7 +155,10 @@ export function Header() {
                           <Link 
                             key={subItem.name}
                             href={subItem.link}
-                            className="block px-4 py-2 text-text hover:bg-primary/10 hover:text-primary transition-colors"
+                            className={cn(
+                              "block px-4 py-2 text-text hover:bg-primary/10 hover:text-primary transition-colors",
+                              subItem.className
+                            )}
                           >
                             {subItem.name}
                           </Link>

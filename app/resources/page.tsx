@@ -57,6 +57,18 @@ const resources: { [key: string]: Resource[] } = {
       description: "A comprehensive guide on mental health awareness and support strategies for defense personnel and their families. This report includes detailed findings and recommendations.",
       url: "/reports/Nagpur Activity Report.pdf",
       type: "report"
+    },
+    {
+      title: "Annual Report 2022-2023",
+      description: "A detailed annual report covering Vikasalaya Foundation's activities, achievements, and impact over the period of 2022-2023.",
+      url: "/reports/ANNUAL REPORT 2022-2023.pdf",
+      type: "report"
+    },
+    {
+      title: "Annual Report 2023-2024",
+      description: "A detailed annual report covering Vikasalaya Foundation's activities, achievements, and impact over the period of 2023-2024.",
+      url: "/reports/ANNUAL REPORT 2023-24.pdf",
+      type: "report"
     }
   ],
   publications: [
@@ -204,7 +216,7 @@ function PublicationsContent() {
   return (
     <div className="space-y-12">
       {Object.entries(groupedPublications).map(([category, items]) => (
-        <div key={category} className="space-y-6">
+        <div key={category} id={category.toLowerCase()} className="space-y-6">
           <h2 className="text-2xl font-bold text-text mb-6 px-4">{category}</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {items.map((resource, index) => (
@@ -220,8 +232,19 @@ function PublicationsContent() {
 export default function ResourcesPage() {
   const searchParams = useSearchParams()
   const tabParam = searchParams.get('tab')
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  
+  const hash = typeof window !== 'undefined' ? window.location.hash : ''
+
+  useEffect(() => {
+    // Scroll to the section if hash exists
+    if (hash) {
+      const sectionId = hash.replace('#', '')
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }, [hash])
+
   // Set default tab value based on URL parameter
   const defaultTab = tabParam && ['media', 'reports', 'publications'].includes(tabParam) 
     ? tabParam 
