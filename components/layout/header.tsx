@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Menu, X, ChevronDown } from "lucide-react"
 
 type SubItem = {
@@ -67,6 +67,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [mobileOpenDropdown, setMobileOpenDropdown] = useState<string | null>(null)
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,6 +76,19 @@ export function Header() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const handleMouseEnter = (itemName: string) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current)
+    }
+    setOpenDropdown(itemName)
+  }
+
+  const handleMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null)
+    }, 100)
+  }
 
   return (
     <motion.header 
@@ -102,9 +116,9 @@ export function Header() {
             {navItems.map((item) => (
               <div 
                 key={item.name} 
-                className="relative group"
-                onMouseEnter={() => item.subItems && setOpenDropdown(item.name)}
-                onMouseLeave={() => setOpenDropdown(null)}
+                className="relative"
+                onMouseEnter={() => item.subItems && handleMouseEnter(item.name)}
+                onMouseLeave={handleMouseLeave}
               >
                 <div className="flex items-center gap-1">
                   <Link
@@ -120,41 +134,32 @@ export function Header() {
                     )} />
                   )}
                 </div>
-                {item.subItems && openDropdown === item.name && (
-                  <div className="absolute left-0 mt-1 w-48 bg-secondary rounded-xl shadow-xl overflow-hidden">
-                    <div className="py-2">
-                      {item.subItems.map((subItem) => (
-                        <div key={subItem.name}>
-                          {subItem.items ? (
-                            <>
-                              <div className="px-4 py-2 text-text-muted font-medium">
-                                {subItem.name}
-                              </div>
-                              <div className="ml-4 space-y-1">
-                                {subItem.items.map((subSubItem) => (
-                                  <Link 
-                                    key={subSubItem.name}
-                                    href={subSubItem.link} 
-                                    className="block px-4 py-2 text-text hover:bg-primary/10 hover:text-primary transition-colors"
-                                  >
-                                    {subSubItem.name}
-                                  </Link>
-                                ))}
-                              </div>
-                            </>
-                          ) : (
-                            <Link 
-                              href={subItem.link}
-                              className="block px-4 py-2 text-text hover:bg-primary/10 hover:text-primary transition-colors"
-                            >
-                              {subItem.name}
-                            </Link>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                
+                <AnimatePresence>
+                  {item.subItems && openDropdown === item.name && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-0 mt-1 w-48 bg-secondary rounded-xl shadow-xl overflow-hidden"
+                      onMouseEnter={() => handleMouseEnter(item.name)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div className="py-2">
+                        {item.subItems.map((subItem) => (
+                          <Link 
+                            key={subItem.name}
+                            href={subItem.link}
+                            className="block px-4 py-2 text-text hover:bg-primary/10 hover:text-primary transition-colors"
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ))}
             <Link 
