@@ -9,6 +9,7 @@ import { PageHero } from '@/components/ui/page-hero'
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from "react"
 import Image from 'next/image'
+import Link from 'next/link'
 
 // Types
 interface Resource {
@@ -218,11 +219,35 @@ function PublicationsContent() {
       {Object.entries(groupedPublications).map(([category, items]) => (
         <div key={category} id={category.toLowerCase()} className="space-y-6">
           <h2 className="text-2xl font-bold text-text mb-6 px-4">{category}</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {items.map((resource, index) => (
-              <ResourceCard key={resource.title} resource={resource} index={index} />
-            ))}
-          </div>
+          
+          {category === 'Policies' ? (
+            // Simple list layout for policies
+            <div className="space-y-2 px-4">
+              {items.map((resource) => (
+                <Link
+                  key={resource.title}
+                  href={resource.url || ''}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center group hover:bg-primary/5 p-3 rounded-lg transition-colors"
+                >
+                  <span className="text-text group-hover:text-primary transition-colors">
+                    {resource.title}
+                  </span>
+                  <div className="ml-auto text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            // Card layout for other categories
+            <div className="grid md:grid-cols-2 gap-8">
+              {items.map((resource, index) => (
+                <ResourceCard key={resource.title} resource={resource} index={index} />
+              ))}
+            </div>
+          )}
         </div>
       ))}
     </div>
