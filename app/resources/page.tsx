@@ -108,35 +108,35 @@ const resources: { [key: string]: Resource[] } = {
       category: "Newsletters"
     },
     {
-      title: "Vikasalaya Foundation fraud & anti corruption Policy",
+      title: "Vikasalaya Foundation Fraud & Anti-Corruption Policy",
       description: "A comprehensive policy on fraud and anti-corruption measures to protect the integrity of Vikasalaya Foundation's operations and ensure transparency in all activities.",
       type: "policy",
       category: "Policies",
       url: "/reports/Vikasalaya Foundation fraud & anti corruption Policy.pdf"
     },
     {
-      title: "Vikasalaya Foundation finance manual",
+      title: "Vikasalaya Foundation Finance Manual",
       description: "A comprehensive guide covering budgeting, accounting standards, internal controls, and reporting requirements to ensure transparent and efficient financial management across the organization.",
       type: "policy",
       category: "Policies",
       url: "/reports/Vikasalaya Foundation finance manual.pdf"
     },
     {
-      title: "Vikasalaya Foundation HR manual",
+      title: "Vikasalaya Foundation HR Manual",
       description: "A detailed overview of HR policies including recruitment, benefits, performance management, and professional development, designed to support employee wellbeing and organizational growth.",
       type: "policy",
       category: "Policies",
       url: "/reports/Vikasalaya Foundation HR manual.pdf"
     },
     {
-      title: "Vikasalaya Foundation proccurement Policy",
+      title: "Vikasalaya Foundation Procurement Policy",
       description: "Guidelines for vendor selection, bidding processes, and quality control measures to ensure cost-effective and transparent procurement while maintaining high standards in our supply chain.",
       type: "policy",
       category: "Policies",
       url: "/reports/Vikasalaya Foundation proccurement Policy.pdf"
     },
     {
-      title: "Vikasalaya Foundation workplace harassment policy",
+      title: "Vikasalaya Foundation Workplace Harassment Policy",
       description: "Essential framework addressing workplace harassment and discrimination, including reporting procedures, investigation protocols, and preventive measures to maintain a safe and inclusive environment.",
       type: "policy",
       category: "Policies",
@@ -216,40 +216,57 @@ function PublicationsContent() {
 
   return (
     <div className="space-y-12">
-      {Object.entries(groupedPublications).map(([category, items]) => (
-        <div key={category} id={category.toLowerCase()} className="space-y-6">
-          <h2 className="text-2xl font-bold text-text mb-6 px-4">{category}</h2>
-          
-          {category === 'Policies' ? (
-            // Simple list layout for policies
-            <div className="space-y-2 px-4">
-              {items.map((resource) => (
-                <Link
-                  key={resource.title}
-                  href={resource.url || ''}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center group hover:bg-primary/5 p-3 rounded-lg transition-colors"
-                >
-                  <span className="text-text group-hover:text-primary transition-colors">
-                    {resource.title}
-                  </span>
-                  <div className="ml-auto text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                    <FileText className="w-4 h-4" />
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            // Card layout for other categories
+      {/* Non-Policy Categories */}
+      {Object.entries(groupedPublications)
+        .filter(([category]) => category !== 'Policies')
+        .map(([category, items]) => (
+          <motion.div 
+            key={category} 
+            id={category.toLowerCase()}
+            className="space-y-6 scroll-mt-32"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl font-bold text-text mb-6 px-4">{category}</h2>
             <div className="grid md:grid-cols-2 gap-8">
               {items.map((resource, index) => (
                 <ResourceCard key={resource.title} resource={resource} index={index} />
               ))}
             </div>
-          )}
-        </div>
-      ))}
+          </motion.div>
+        ))}
+
+      {/* Policies Section */}
+      {groupedPublications['Policies'] && (
+        <motion.div 
+          id="policies"
+          className="space-y-6 scroll-mt-32"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-2xl font-bold text-text mb-6 px-4">Policies</h2>
+          <div className="space-y-2 px-4">
+            {groupedPublications['Policies'].map((resource) => (
+              <Link
+                key={resource.title}
+                href={resource.url || ''}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center group hover:bg-primary/5 p-3 rounded-lg transition-colors"
+              >
+                <span className="text-text group-hover:text-primary transition-colors">
+                  {resource.title}
+                </span>
+                <div className="ml-auto text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <FileText className="w-4 h-4" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </motion.div>
+      )}
     </div>
   )
 }

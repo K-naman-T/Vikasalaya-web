@@ -24,6 +24,7 @@ export default function RootLayout({
     <html lang="en" className="overflow-x-hidden">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+        <script src="https://checkout.razorpay.com/v1/checkout.js" />
       </head>
       <body className={`${playfair.variable} ${inter.variable} ${montserrat.variable} font-inter antialiased overflow-x-hidden`}>
         <Suspense fallback={<Loading />}>

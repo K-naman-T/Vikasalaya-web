@@ -20,8 +20,20 @@ export default function GetInvolvedPage() {
         if (sectionIndex === 0) {
           setExpandedCard(0)
         }
-        const element = document.getElementById(`section-${sectionIndex}`)
-        element?.scrollIntoView({ behavior: 'smooth' })
+        
+        setTimeout(() => {
+          const element = document.getElementById(`section-${sectionIndex}`)
+          if (element) {
+            const headerHeight = 80
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+            const offsetPosition = elementPosition - headerHeight - 24
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            })
+          }
+        }, 100)
       }
     }
   }, [sectionParam])
@@ -221,6 +233,7 @@ export default function GetInvolvedPage() {
           {ways.map((way, index) => (
             <motion.div
               key={way.title}
+              id={`section-${index}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}

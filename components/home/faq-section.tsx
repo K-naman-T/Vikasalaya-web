@@ -57,21 +57,47 @@ export function FAQSection() {
               >
                 <span className="font-bold text-gray-900">{faq.question}</span>
                 <ChevronDown 
-                  className={`w-5 h-5 text-primary-dark transition-transform duration-200 ${
+                  className={`w-5 h-5 text-primary-dark transition-transform duration-300 ease-out ${
                     openIndex === index ? 'rotate-180' : ''
                   }`}
                 />
               </button>
-              {openIndex === index && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="px-8 pb-6"
-                >
-                  <p className="text-gray-600">{faq.answer}</p>
-                </motion.div>
-              )}
+              <AnimatePresence initial={false}>
+                {openIndex === index && (
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ 
+                      height: 'auto',
+                      transition: {
+                        duration: 0.4,
+                        ease: [0.4, 0, 0.2, 1] // Custom easing
+                      }
+                    }}
+                    exit={{ 
+                      height: 0,
+                      transition: {
+                        duration: 0.3,
+                        ease: [0.4, 0, 1, 1]
+                      }
+                    }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-8 pb-6">
+                      <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ 
+                          opacity: 1,
+                          transition: { duration: 0.2, delay: 0.1 }
+                        }}
+                        exit={{ opacity: 0 }}
+                        className="text-gray-600"
+                      >
+                        {faq.answer}
+                      </motion.p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </GradientCard>
           ))}
         </div>

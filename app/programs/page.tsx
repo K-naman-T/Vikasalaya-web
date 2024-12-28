@@ -1,5 +1,5 @@
 "use client"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { ArrowRight, X, ChevronDown } from 'lucide-react'
@@ -448,42 +448,65 @@ export default function ProgramsPage() {
                           </div>
                         </button>
                         
-                        {activeSubProgram === idx && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="mt-4 bg-secondary/50 rounded-xl p-6"
-                          >
-                            <p className="text-text-muted mb-6">{sub.desc}</p>
-                            
-                            <div className="grid md:grid-cols-2 gap-4 mb-6">
-                              {sub.activities.map((activity, actIdx) => (
-                                <div 
-                                  key={actIdx}
-                                  className="flex items-start gap-3"
-                                >
-                                  <ArrowRight className="w-5 h-5 text-primary mt-1" />
-                                  <span className="text-text-muted">{activity}</span>
+                        <AnimatePresence initial={false}>
+                          {activeSubProgram === idx && (
+                            <motion.div
+                              initial={{ height: 0 }}
+                              animate={{ 
+                                height: 'auto',
+                                transition: {
+                                  duration: 0.4,
+                                  ease: [0.4, 0, 0.2, 1]
+                                }
+                              }}
+                              exit={{ 
+                                height: 0,
+                                transition: {
+                                  duration: 0.3,
+                                  ease: [0.4, 0, 1, 1]
+                                }
+                              }}
+                              className="overflow-hidden"
+                            >
+                              <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ 
+                                  opacity: 1,
+                                  transition: { duration: 0.2, delay: 0.1 }
+                                }}
+                                exit={{ opacity: 0 }}
+                                className="mt-4 bg-secondary/50 rounded-xl p-6"
+                              >
+                                <p className="text-text-muted mb-6">{sub.desc}</p>
+                                
+                                <div className="grid md:grid-cols-2 gap-4 mb-6">
+                                  {sub.activities.map((activity, actIdx) => (
+                                    <div 
+                                      key={actIdx}
+                                      className="flex items-start gap-3"
+                                    >
+                                      <ArrowRight className="w-5 h-5 text-primary mt-1" />
+                                      <span className="text-text-muted">{activity}</span>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
 
-                            {sub.imageFolder && (
-                              <Carousel 
-                                folder={sub.imageFolder}
-                                onImageClick={setSelectedImage}
-                              />
-                            )}
-                            {sub.imagePath && (
-                              <Carousel 
-                                imagePath={sub.imagePath}
-                                onImageClick={setSelectedImage}
-                              />
-                            )}
-                          </motion.div>
-                        )}
+                                {sub.imageFolder && (
+                                  <Carousel 
+                                    folder={sub.imageFolder}
+                                    onImageClick={setSelectedImage}
+                                  />
+                                )}
+                                {sub.imagePath && (
+                                  <Carousel 
+                                    imagePath={sub.imagePath}
+                                    onImageClick={setSelectedImage}
+                                  />
+                                )}
+                              </motion.div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </motion.div>
                     ))}
                   </div>

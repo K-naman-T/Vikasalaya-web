@@ -2,8 +2,16 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { IndianRupee, AlertCircle } from 'lucide-react'
-import OfflinePayment from './components/offline-payment'
+import { useRouter } from 'next/navigation'
 import { PageHero } from '@/components/ui/page-hero'
+import OfflinePayment from './components/offline-payment'
+import { ThankYouModal } from './components/thank-you-modal'
+
+declare global {
+  interface Window {
+    Razorpay: any
+  }
+}
 
 const PRESET_AMOUNTS = [
   { amount: 500, description: "Can help provide educational support to one child" },
@@ -14,9 +22,68 @@ const PRESET_AMOUNTS = [
 
 export default function DonatePage() {
   const [amount, setAmount] = useState<number | string>('')
+  const [isProcessing, setIsProcessing] = useState(false)
+  const router = useRouter()
+  const [showThankYou, setShowThankYou] = useState(false)
+
+  const handlePayment = async () => {
+    if (!amount || isProcessing) return
+    setIsProcessing(true)
+
+    try {
+      // Create order
+      const response = await fetch('/api/razorpay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount }),
+      })
+      const data = await response.json()
+
+      // Initialize Razorpay
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: data.amount,
+        currency: data.currency,
+        name: 'Vikasalaya Foundation',
+        description: 'Donation',
+        order_id: data.id,
+        handler: async (response: any) => {
+          try {
+            // Verify payment
+            const verificationResponse = await fetch('/api/razorpay/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(response),
+            })
+            
+            if (verificationResponse.ok) {
+              setShowThankYou(true)
+            }
+          } catch (error) {
+            console.error('Verification failed:', error)
+          }
+        },
+        prefill: {
+          name: '',
+          email: '',
+          contact: '',
+        },
+        theme: {
+          color: '#FF7A00',
+        },
+      }
+
+      const paymentObject = new window.Razorpay(options)
+      paymentObject.open()
+    } catch (error) {
+      console.error('Payment failed:', error)
+    } finally {
+      setIsProcessing(false)
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-natural">
+    <div className="min-h-screen bg-gradient-natural relative">
       <PageHero
         title="Support Our Cause"
         description="Your contribution helps us create lasting impact in communities across India"
@@ -70,6 +137,27 @@ export default function DonatePage() {
               </div>
             </div>
 
+            {/* Add Donate Button */}
+            <button
+              onClick={handlePayment}
+              disabled={!amount || isProcessing}
+              className="w-full py-3 px-6 mt-6 bg-gradient-to-r from-primary to-accent 
+                text-white rounded-lg font-medium shadow-lg
+                hover:shadow-xl transition-all duration-300
+                disabled:opacity-50 disabled:cursor-not-allowed
+                relative overflow-hidden group"
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                {isProcessing ? 'Processing...' : 'Proceed to Pay'}
+                {!isProcessing && (
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                  </span>
+                )}
+              </span>
+            </button>
+
             {/* Tax Benefits Notice */}
             <div className="mt-6 p-4 bg-gray-50 rounded-xl flex gap-3">
               <AlertCircle className="w-5 h-5 text-primary flex-shrink-0" />
@@ -95,6 +183,12 @@ export default function DonatePage() {
           <OfflinePayment />
         </div>
       </div>
+
+      {/* Modal - Moved outside the container */}
+      <ThankYouModal 
+        isOpen={showThankYou}
+        onClose={() => setShowThankYou(false)}
+      />
     </div>
   )
 } 

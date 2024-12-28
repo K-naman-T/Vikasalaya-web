@@ -2,12 +2,43 @@
 import { motion } from "framer-motion"
 import { Heart, Users, Lightbulb, Shield, Leaf } from 'lucide-react'
 import Image from 'next/image'
+import { useEffect } from 'react'
 import { PageHero } from '@/components/ui/page-hero'
 import { GradientCard } from '@/components/ui/gradient-card'
 import { GradientIcon } from '@/components/ui/gradient-icon'
 import { SectionHeader } from '@/components/ui/section-header'
 
 export default function AboutPage() {
+  useEffect(() => {
+    // Handle hash changes
+    const handleHash = () => {
+      const hash = window.location.hash
+      if (hash) {
+        const sectionId = hash.replace('#', '')
+        setTimeout(() => {
+          const element = document.getElementById(sectionId)
+          if (element) {
+            const headerHeight = 80 // Fixed header height
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset
+            const offsetPosition = elementPosition - headerHeight - 24 // Added padding
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            })
+          }
+        }, 100)
+      }
+    }
+
+    // Initial check for hash
+    handleHash()
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHash)
+    return () => window.removeEventListener('hashchange', handleHash)
+  }, [])
+
   const coreValues = [
     {
       title: "Compassion",
@@ -142,7 +173,7 @@ export default function AboutPage() {
               className="mb-16"
             />
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 justify-items-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-12 justify-items-center">
               {coreValues.map((value, index) => (
                 <motion.div
                   key={value.title}
@@ -150,7 +181,7 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="group relative text-center"
+                  className="group relative text-center min-h-[200px]"
                 >
                   <GradientIcon
                     Icon={value.icon}
@@ -159,10 +190,17 @@ export default function AboutPage() {
                     className="group-hover:scale-110 transition-transform duration-500 cursor-pointer mx-auto"
                   />
                   <h3 className="text-lg md:text-xl font-bold text-text mt-4 mb-2">{value.title}</h3>
-                  <div className="absolute left-1/2 -translate-x-1/2 w-64 p-4 bg-secondary rounded-lg shadow-xl 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none
-                    mt-2 z-10">
-                    <p className="text-sm text-text-muted">{value.description}</p>
+                  
+                  <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 
+                    transition-all duration-300 absolute left-1/2 
+                    bg-secondary rounded-lg shadow-xl p-4
+                    w-[200px] sm:w-[250px] md:w-[300px]
+                    -translate-x-1/2 z-[60]">
+                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 
+                      bg-secondary transform rotate-45" />
+                    <p className="text-sm text-text-muted relative z-10 leading-relaxed">
+                      {value.description}
+                    </p>
                   </div>
                 </motion.div>
               ))}
