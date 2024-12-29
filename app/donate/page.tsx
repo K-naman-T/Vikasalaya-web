@@ -50,58 +50,33 @@ export default function DonatePage() {
           email: '',
           name: ''
         },
+        handler: function (response: any) {
+          // Verify payment on success
+          fetch('/api/razorpay/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...response,
+              amount: amount
+            }),
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.verified) {
+              setShowThankYou(true)
+              setIsProcessing(false)
+              setAmount('')
+            }
+          })
+          .catch(err => {
+            console.error('Verification failed:', err)
+            setIsProcessing(false)
+          })
+        },
         modal: {
           confirm_close: true,
           escape: false,
-          ondismiss: () => {
-            setIsProcessing(false)
-          }
-        },
-        config: {
-          display: {
-            blocks: {
-              banks: {
-                name: 'Pay via Bank Transfer',
-                instruments: [
-                  { method: 'upi' },
-                  { method: 'netbanking' },
-                  { method: 'card' }
-                ]
-              }
-            },
-            sequence: ['block.banks'],
-            preferences: {
-              show_default_blocks: true
-            }
-          }
-        },
-        handler: async (response: any) => {
-          try {
-            const paymentResponse = await fetch('/api/razorpay/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                ...response,
-                amount: amount
-              }),
-            })
-            
-            if (paymentResponse.ok) {
-              paymentObject.close()
-              const successModal = new window.Razorpay.Alert({
-                title: "Payment Successful!",
-                message: "Thank you for your contribution.",
-                buttonText: "OK",
-                onClose: () => {
-                  setShowThankYou(true)
-                  setIsProcessing(false)
-                  setAmount('')
-                }
-              })
-              successModal.open()
-            }
-          } catch (error) {
-            console.error('Verification failed:', error)
+          ondismiss: function() {
             setIsProcessing(false)
           }
         },
@@ -110,8 +85,13 @@ export default function DonatePage() {
         }
       }
 
-      const paymentObject = new window.Razorpay(options)
-      paymentObject.open()
+      const rzp = new window.Razorpay(options)
+      rzp.on('payment.failed', function (response: any) {
+        setIsProcessing(false)
+        console.error('Payment failed:', response.error)
+      })
+      
+      rzp.open()
     } catch (error) {
       console.error('Payment failed:', error)
       setIsProcessing(false)
