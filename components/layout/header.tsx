@@ -24,8 +24,7 @@ const navItems: NavItem[] = [
     name: 'About Us', 
     link: '/about',
     subItems: [
-      { name: 'Our Mission', link: '/about#mission' },
-      { name: 'Our Vision', link: '/about#vision' },
+      { name: 'Our Mission & Vision', link: '/about#mission' },
       { name: 'Our Core Values', link: '/about#core-values' },
       { name: 'Our Team', link: '/about#team' },
     ]
@@ -167,6 +166,25 @@ export function Header() {
                                   <Link
                                     key={nestedItem.name}
                                     href={nestedItem.link}
+                                    onClick={() => {
+                                      setIsOpen(false)
+                                      const id = nestedItem.link.split('#')[1]
+                                      if (id) {
+                                        setTimeout(() => {
+                                          const element = document.getElementById(id)
+                                          if (element) {
+                                            const headerOffset = 120
+                                            const elementPosition = element.getBoundingClientRect().top
+                                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+                                            window.scrollTo({
+                                              top: offsetPosition,
+                                              behavior: "smooth"
+                                            })
+                                          }
+                                        }, 100)
+                                      }
+                                    }}
                                     className="block px-4 py-2 hover:bg-primary/10 transition-colors"
                                   >
                                     {nestedItem.name}

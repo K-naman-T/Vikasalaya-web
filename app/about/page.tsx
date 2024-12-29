@@ -120,7 +120,13 @@ export default function AboutPage() {
       
       <div className="container mx-auto px-4 py-16">
         {/* Mission & Vision Section */}
-        <div id="mission" className="relative mb-32">
+        <motion.div 
+          id="mission"
+          className="scroll-mt-32"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
           <div className="grid md:grid-cols-2 gap-8">
             <GradientCard
               gradient="from-primary via-primary-light to-accent"
@@ -154,19 +160,20 @@ export default function AboutPage() {
               </div>
             </GradientCard>
           </div>
-        </div>
+        </motion.div>
 
         <div id="vision" className="relative mb-32">
           {/* Vision content */}
         </div>
 
-        <div id="core-values" className="relative mb-32">
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-32"
-          >
+        <motion.section 
+          id="core-values"
+          className="scroll-mt-[120px] py-16 md:py-24"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <div className="container mx-auto px-4">
             <SectionHeader
               title="Our Core Values"
               description="The principles that guide our mission and shape our impact"
@@ -205,10 +212,13 @@ export default function AboutPage() {
                 </motion.div>
               ))}
             </div>
-          </motion.section>
-        </div>
+          </div>
+        </motion.section>
 
-        <div id="team" className="relative">
+        <motion.section 
+          id="team"
+          className="scroll-mt-[120px] py-16 md:py-24"
+        >
           <h2 className="text-4xl font-bold text-center text-text mb-16">Our Team</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {team.map((member, index) => (
@@ -269,7 +279,7 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.section>
       </div>
     </div>
   )
