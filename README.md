@@ -9,8 +9,7 @@
 - **Media**: React YouTube, React Social Media Embed
 - **Maps**: React Leaflet
 - **Payment**: Razorpay
-- **Calendar**: Cal.com
-- **Image Processing**: Sharp, WebP Converter
+- **Meeting Scheduler**: Cal.com
 
 ## Project Structure
 
@@ -92,18 +91,9 @@ Source: [`app/donate/page.tsx`](app/donate/page.tsx)
 3. Create `.env.local` with required environment variables
 4. Run development server: `npm run dev`
 
-### Environment Variables
-Required variables:
-```
-NEXT_PUBLIC_RAZORPAY_KEY=
-RAZORPAY_SECRET=
-NEXT_PUBLIC_GOOGLE_MAPS_KEY=
-```
-
 ## Build & Deployment
 - Build command: `npm run build`
 - Production start: `npm start`
-- Image conversion: `npm run convert-images`
 
 ## Additional Resources
 - [Package Dependencies](package.json)

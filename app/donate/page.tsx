@@ -31,7 +31,6 @@ export default function DonatePage() {
     setIsProcessing(true)
 
     try {
-      // Create order
       const response = await fetch('/api/razorpay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -39,7 +38,6 @@ export default function DonatePage() {
       })
       const data = await response.json()
 
-      // Initialize Razorpay
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: data.amount,
@@ -47,37 +45,63 @@ export default function DonatePage() {
         name: 'Vikasalaya Foundation',
         description: 'Donation',
         order_id: data.id,
+        prefill: {
+          contact: '',
+          email: '',
+          name: ''
+        },
+        modal: {
+          confirm_close: true,
+          escape: false,
+          ondismiss: () => {
+            setIsProcessing(false)
+          }
+        },
+        config: {
+          display: {
+            blocks: {
+              banks: {
+                name: 'Pay via Bank Transfer',
+                instruments: [
+                  { method: 'upi' },
+                  { method: 'netbanking' },
+                  { method: 'card' }
+                ]
+              }
+            },
+            sequence: ['block.banks'],
+            preferences: {
+              show_default_blocks: true
+            }
+          }
+        },
         handler: async (response: any) => {
           try {
-            // Verify payment
-            const verificationResponse = await fetch('/api/razorpay/verify', {
+            const paymentResponse = await fetch('/api/razorpay/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(response),
+              body: JSON.stringify({
+                ...response,
+                amount: amount
+              }),
             })
             
-            if (verificationResponse.ok) {
+            if (paymentResponse.ok) {
               setShowThankYou(true)
             }
           } catch (error) {
             console.error('Verification failed:', error)
           }
         },
-        prefill: {
-          name: '',
-          email: '',
-          contact: '',
-        },
         theme: {
           color: '#FF7A00',
-        },
+        }
       }
 
       const paymentObject = new window.Razorpay(options)
       paymentObject.open()
     } catch (error) {
       console.error('Payment failed:', error)
-    } finally {
       setIsProcessing(false)
     }
   }
