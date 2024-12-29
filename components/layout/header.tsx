@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect, useRef } from "react"
 import { Menu, X, ChevronDown } from "lucide-react"
-
+import { usePathname } from 'next/navigation'
 type SubItem = {
   name: string
   link: string
@@ -125,59 +125,61 @@ export function Header() {
               />
             </div>
           </Link>
-          
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <div 
-                key={item.name} 
-                className="relative"
-                onMouseEnter={() => item.subItems && handleMouseEnter(item.name)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <div className="flex items-center gap-1">
-                  <Link
-                    href={item.link}
-                    className="text-sm font-medium text-text hover:text-primary transition-colors"
-                  >
+              <div key={item.name} className="relative group">
+                <Link
+                  href={item.link}
+                  className={cn(
+                    "px-4 py-2 rounded-full hover:bg-primary/10 transition-colors",
+                    usePathname() === item.link && "text-primary"    
+                  )}
+                >
+                  <span className="flex items-center gap-1">
                     {item.name}
-                  </Link>
-                  {item.subItems && (
-                    <ChevronDown className={cn(
-                      "w-4 h-4 transition-transform",
-                      openDropdown === item.name && "rotate-180"
-                    )} />
-                  )}
-                </div>
-                
-                <AnimatePresence>
-                  {item.subItems && openDropdown === item.name && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute left-0 mt-1 w-48 bg-secondary rounded-xl shadow-xl overflow-hidden"
-                      onMouseEnter={() => handleMouseEnter(item.name)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <div className="py-2">
-                        {item.subItems.map((subItem) => (
-                          <Link 
-                            key={subItem.name}
+                    {item.subItems && <ChevronDown className="w-4 h-4" />}
+                  </span>
+                </Link>
+
+                {item.subItems && (
+                  <div className="absolute left-0 mt-2 w-64 opacity-0 invisible group-hover:opacity-100 
+                    group-hover:visible transition-all duration-200 z-50">
+                    <div className="bg-white rounded-xl shadow-lg py-2">
+                      {item.subItems.map((subItem) => (
+                        <div key={subItem.name} className="relative group/sub">
+                          <Link
                             href={subItem.link}
-                            className={cn(
-                              "block px-4 py-2 text-text hover:bg-primary/10 hover:text-primary transition-colors",
-                              subItem.className
-                            )}
+                            className="block px-4 py-2 hover:bg-primary/10 transition-colors"
                           >
-                            {subItem.name}
+                            <span className="flex items-center justify-between">
+                              {subItem.name}
+                              {subItem.items && <ChevronDown className="w-4 h-4 -rotate-90" />}
+                            </span>
                           </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+
+                          {/* Nested submenu */}
+                          {subItem.items && (
+                            <div className="absolute left-full top-0 w-64 opacity-0 invisible 
+                              group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200">
+                              <div className="bg-white rounded-xl shadow-lg py-2 ml-2">
+                                {subItem.items.map((nestedItem) => (
+                                  <Link
+                                    key={nestedItem.name}
+                                    href={nestedItem.link}
+                                    className="block px-4 py-2 hover:bg-primary/10 transition-colors"
+                                  >
+                                    {nestedItem.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
             <Link 
