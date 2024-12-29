@@ -87,9 +87,18 @@ export default function DonatePage() {
             })
             
             if (paymentResponse.ok) {
-              setShowThankYou(true)
-              setIsProcessing(false)
-              setAmount('')
+              paymentObject.close()
+              const successModal = new window.Razorpay.Alert({
+                title: "Payment Successful!",
+                message: "Thank you for your contribution.",
+                buttonText: "OK",
+                onClose: () => {
+                  setShowThankYou(true)
+                  setIsProcessing(false)
+                  setAmount('')
+                }
+              })
+              successModal.open()
             }
           } catch (error) {
             console.error('Verification failed:', error)
