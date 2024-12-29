@@ -1,27 +1,6 @@
-"use client"
+import { Resource } from './types'
 
-import { motion } from "framer-motion"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { FileText, Video, Share2 } from 'lucide-react'
-import { PageHero } from '@/components/ui/page-hero'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { useEffect } from "react"
-import { MediaContent } from './components/MediaContent'
-import { ReportsContent } from './components/ReportsContent'
-import { PublicationsContent } from './components/PublicationsContent'
-
-// Types
-interface Resource {
-  title: string
-  description: string
-  url?: string
-  date?: string
-  type?: 'video' | 'article' | 'report' | 'publication' | 'facebook' | 'gallery' | 'newsletter' | 'policy'
-  category?: string
-  folders?: string[]
-}
-
-const resources: { [key: string]: Resource[] } = {
+export const resources: { [key: string]: Resource[] } = {
   media: [
     {
       title: "Community Impact Video",
@@ -142,80 +121,4 @@ const resources: { [key: string]: Resource[] } = {
       url: "/reports/Vikasalaya Foundation workplace harassment policy.pdf"
     }
   ]
-}
-
-export default function ResourcesPage() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const tab = searchParams.get('tab') || 'media'
-
-  useEffect(() => {
-    // Scroll to the selected tab content
-    const element = document.getElementById(tab)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }, [tab])
-
-  return (
-    <div className="min-h-screen bg-gradient-natural">
-      <PageHero
-        title="Resources"
-        description="Explore our collection of media, reports, and publications showcasing our work and impact."
-      />
-
-      <div className="container mx-auto px-4 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-6xl mx-auto"
-        >
-          <Tabs 
-            value={tab}
-            className="space-y-12"
-            onValueChange={(value) => {
-              router.push(`/resources?tab=${value}`, { scroll: false })
-            }}
-          >
-            <TabsList className="w-full max-w-md mx-auto grid grid-cols-3 p-1 bg-secondary rounded-full">
-              <TabsTrigger 
-                value="media" 
-                className="rounded-full data-[state=active]:bg-gradient-to-r from-primary to-accent"
-              >
-                <Video className="w-4 h-4 mr-2" />
-                Media
-              </TabsTrigger>
-              <TabsTrigger 
-                value="reports"
-                className="rounded-full data-[state=active]:bg-gradient-to-r from-primary to-accent"
-              >
-                <FileText className="w-4 h-4 mr-2" />
-                Reports
-              </TabsTrigger>
-              <TabsTrigger 
-                value="publications"
-                className="rounded-full data-[state=active]:bg-gradient-to-r from-primary to-accent"
-              >
-                <Share2 className="w-4 h-4 mr-2" />
-                Publications
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="media">
-              <MediaContent />
-            </TabsContent>
-
-            <TabsContent value="reports">
-              <ReportsContent />
-            </TabsContent>
-
-            <TabsContent value="publications">
-              <PublicationsContent />
-            </TabsContent>
-          </Tabs>
-        </motion.div>
-      </div>
-    </div>
-  )
-}
-
+} 

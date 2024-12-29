@@ -8,28 +8,19 @@ const razorpay = new Razorpay({
 
 export async function POST(req: Request) {
   try {
-    const { amount, email, name } = await req.json()
+    const { amount } = await req.json()
 
-    // First create customer
-    const customer = await razorpay.customers.create({
-      name: name,
-      email: email,
-      contact: '', // optional
-    })
-
-    // Then create order with customer details
+    // Create order with proper amount
     const payment = await razorpay.orders.create({
       amount: Number(amount) * 100, // Convert to paise
       currency: 'INR',
-      receipt: `receipt_${Date.now()}`,
-      notes: {
-        email: email,
-        name: name,
-        customer_id: customer.id
-      }
+      receipt: `receipt_${Date.now()}`
     })
 
-    return NextResponse.json(payment)
+    return NextResponse.json({
+      ...payment,
+      amount: Number(amount) * 100 // Ensure we send the correct amount back
+    })
   } catch (error) {
     console.error('Razorpay Error:', error)
     return NextResponse.json(

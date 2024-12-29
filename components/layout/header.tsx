@@ -54,12 +54,23 @@ const navItems: NavItem[] = [
     name: 'Resources', 
     link: '/resources',
     subItems: [
-      { name: 'Media', link: '/resources?tab=media' },
-      { name: 'Reports', link: '/resources?tab=reports' },
-      { name: 'Publications', link: '/resources?tab=publications' },
-      { name: '- Articles', link: '/resources?tab=publications#articles', className: 'ml-4 text-sm text-text-muted' },
-      { name: '- Newsletters', link: '/resources?tab=publications#newsletters', className: 'ml-4 text-sm text-text-muted' },
-      { name: '- Policies', link: '/resources?tab=publications#policies', className: 'ml-4 text-sm text-text-muted' }
+      {
+        name: "Media",
+        link: "/resources?tab=media"
+      },
+      {
+        name: "Reports",
+        link: "/resources?tab=reports"
+      },
+      {
+        name: "Publications",
+        link: "/resources?tab=publications",
+        items: [
+          { name: '- Articles', link: '/resources?tab=publications#articles' },
+          { name: '- Newsletters', link: '/resources?tab=publications#newsletters' },
+          { name: '- Policies', link: '/resources?tab=publications#policies' }
+        ]
+      }
     ]
   },
   { name: 'Events', link: '/events' },

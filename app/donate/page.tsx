@@ -88,9 +88,12 @@ export default function DonatePage() {
             
             if (paymentResponse.ok) {
               setShowThankYou(true)
+              setIsProcessing(false)
+              setAmount('')
             }
           } catch (error) {
             console.error('Verification failed:', error)
+            setIsProcessing(false)
           }
         },
         theme: {
